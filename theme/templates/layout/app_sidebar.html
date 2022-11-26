@@ -1,0 +1,23 @@
+{% load i18n %}
+
+{% if app_list %}
+    <div class="hidden md:block pb-4 px-6 md:pt-1">
+        {% for app in app_list %}
+            <hr class="my-4 md:min-w-full" />
+            <h6 class="md:min-w-full text-slate-400 text-xs font-normal block pt-1 pb-4 no-underline app-{{ app.app_label }} {% if app.app_url in request.path|urlencode %} current-app{% endif %}" title="{% blocktranslate with name=app.name %}Models in the {{ name }} application{% endblocktranslate %}">
+                    {{ app.name|capfirst }}
+            </h6>
+            {% if app.models %}
+            <ul class="md:flex-col md:min-w-full flex flex-col list-none">
+                    {% for model in app.models %}
+                    <li class="items-center">
+                        <a href="{{ model.admin_url }}" class="text-slate-700 hover:text-slate-500 text-xs uppercase py-3 font-bold block {% if model.admin_url in request.path|urlencode %} text-sky-500 {% endif %} nav-link px-2 border border-transparent hover:border-white dark:text-white transition duration-150 ease-in-out" title="{% blocktranslate with name=model.name %}{{ name }} model{% endblocktranslate %}">{{ model.name }}</a>
+                    </li>
+                    {% endfor %} <!-- End for model -->        
+                </ul>
+            {% endif %} <!-- End if models -->
+        {% endfor %}
+    </div>
+{% else %}
+  <p>{% translate 'You don’t have permission to view or edit anything.' %}</p>
+{% endif %}

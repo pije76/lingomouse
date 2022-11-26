@@ -1,0 +1,66 @@
+{% load i18n admin_urls static admin_modify admin_list %}
+<div class="control-panel">
+    <div class="cp-top">
+        <div class="cp-top-left breadcrumbs">
+            {% if cl.opts.app_label %}
+                <a href="{% url 'admin:app_list' app_label=cl.opts.app_label %}">{{ cl.opts.app_config.verbose_name }}</a> {#  / {{ cl.opts.verbose_name_plural|capfirst }} "App list name" #}
+            {% elif opts %}
+                <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+                /
+                {% if has_view_permission %}
+                    <a href="{% url opts|admin_urlname:'changelist' %}">{{ opts.verbose_name_plural|capfirst }}</a>
+                {% else %}
+                    {{ opts.verbose_name_plural|capfirst }}
+                {% endif %}
+            {% else %}
+                <a href="{% url 'admin:index' %}">{% translate 'Home' %}</a> / 
+                {% for app in app_list %}{{ app.name }}{% endfor %}
+            {% endif %}
+        </div>
+        <div class="cp-top-right">
+            {% if cl.search_fields %}
+                {% search_form cl %}
+            {% endif %}
+            <div class="button-group d-inline">
+            {% if cl.has_filters %}
+                <div id="changelist-filter">
+                    <div id="button-toggle-filter" class="change-list-filter-toggle d-flex">
+                        <span class="filter-text">{% translate 'Filter' %}</span>
+                    </div>
+                    <div id="changelist-filter-menu" class="changelist-filter-menu">
+                        {% if cl.has_active_filters %}
+                            <div id="changelist-filter-clear">
+                                <a href="{{ cl.clear_all_filters_qs }}">&#10006; Clear all filters</a>
+                            </div>
+                        {% endif %}
+                        {% for spec in cl.filter_specs %}{% admin_list_filter cl spec %}{% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+            </div>
+        </div> <!-- end cp-top-right -->
+    </div>
+{% if cl or opts %}
+    <div class="cp-bottom">
+        <div class="cp-bottom-left">
+            {% block control-panel-tools %}
+                {% if has_add_permission %}
+                    <div class="cp-buttons">
+                        {% if cl %}
+                            {% url cl.opts|admin_urlname:'add' as add_url %}
+                            <a href="{% add_preserved_filters add_url is_popup to_field %}"
+                               class="buttonAdd">
+                                {% blocktranslate with cl.opts.verbose_name as name %}Add {{ name }}{% endblocktranslate %}
+                            </a>
+                        {% comment %} {% elif opts %}
+                            {% submit_row %} {% endcomment %}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endblock control-panel-tools %}
+        </div> <!-- end cp-bottom-left -->
+        <div class="cp-bottom-right">
+        </div> <!-- end cp-bottom-right -->
+    </div> <!-- end cp-bottom -->
+{% endif %}
+</div>

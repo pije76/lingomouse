@@ -1,0 +1,10 @@
+{% load static %}
+<a href="{% url 'admin:index' %}"
+   id="site-name"
+   class="flex items-center text-lg mr-3"
+   style="font-family: Times New Roman;">
+    <img src="{% static 'img/logo.png' %}"
+         alt="{{ site_title|default:_('IL Admin') }}"
+         style="width: 40px;
+                height: 40px;"/>
+</a>
