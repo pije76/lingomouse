@@ -1,0 +1,191 @@
+{% load i18n static %}
+{% load i18n static tailwind_tags %}
+<!DOCTYPE html>
+{% get_current_language as LANGUAGE_CODE %}{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}"
+      dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
+    <head>
+        <title>
+            {% block title %}
+            {% endblock title %}
+        </title>
+        <link rel="icon" href="{% static 'img/logo-dark.png' %}" />
+        {% if LANGUAGE_BIDI %}
+            <link rel="stylesheet"
+                  href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock stylesheet_rtl %}"/>
+        {% endif %}
+        {% block extrahead %}
+        {% endblock extrahead %}
+        {% block responsive %}
+            <meta name="viewport"
+                  content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+        {% endblock responsive %}
+        {% block blockbots %}
+            <meta name="robots" content="NONE,NOARCHIVE"/>
+        {% endblock blockbots %}
+        <script defer>
+            if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark')
+            } else {
+                document.documentElement.classList.remove('dark')
+            }
+
+            // Whenever the user explicitly chooses light or dark mode
+            localStorage.theme = 'light'
+
+            // Whenever the user explicitly chooses to respect the OS preference
+            //localStorage.removeItem('theme')
+
+            //Whenever the user set the theme base on system
+            const activateDarkMode = (theme) => {
+                if (theme==='dark') {
+                    document.documentElement.classList.add('dark')
+                } else {
+                    document.documentElement.classList.remove('dark')
+                }
+            }
+                
+            window.matchMedia("(prefers-color-scheme: dark)").addListener(
+                e => e.matches && activateDarkMode("dark") // listener
+            );
+            
+            window.matchMedia("(prefers-color-scheme: light)").addListener(
+                e => e.matches && activateDarkMode("light") // listener
+            );
+        </script>
+        {{ form.media }}
+        {% tailwind_css %}
+
+        <style>
+            .-z-1 {
+                z-index: -1;
+              }
+
+              .origin-0 {
+                transform-origin: 0%;
+              }
+            
+              input:focus ~ label,
+              input:not(:placeholder-shown) ~ label,
+              textarea:focus ~ label,
+              textarea:not(:placeholder-shown) ~ label,
+              select:focus ~ label,
+              select:not([value='']):valid ~ label {
+                /* @apply transform; scale-75; -translate-y-6; */
+                --tw-translate-x: 0;
+                --tw-translate-y: 0;
+                --tw-rotate: 0;
+                --tw-skew-x: 0;
+                --tw-skew-y: 0;
+                transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate))
+                  skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+                --tw-scale-x: 0.75;
+                --tw-scale-y: 0.75;
+                --tw-translate-y: -1.9rem;
+              }
+            
+              input:focus ~ label,
+              select:focus ~ label {
+                /* @apply text-black; left-0; */
+                --tw-text-opacity: 1;
+                color: rgba(0, 0, 0, var(--tw-text-opacity));
+                left: 0px;
+              }
+
+              input:-internal-autofill-selected {
+                  background-color: transparent !important;
+              }
+        </style>
+    </head>
+    <body>
+        {% block content %}
+            {% if form.errors and not form.non_field_errors %}
+                {% if form.errors.items|length == 1 %}
+                    {% with 'Please correct the error below.' as error %}
+                        {% include './modal.html' %}
+                    {% endwith %}
+                {% else %}
+                    {% with 'Please correct the errors below.' as error %}
+                        {% include './modal.html' %}
+                    {% endwith %}
+                {% endif %}
+            {% endif %}
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    {% with error as error %}
+                        {% include './modal.html' %}
+                    {% endwith %}
+                {% endfor %}
+            {% endif %}
+
+            <section class="h-screen login-page">
+                {% if user.is_authenticated %}
+                    <p class="errornote">
+                        {% blocktranslate trimmed %}
+        You are authenticated as {{ username }}, but are not authorized to
+        access this page. Would you like to login to a different account?
+    {% endblocktranslate %}
+                    </p>
+                {% endif %}
+                <div class="h-full flex justify-center items-center text-gray-800">
+                    <div class="login-form-container w-11/12 max-w-sm xl:w-auto p-5 drop-shadow-custom rounded">
+                        <div class="flex flex-col items-center justify-center mb-5">
+                            <img src={% static 'img/logo-dark.png' %} alt="Instytute Lingwistyki" class="w-28 h-28"/>
+                            <h1 class="text-xl">Instytute Lingwistyki</h1>
+                        </div>
+                        <form action="{{ app_path }}" method="post" id="login-form">
+                            {% csrf_token %}
+                            <div class="relative z-0 mb-5 xl:w-80">
+                                <input id="id_username"
+                                       type="text"
+                                       name="username"
+                                       autocomplete="username"
+                                       class="pt-1 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-400
+                                       "
+                                       placeholder=" "
+                                       />
+                                <label for="id_username" class="absolute -z-1 duration-300 top-3 origin-0">Email address or username</label>
+                            </div>
+                            <!-- Username input -->
+                            <div class="relative z-0 mb-4 xl:w-80">
+                                <input id="id_password"
+                                       type="password"
+                                       name="password"
+                                       autocomplete="current-password"
+                                       class="pt-1 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:mt-2 focus:outline-none focus:ring-0 focus:border-black border-gray-400"
+                                       placeholder=" "/>
+                                <label for="id_password" class="absolute -z-1 duration-300 top-3 origin-0">Password</label>
+                                <input type="hidden" name="next" value="{{ next }}"/>
+                            </div>
+                            <!-- Password input -->
+                            <div class="flex justify-center items-center mb-6">
+                                {% comment %} <div class="form-group form-check">
+                                    <input type="checkbox"
+                                           class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                           id="exampleCheck2"/>
+                                    <label class="form-check-label inline-block text-gray-800"
+                                           for="exampleCheck2">
+                                        Remember me
+                                    </label
+                                    >
+                                </div> {% endcomment %}
+                                {% url 'admin_password_reset' as password_reset_url %}
+                                {% if password_reset_url %}
+                                    <a href="{{ password_reset_url }}" class="text-gray-800">{% translate 'Forgotten your password or username?' %}</a>
+                                {% endif %}
+                            </div>
+                            <div class="text-center">
+                                <button type="submit"
+                                        class="inline-block px-7 py-3 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+                                    {% translate 'Log in' %}
+                                </button>
+                                <p class="text-sm font-semibold mt-2 pt-1 mb-0">
+                                    Use your credential login
+                                </p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    {% endblock %}
+</body>
