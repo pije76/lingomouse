@@ -1,0 +1,28 @@
+{% load i18n static %}
+
+{% if cl.search_fields %}
+<div id="toolbar"><form id="changelist-search" method="get">
+    <div class="relative flex focus:ring rounded shadow bg-white">
+        <span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
+            <img src="{% static "admin/img/search.svg" %}" alt="Search"/>
+        </span>
+        <input
+            id="searchbar"
+            name="{{ search_var }}"
+            value="{{ cl.query }}"
+            type="text"
+            placeholder="Search here..."
+            class="placeholder-slate-300 text-slate-600 bg-white text-sm outline-none focus:outline-none border-0 p-2 pl-10 rounded-l"
+        />
+        <input type="submit" value="{% translate 'Search' %}" class="text-sm h-full p-3 rounded-r"/>
+    </div>
+    {% if show_result_count %}
+        <span class="small quiet font-light text-xs">{% blocktranslate count counter=cl.result_count %}{{ counter }} result{% plural %}{{ counter }} results{% endblocktranslate %} (<a href="?{% if cl.is_popup %}{{ is_popup_var }}=1{% endif %}" >{% if cl.show_full_result_count %}{% blocktranslate with full_result_count=cl.full_result_count %}{{ full_result_count }} total{% endblocktranslate %}{% else %}{% translate "Show all" %}{% endif %}</a>)</span>
+    {% endif %}
+    {% if cl.search_help_text %}
+        <br class="clear"/>
+        <div class="help">{{ cl.search_help_text }}</div>
+    {% endif %}
+</form>
+</div>
+{% endif %}
