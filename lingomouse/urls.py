@@ -15,10 +15,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from course import urls as course_urls
+
+from rest_framework_simplejwt import views as jwt_views
+from rest_framework_simplejwt.views import TokenVerifyView
+
+from course.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('config/', include('config.urls'), name='config'),
-    path('course/', include((course_urls, 'course'), namespace='course')),
+    path('config/', include('config.urls')),
+    path('course/', include('course.urls')),
+
+    path('api/', include('rest_framework.urls')),
+    path('api/courses/', course_list),
+    path('api/courses/<int:pk>/', course_detail),
+    path('api/levels/', level_list),
+    path('api/levels/<int:pk>/', level_detail),
+    path('api/words/', word_list),
+    path('api/words/<int:pk>/', word_detail),
+
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
