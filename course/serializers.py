@@ -16,7 +16,6 @@ class CourseSerializer(serializers.ModelSerializer):
 	# level_count = serializers.IntegerField(source="level.count", read_only=True)
 	# mastered_word_count = serializers.SerializerMethodField(read_only=True)
 	# progress = serializers.SerializerMethodField(read_only=True)
-	# likescount = serializers.SerializerMethodField('get_popularity')
 	# progress = ProgressField()
 
 
