@@ -28,7 +28,11 @@ class CourseSerializer(serializers.ModelSerializer):
             # 'xp_point',
             # 'progress',
         )
-        depth = 3
+        # lookup_field = 'id',
+        extra_kwargs = {
+            'url': {'lookup_field': 'id'}
+        }
+        depth = 2
 
 
 class LevelSerializer(serializers.ModelSerializer):

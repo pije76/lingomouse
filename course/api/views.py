@@ -9,13 +9,14 @@ from django.views import View
 
 from rest_framework import generics, permissions, renderers, viewsets, status, mixins, pagination, permissions, renderers, viewsets, status
 from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework.views import APIView
-
+from rest_framework.viewsets import GenericViewSet
 
 from course.models import *
 from course.serializers import *
@@ -23,36 +24,54 @@ from .paginations import *
 
 
 class RootAPIView(APIView):
-    permission_classes = (AllowAny,)
-    throttle_classes = (AnonRateThrottle, UserRateThrottle,)
+	permission_classes = (AllowAny,)
+	throttle_classes = (AnonRateThrottle, UserRateThrottle,)
 
-    def get(self, request, format=None):
-        snippets = Course.objects.all()
-        serializer = CourseSerializer(snippets, many=True)
-        return Response(serializer.data)
+	def get(self, request, format=None):
+		snippets = Course.objects.all()
+		serializer = CourseSerializer(snippets, many=True)
+		return Response(serializer.data)
 
-    def post(self, request, format=None):
-        serializer = CourseSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+	def post(self, request, format=None):
+		serializer = CourseSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @action(methods=['get'], detail=True)
 class CourseViewSet(viewsets.ModelViewSet):
+	queryset = Course.objects.all()
 	serializer_class = CourseSerializer
 	pagination_class = CustomPagination
 	# permission_classes = [permissions.IsAuthenticated]
+	# lookup_field = 'id'
 
-	def get_object(self):
-		return get_object_or_404(Course, id=self.request.query_params.get("id"))
+	# def get_object(self):
+	# 	return get_object_or_404(Course, id=self.request.query_params.get("id"))
 
-	def get_queryset(self):
-		return Course.objects.filter(is_active=True).order_by('id')
+	# def get_queryset(self):
+	# 	queryset = Course.objects.filter(is_active=True).order_by('id')
+	# 	return queryset
 
-	def perform_destroy(self, instance):
-		instance.is_active = False
-		instance.save()
+	# def perform_destroy(self, instance):
+	# 	instance.is_active = False
+		# instance.save()
+
+
+@action(detail=True)
+class CourseDetailViewSet(APIView):
+	# authentication_classes = (TokenAuthentication, SessionAuthentication, BasicAuthentication,)
+	# permission_classes = [permissions.IsAuthenticated]
+	# queryset = Course.objects.filter(id=id)
+	# serializer_class = CourseSerializer
+
+	def get(self, request, pk, format=None):
+		item = get_object_or_404(Course.objects.all(), pk=pk)
+		serializer = CourseSerializer(item)
+
+		return Response(serializer.data)
 
 
 # @csrf_exempt
