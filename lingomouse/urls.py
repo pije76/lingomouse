@@ -18,19 +18,18 @@ from django.urls import path, include
 
 from rest_framework_simplejwt import views as jwt_views
 from rest_framework_simplejwt.views import TokenVerifyView
+from rest_framework import routers
 
-from course.views import *
-from course.routers import *
-
+from api.views import *
+from api import routers as api_routers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('config/', include('config.urls')),
     path('course/', include('course.urls')),
 
-    path('api/', include('rest_framework.urls')),
-    # path('api/course/', include(api_routers)),
-    path('api/course/', include('course.routers')),
+    # path('auth/', include('rest_framework.urls')),
+    path('api/', include(api_routers)),
 
     path('__debug__/', include('debug_toolbar.urls')),
 ]
