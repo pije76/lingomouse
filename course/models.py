@@ -42,6 +42,20 @@ class Course (models.Model):
     def __str__(self):
         return str(self.name)
 
+    def word_count(self):
+        if hasattr(self, 'words'):
+            return self.words.count()
+        return 0
+
+    def mastered_word_count(self):
+        calculate_mastered_word_count = 1
+        return calculate_mastered_word_count
+
+    def progress(self):
+        calculate_progress = self.mastered_word_count()/self.words.count()
+        return round(calculate_progress, 5)
+
+
     def image(self):
         from django.utils.html import escape
         image_file = self.img
@@ -74,6 +88,15 @@ class Level (TimestampedModel):
         if hasattr(self, 'level_words'):
             return self.level_words.count()
         return 0
+
+    def level_count(self):
+        calculate_mastered_word_count = 1
+        return calculate_mastered_word_count
+
+    def level_progress(self):
+        calculate_progress = self.level_count()/self.level_words.count()
+        return round(calculate_progress, 5)
+
 
         
 class Word (TimestampedModel):
