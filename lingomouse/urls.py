@@ -20,6 +20,8 @@ from rest_framework_simplejwt import views as jwt_views
 from rest_framework_simplejwt.views import TokenVerifyView
 
 from course.views import *
+from course.routers import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,12 +29,8 @@ urlpatterns = [
     path('course/', include('course.urls')),
 
     path('api/', include('rest_framework.urls')),
-    path('api/courses/', course_list),
-    path('api/courses/<int:pk>/', course_detail),
-    path('api/levels/', level_list),
-    path('api/levels/<int:pk>/', level_detail),
-    path('api/words/', word_list),
-    path('api/words/<int:pk>/', word_detail),
+    # path('api/course/', include(api_routers)),
+    path('api/course/', include('course.routers')),
 
     path('__debug__/', include('debug_toolbar.urls')),
 ]

@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     'config',
     'course',
     'theme',
+    'api',
     'rest_framework',
-    'rest_framework_simplejwt',
     'debug_toolbar',
 ]
 
@@ -157,7 +157,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 5
 }
 
 

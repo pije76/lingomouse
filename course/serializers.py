@@ -5,6 +5,7 @@ from rest_framework import serializers
 from .models import *
 
 class CourseSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Course
         fields = (
@@ -27,8 +28,11 @@ class CourseSerializer(serializers.ModelSerializer):
             # 'xp_point',
             # 'progress',
         )
+        depth = 3
+
 
 class LevelSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Level
         fields = (
@@ -37,8 +41,11 @@ class LevelSerializer(serializers.ModelSerializer):
             'name',
             'course',
         )
+        depth = 3
 
 class WordSerializer(serializers.ModelSerializer):
+    pk = serializers.ReadOnlyField(source='id')
+
     class Meta:
         model = Word
         fields = (
