@@ -27,10 +27,8 @@ class Course (models.Model):
     lookup_field = "id"
     id = models.CharField(primary_key=True, max_length=200)
     name = models.CharField(max_length=200)
-    native = models.ForeignKey(
-        Language, related_name='native_courses', verbose_name=_("native"), on_delete=models.RESTRICT)
-    foreign = models.ForeignKey(
-        Language, related_name='foreign_courses', verbose_name=_("foreign"), on_delete=models.RESTRICT)
+    native = models.ForeignKey(Language, related_name='native_courses', verbose_name=_("native"), on_delete=models.RESTRICT)
+    foreign = models.ForeignKey(Language, related_name='foreign_courses', verbose_name=_("foreign"), on_delete=models.RESTRICT)
     description = models.TextField(max_length=1000, verbose_name=_("description"), null=True, blank=True)
     img = models.ImageField(upload_to='images/', blank=True)
     is_active = models.BooleanField(_("Is active?"), default=True)
@@ -61,8 +59,7 @@ class Level (TimestampedModel):
     """
     sequence = models.IntegerField(default=0, verbose_name=_("sequence"))
     name = models.CharField(max_length=200, verbose_name=_("name"), default=_("Level"))
-    course = models.ForeignKey(
-        Course, related_name='levels', verbose_name=_("course"), on_delete=models.CASCADE, blank=True)
+    course = models.ForeignKey(Course, related_name='levels', verbose_name=_("course"), on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
         '''String representation'''
@@ -87,12 +84,9 @@ class Word (TimestampedModel):
     actives = OnlyActiveManager()
 
     word = models.CharField(max_length=200, verbose_name=_("foreign"))
-    description = models.CharField(
-        max_length=200, verbose_name=_("native"), default="")
-    literal_translation = models.CharField(
-        max_length=200, verbose_name=_("literal translation"), default="", blank=True)
-    course = models.ForeignKey(
-        'Course', related_name='words', on_delete=models.CASCADE)
+    description = models.CharField(max_length=200, verbose_name=_("native"), default="")
+    literal_translation = models.CharField(max_length=200, verbose_name=_("literal translation"), default="", blank=True)
+    course = models.ForeignKey('Course', related_name='words', on_delete=models.CASCADE)
     level = models.ForeignKey("Level", related_name="level_words", on_delete=models.SET_NULL, blank=True, null=True)
     is_active = models.BooleanField(_("Is active"), default=True)
 
