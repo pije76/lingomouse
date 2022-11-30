@@ -94,7 +94,10 @@ class Level (TimestampedModel):
         return calculate_mastered_word_count
 
     def level_progress(self):
-        calculate_progress = self.level_count()/self.level_words.count()
+        word_count = self.level_words.count()
+        calculate_progress = 0
+        if word_count>0:
+            calculate_progress = self.level_count()/word_count
         return round(calculate_progress, 5)
 
 
