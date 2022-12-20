@@ -21,8 +21,9 @@ class SetupThemeMode(View):
         request.session['theme_mode'] = theme_mode
         return JsonResponse({**request.session})
 
+
 @login_required()
-def config_set(request):
+def config_list(request):
     page_title = _('Kegiatan')
     data_config =   Country.objects.all()
 

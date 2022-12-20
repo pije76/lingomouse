@@ -22,7 +22,7 @@ class BulkLevelSet(View):
         return JsonResponse({'message': 'Success', 'data': course_id, 'words': words})
 
 @login_required()
-def tabel_kegiatan(request):
+def course_list(request):
     page_title = _('Kegiatan')
     data_course =   Course.objects.all()
 
