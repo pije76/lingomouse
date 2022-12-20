@@ -1,7 +1,11 @@
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.forms.models import model_to_dict
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseRedirect
+from django.shortcuts import redirect, render
+from django.utils.decorators import method_decorator
+from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -15,3 +19,16 @@ class SetupThemeMode(View):
 
         request.session['theme_mode'] = theme_mode
         return JsonResponse({**request.session})
+
+@login_required()
+def config_set(request):
+    page_title = _('Kegiatan')
+    data_course =   Course.objects.all()
+
+    context = {
+        'page_title': page_title,
+        'data_course': data_course,
+    }
+
+    return render(request,'course/config_list.html', context)
+
