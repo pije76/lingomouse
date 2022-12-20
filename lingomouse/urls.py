@@ -25,6 +25,7 @@ from api import routers as api_routers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('homepage.urls')),
     path('config/', include('config.urls')),
     path('course/', include('course.urls')),
 
