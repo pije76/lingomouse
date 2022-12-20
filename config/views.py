@@ -7,6 +7,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
+from .models import *
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SetupThemeMode(View):
@@ -23,12 +24,12 @@ class SetupThemeMode(View):
 @login_required()
 def config_set(request):
     page_title = _('Kegiatan')
-    data_course =   Course.objects.all()
+    data_config =   Country.objects.all()
 
     context = {
         'page_title': page_title,
-        'data_course': data_course,
+        'data_config': data_config,
     }
 
-    return render(request,'course/config_list.html', context)
+    return render(request,'course/config_set.html', context)
 
