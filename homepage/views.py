@@ -7,7 +7,7 @@ from django.views import View
 
 @login_required()
 def homepage(request):
-    page_title = _('homepage')
+    page_title = _('Homepage')
 
     context = {
         'page_title': page_title,
