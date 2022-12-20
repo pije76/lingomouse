@@ -28,7 +28,7 @@ def config_list(request):
     data_config =   Country.objects.all()
 
     context = {
-        'page_title': page_title,
+        'title': page_title,
         'data_config': data_config,
     }
 

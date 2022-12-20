@@ -15,7 +15,7 @@ class MediaFileInput(FileInput):
     clear_checkbox_label = _("Clear")
     initial_text = _("Currently")
     input_text = _("Upload a file")
-    template_name = "admin/widgets/media_file_input.html"
+    template_name = "widgets/media_file_input.html"
 
     def __init__(self, url=None, *args, **kwargs):
         self.url = url

@@ -2,10 +2,10 @@ from django.urls import include, path
 
 from .views import *
 
-app_name = "homepage"
+app_name = "frontend"
 
 
 urlpatterns = [
-    path('', homepage, name="homepage"),
+    path('', frontend, name="frontend"),
 ]
 

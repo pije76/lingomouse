@@ -39,14 +39,14 @@ INSTALLED_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 
-	'homepage',
+	'frontend',
 	'config',
 	'course',
 	'api',
+
 	'rest_framework',
 	'tailwind',
 	'theme',
-
 	'debug_toolbar',
 ]
 

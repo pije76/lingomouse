@@ -6,12 +6,12 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 
 @login_required()
-def homepage(request):
-    page_title = _('Homepage')
+def frontend(request):
+    page_title = _('Frontend')
 
     context = {
-        'page_title': page_title,
+        'title': page_title,
     }
 
-    return render(request,'homepage.html', context)
+    return render(request,'frontend.html', context)
 

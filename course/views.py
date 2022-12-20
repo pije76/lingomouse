@@ -27,7 +27,7 @@ def course_list(request):
     data_course =   Course.objects.all()
 
     context = {
-        'page_title': page_title,
+        'title': page_title,
         'data_course': data_course,
     }
 
