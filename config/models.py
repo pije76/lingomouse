@@ -51,7 +51,7 @@ class Language(models.Model):
         is_language = pycountry.languages.get(alpha_2=self.code)
         lang = is_language.name if is_language else self.code
         return str(lang)
-    
+
 
     def code_name(self):
         """

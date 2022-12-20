@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.forms.models import BaseInlineFormSet
 
 from .models import MEDIA_TYPE, Level
-from theme.widgets.widgets import MediaFileInput
+from .widgets import MediaFileInput
 
 
 class CourseForm(forms.ModelForm):

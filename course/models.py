@@ -27,14 +27,12 @@ class Course (models.Model):
     lookup_field = "id"
     id = models.CharField(primary_key=True, max_length=200)
     name = models.CharField(max_length=200)
-    native = models.ForeignKey(
-        Language, related_name='native_courses', verbose_name=_("native"), on_delete=models.RESTRICT)
-    foreign = models.ForeignKey(
-        Language, related_name='foreign_courses', verbose_name=_("foreign"), on_delete=models.RESTRICT)
+    native = models.ForeignKey(Language, related_name='native_courses', verbose_name=_("native"), on_delete=models.RESTRICT)
+    foreign = models.ForeignKey(Language, related_name='foreign_courses', verbose_name=_("foreign"), on_delete=models.RESTRICT)
     description = models.TextField(max_length=1000, verbose_name=_("description"), null=True, blank=True)
     img = models.ImageField(upload_to='images/', blank=True)
     is_active = models.BooleanField(_("Is active?"), default=True)
-    
+
     class Meta:
         indexes = [models.Index(fields=["name"])]
         ordering = ["name"]
@@ -44,14 +42,28 @@ class Course (models.Model):
     def __str__(self):
         return str(self.name)
 
+    def word_count(self):
+        if hasattr(self, 'words'):
+            return self.words.count()
+        return 0
+
+    def mastered_word_count(self):
+        calculate_mastered_word_count = 1
+        return calculate_mastered_word_count
+
+    def progress(self):
+        calculate_progress = self.mastered_word_count()/self.words.count()
+        return round(calculate_progress, 5)
+
+
     def image(self):
         from django.utils.html import escape
         image_file = self.img
         if(image_file != ""):
             image_file = '<img src="/uploads/%s" style="min-width:50px; min-height:50px; width:50px; height:50px; border-radius:50px; "/>' % escape(self.img)
-    
+
         return mark_safe(image_file)
-    
+
     image.allow_tags = True
 
 
@@ -61,13 +73,12 @@ class Level (TimestampedModel):
     """
     sequence = models.IntegerField(default=0, verbose_name=_("sequence"))
     name = models.CharField(max_length=200, verbose_name=_("name"), default=_("Level"))
-    course = models.ForeignKey(
-        Course, related_name='levels', verbose_name=_("course"), on_delete=models.CASCADE, blank=True)
+    course = models.ForeignKey(Course, related_name='levels', verbose_name=_("course"), on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
         '''String representation'''
         return str(self.course)+' - '+str(self.name)
-    
+
     class Meta:
         ordering = ["sequence"]
         verbose_name = "level"
@@ -78,7 +89,16 @@ class Level (TimestampedModel):
             return self.level_words.count()
         return 0
 
-        
+    def level_count(self):
+        calculate_mastered_word_count = 1
+        return calculate_mastered_word_count
+
+    def level_progress(self):
+        calculate_progress = self.level_count()/self.level_words.count()
+        return round(calculate_progress, 5)
+
+
+
 class Word (TimestampedModel):
     """
     Word models inherited from timestamped model
@@ -87,18 +107,15 @@ class Word (TimestampedModel):
     actives = OnlyActiveManager()
 
     word = models.CharField(max_length=200, verbose_name=_("foreign"))
-    description = models.CharField(
-        max_length=200, verbose_name=_("native"), default="")
-    literal_translation = models.CharField(
-        max_length=200, verbose_name=_("literal translation"), default="", blank=True)
-    course = models.ForeignKey(
-        'Course', related_name='words', on_delete=models.CASCADE)
+    description = models.CharField(max_length=200, verbose_name=_("native"), default="")
+    literal_translation = models.CharField(max_length=200, verbose_name=_("literal translation"), default="", blank=True)
+    course = models.ForeignKey('Course', related_name='words', on_delete=models.CASCADE)
     level = models.ForeignKey("Level", related_name="level_words", on_delete=models.SET_NULL, blank=True, null=True)
     is_active = models.BooleanField(_("Is active"), default=True)
 
     def __str__(self):
         return str(self.word + ' - ' + self.description)
-    
+
     class Meta:
         verbose_name = _("word")
         verbose_name_plural = _("words")
@@ -116,7 +133,7 @@ class WordMedia(TimestampedModel):
 
     def __str__(self):
         return str(self.media_type)
-    
+
     class Meta:
         verbose_name = _("word media")
         verbose_name_plural = _("word medias")

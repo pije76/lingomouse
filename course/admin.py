@@ -37,7 +37,7 @@ class WordWithFKAdminInline(admin.TabularInline):
 
     def get_formset(self, request, obj, **kwargs):
         return super().get_formset(request, obj, **kwargs)
-    
+
 
 class LevelAcquaintanceInline(admin.TabularInline):
     '''show level models as inline in Level'''

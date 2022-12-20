@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}
+{% if subtitle %}{{ subtitle }} |{% endif %}
+{{ title }} | {{ site_title|default:_('IL Admin') }}
+{% endblock title %}
+
+{% block usertools %}
+{% if has_permission %}
+<div id="user-tools">
+<ul class="menu-stray">
+{% if user.account.image %}
+<li class="flex justify-center">
+<div class="my-2 profile-image"> {{ user.account.image }} </div>
+</li>
+{% endif %}
+{% if user.is_active and user.is_staff %}
+{% url 'django-admindocs-docroot' as docsroot %}
+{% if docsroot %}
+<li>
+<a href="{{ docsroot }}">{% translate 'Documentation' %}</a>
+</li>
+{% endif %}
+{% endif %}
+<li class="relative">
+<a href="#"
+role="button"
+id="dropdown-user-toggle"
+class="dropdown-toggle"
+data-toggle="dropdown"
+aria-expanded="false">
+{% firstof user.get_short_name user.get_username %}
+</a>
+<div id="dropdown-menu"
+class="dropdown-menu dropdown-menu-right absolute bg-sky-700 shadow-md w-full rounded-sm hidden"
+role="menu">
+<a href="/pa/apps_user/user/{{ user.id }}/change"
+class="dropdown-item py-2 hover:bg-sky-800">{% translate 'Profile' %}</a>
+{% if user.has_usable_password %}
+<a href="{% url 'admin:password_change' %}" class="py-2 hover:bg-sky-800">{% translate 'Change password' %}</a>
+{% endif %}
+<a href="{% url 'admin:logout' %}" class="py-2 hover:bg-sky-800">{% translate 'Log out' %}</a>
+</div>
+</li>
+{% if user.is_staff %}
+<li>
+<span class="label label-success text-white text-[11px]">{% translate 'Staff' %}</span>
+</li>
+{% endif %}
+</ul>
+</div>
+{% endif %}
+{% endblock usertools %}
