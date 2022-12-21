@@ -7,6 +7,7 @@ from django.views import View
 
 from .models import *
 
+from itertools import chain
 
 class BulkLevelSet(View):
     def get(self, request):
@@ -26,9 +27,17 @@ def course_list(request):
     page_title = _('Course')
     data_course =   Course.objects.all()
 
+    course_course = Course.objects.all()
+    course_level = Level.objects.all()
+    course_word = Word.objects.all()
+
+    # course_list = course_course | course_level | course_word
+    course_list = chain(course_course, course_level, course_word)
+
     context = {
         'title': page_title,
         'data_course': data_course,
+        'course_list': course_list,
     }
 
     return render(request,'course/course_list.html', context)

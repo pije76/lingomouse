@@ -24,7 +24,7 @@ class SetupThemeMode(View):
 
 @login_required()
 def config_list(request):
-    page_title = _('Kegiatan')
+    page_title = _('Config')
     data_config =   Country.objects.all()
 
     context = {
@@ -32,5 +32,5 @@ def config_list(request):
         'data_config': data_config,
     }
 
-    return render(request,'course/config_set.html', context)
+    return render(request,'config/config_set.html', context)
 
