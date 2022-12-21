@@ -1,5 +1,7 @@
 from django import template
 
+from itertools import chain
+
 from config.models import *
 from course.models import *
 
@@ -19,6 +21,8 @@ def app_list():
 
 	config_list = config_country | config_language
 
-	app_list = course_list | config_list
+	# app_list = course_list | config_list
+
+	app_list = chain(course_course, course_level, course_word, config_country, config_language)
 
 	return app_list
