@@ -23,7 +23,7 @@ class BulkLevelSet(View):
 
 @login_required()
 def course_list(request):
-    page_title = _('Kegiatan')
+    page_title = _('Course')
     data_course =   Course.objects.all()
 
     context = {

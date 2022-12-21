@@ -6,6 +6,6 @@ app_name = "frontend"
 
 
 urlpatterns = [
-    path('', frontend, name="frontend"),
+    path('', index, name="index"),
 ]
 

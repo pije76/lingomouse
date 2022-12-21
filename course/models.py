@@ -66,6 +66,9 @@ class Course (models.Model):
 
     image.allow_tags = True
 
+    def get_absolute_url(self):
+        return reverse('course:course_list', args=[self.id])
+
 
 class Level (TimestampedModel):
     """
@@ -97,6 +100,8 @@ class Level (TimestampedModel):
         calculate_progress = self.level_count()/self.level_words.count()
         return round(calculate_progress, 5)
 
+    def get_absolute_url(self):
+        return reverse('course:course_list', args=[self.id])
 
 
 class Word (TimestampedModel):
@@ -120,6 +125,10 @@ class Word (TimestampedModel):
         verbose_name = _("word")
         verbose_name_plural = _("words")
         ordering = ["level__sequence", "created_at"]
+
+
+    def get_absolute_url(self):
+        return reverse('course:course_list', args=[self.id])
 
 
 class WordMedia(TimestampedModel):
