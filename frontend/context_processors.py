@@ -26,13 +26,16 @@ def app_list(request):
 	app_list = chain(course_course, course_level, course_word, config_country, config_language)
 
 	context = {
-		# 'produits':produits,
-		# 'categories':categories,
+		'course_course':course_course,
+		'course_level':course_level,
+		'course_word':course_word,
+		'config_country':config_country,
+		'config_language':config_language,
 		'app_list': app_list,
 	}
 
-	for item in app_list:
-	    print("app_list", item)
+	for item in course_course:
+	    print("course_course", item)
 
 	return context
 
