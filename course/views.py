@@ -48,3 +48,16 @@ def level_list(request):
 
     return render(request,'course/level_list.html', context)
 
+
+
+def word_list(request):
+    page_title = _('Level')
+    data_word =   Word.objects.all()
+
+
+    context = {
+        'title': page_title,
+        'data_word': data_word,
+    }
+
+    return render(request,'course/word_list.html', context)
