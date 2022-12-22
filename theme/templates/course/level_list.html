@@ -25,88 +25,61 @@
 {% block bodyclass %}
 {{ block.super }}
 
- {% endblock bodyclass %}
+{% endblock bodyclass %}
 
 {% block object-tools %}
 {% if not is_popup %}
 <div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
-	<ul class="object-tools mt-0">
-		{% block object-tools-items %}
+<ul class="object-tools mt-0">
+{% block object-tools-items %}
 
-		{% endblock object-tools-items %}
-	</ul>
+{% endblock object-tools-items %}
+</ul>
 </div>
 {% endif %}
 {% endblock object-tools %}
 
 {% block content %}
-
 <div class="results block w-full overflow-x-auto">
-  <table id="result_list" class="items-center w-full bg-transparent border-collapse">
-    <thead>
-      <tr>
-
-        <th scope="col"  class="action-checkbox-column" >
-
-          <div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
-          <div class="clear"></div>
-        </th>
-        <th scope="col"  class="sortable column-id" >
-
-
-
-          <div class="text"><a href="?o=1">ID</a></div>
-          <div class="clear"></div>
-        </th>
-        <th scope="col"  class="sortable column-name" >
-
-
-
-          <div class="text"><a href="?o=2">Name</a></div>
-          <div class="clear"></div>
-        </th>
-        <th scope="col"  class="sortable column-course" >
-
-
-
-          <div class="text"><a href="?o=3">Course</a></div>
-          <div class="clear"></div>
-        </th>
-        <th scope="col"  class="column-word_count" >
-
-          <div class="text"><span>Word count</span></div>
-          <div class="clear"></div>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-
-
-        <tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="5" class="action-select"></td><th class="field-id"><a href="/admin/course/level/5/change/">5</a></th><td class="field-name">Level 1</td><td class="field-course nowrap">Tagalog MasterClass</td><td class="field-word_count">2</td></tr>
-
-
-        <tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="1" class="action-select"></td><th class="field-id"><a href="/admin/course/level/1/change/">1</a></th><td class="field-name">Level 1</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">23</td></tr>
-
-
-        <tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="6" class="action-select"></td><th class="field-id"><a href="/admin/course/level/6/change/">6</a></th><td class="field-name">Level 2</td><td class="field-course nowrap">Tagalog MasterClass</td><td class="field-word_count">0</td></tr>
-
-
-        <tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="2" class="action-select"></td><th class="field-id"><a href="/admin/course/level/2/change/">2</a></th><td class="field-name">Level 2</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">20</td></tr>
-
-
-        <tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="7" class="action-select"></td><th class="field-id"><a href="/admin/course/level/7/change/">7</a></th><td class="field-name">Level 3</td><td class="field-course nowrap">Tagalog MasterClass</td><td class="field-word_count">0</td></tr>
-
-
-        <tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="3" class="action-select"></td><th class="field-id"><a href="/admin/course/level/3/change/">3</a></th><td class="field-name">Level 3</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">47</td></tr>
-
-
-        <tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="4" class="action-select"></td><th class="field-id"><a href="/admin/course/level/4/change/">4</a></th><td class="field-name">Level 4</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">17</td></tr>
-
-
-        <tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="8" class="action-select"></td><th class="field-id"><a href="/admin/course/level/8/change/">8</a></th><td class="field-name">Level 5</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">0</td></tr>
-
-    </tbody>
-  </table>
+	<table id="result_list" class="items-center w-full bg-transparent border-collapse">
+		<thead>
+			<tr>
+				<th scope="col"  class="action-checkbox-column">
+					<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+					<div class="clear"></div>
+				</th>
+				<th scope="col"  class="sortable column-id">
+					<div class="text"><a href="?o=1">ID</a></div>
+					<div class="clear"></div>
+				</th>
+				<th scope="col"  class="sortable column-name">
+					<div class="text"><a href="?o=2">Name</a></div>
+					<div class="clear"></div>
+				</th>
+				<th scope="col"  class="sortable column-course">
+					<div class="text"><a href="?o=3">Course</a></div>
+					<div class="clear"></div>
+				</th>
+				<th scope="col"  class="column-word_count">
+					<div class="text"><span>Word count</span></div>
+					<div class="clear"></div>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
+				<td class="action-checkbox">
+					<input type="checkbox" name="_selected_action" value="5" class="action-select">
+				</td>
+				<th class="field-id">
+					<a href="/admin/course/level/5/change/">5</a>
+				</th>
+				<td class="field-name">Level 1</td>
+				<td class="field-course nowrap">Tagalog MasterClass</td>
+				<td class="field-word_count">2</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
 
 {% endblock content %}
