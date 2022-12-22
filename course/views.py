@@ -22,23 +22,29 @@ class BulkLevelSet(View):
 
         return JsonResponse({'message': 'Success', 'data': course_id, 'words': words})
 
+
 @login_required()
 def course_list(request):
     page_title = _('Course')
     data_course =   Course.objects.all()
 
-    course_course = Course.objects.all()
-    course_level = Level.objects.all()
-    course_word = Word.objects.all()
-
-    # course_list = course_course | course_level | course_word
-    course_list = chain(course_course, course_level, course_word)
-
     context = {
         'title': page_title,
         'data_course': data_course,
-        'course_list': course_list,
     }
 
     return render(request,'course/course_list.html', context)
+
+
+def level_list(request):
+    page_title = _('Level')
+    data_level =   Level.objects.all()
+
+
+    context = {
+        'title': page_title,
+        'data_level': data_level,
+    }
+
+    return render(request,'course/level_list.html', context)
 
