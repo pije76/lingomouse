@@ -76,19 +76,14 @@
 				</li>
 
 				<li class="mr-6 my-2 md:my-0">
-					<a href="#" class="block py-1 md:py-3 pl-1 align-middle text-gray-500 no-underline hover:text-gray-900 border-b-2 border-white hover:border-orange-600">
+					<a href="#" class="peer block py-1 md:py-3 pl-1 align-middle no-underline hover:text-gray-900 border-b-2 {% if app.app_url in request.path|urlencode %}active border-orange-600 text-pink-600{% else %}border-white text-gray-500{% endif %} hover:border-pink-500">
 						<span class="pb-1 md:pb-0 text-sm">Course</span>
 					</a>
 
 					<!-- the menu here -->
-					<div class="absolute hidden peer-hover:flex hover:flex w-[300px] flex-col bg-white drop-shadow-lg">
-						{% if name_list %}
-						{% for item in name_list %}
-						<a class="px-5 py-3 hover:bg-gray-500 {% if item.path_url in request.path|urlencode %}bg-gray-200{% endif %}" href="{{ item.path_url }}" title="{% blocktranslate with name=item.name %}{{ name }} item{% endblocktranslate %}">
-							{{ item }}
-						</a>
-						{% endfor %}
-						{% endif %}
+					<div class="absolute hidden peer-hover:flex hover:flex w-[300px]  flex-col bg-white drop-shadow-lg">
+						<a class="px-5 py-3 hover:bg-gray-500" href="{% url 'course:course_list' %}" title="Course">Course</a>
+						<a class="px-5 py-3 hover:bg-gray-500" href="{% url 'course:level_list' %}" title="Level">Level</a>
 					</div>
 				</li>
 			</ul>
