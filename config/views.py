@@ -23,13 +23,25 @@ class SetupThemeMode(View):
 
 
 @login_required()
-def config_list(request):
-    page_title = _('Config')
-    data_config =   Country.objects.all()
+def country_list(request):
+    page_title = _('Country')
+    data_country =   Country.objects.all()
 
     context = {
         'title': page_title,
-        'data_config': data_config,
+        'data_country': data_country,
+    }
+
+    return render(request,'config/config_set.html', context)
+
+
+def language_list(request):
+    page_title = _('Languages')
+    data_language =   Languages.objects.all()
+
+    context = {
+        'title': page_title,
+        'data_language': data_language,
     }
 
     return render(request,'config/config_set.html', context)
