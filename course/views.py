@@ -23,7 +23,16 @@ class BulkLevelSet(View):
         return JsonResponse({'message': 'Success', 'data': course_id, 'words': words})
 
 
-@login_required()
+def course_index(request):
+    page_title = _('Select course to change')
+
+    context = {
+        'title': page_title,
+    }
+
+    return render(request,'course/course_index.html', context)
+
+
 def course_list(request):
     page_title = _('Select course to change')
     data_course =   Course.objects.all()
