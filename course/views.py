@@ -37,7 +37,7 @@ def course_list(request):
 
 
 def level_list(request):
-    page_title = _('Level')
+    page_title = _('Select level to change')
     data_level =   Level.objects.all()
 
 
@@ -51,7 +51,7 @@ def level_list(request):
 
 
 def word_list(request):
-    page_title = _('Level')
+    page_title = _('Select word to change')
     data_word =   Word.objects.all()
 
 
