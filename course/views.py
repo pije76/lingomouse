@@ -25,7 +25,7 @@ class BulkLevelSet(View):
 
 @login_required()
 def course_list(request):
-    page_title = _('Course')
+    page_title = _('Select course to change')
     data_course =   Course.objects.all()
 
     context = {
