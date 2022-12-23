@@ -106,7 +106,7 @@ def change_course(request, pk):
             messages.warning(request, form.errors)
 
     else:
-        form = CourseForm(instance=request.user)
+        form = CourseForm()
 
     context = {
         'title': page_title,
@@ -136,7 +136,7 @@ def change_level(request, pk):
             messages.warning(request, form.errors)
 
     else:
-        form = CourseForm(instance=request.user)
+        form = CourseForm()
 
     context = {
         'title': page_title,
@@ -166,7 +166,7 @@ def change_word(request, pk):
             messages.warning(request, form.errors)
 
     else:
-        form = CourseForm(instance=request.user)
+        form = CourseForm()
 
     context = {
         'title': page_title,
