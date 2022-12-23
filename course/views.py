@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
@@ -88,6 +88,8 @@ def word_list(request):
 
 def change_course(request, pk):
     page_title = _('Change Course')
+    course = get_object_or_404(Course, id=pk)
+
     form = CourseForm(prefix='course')
 
     if request.method == 'POST':
@@ -111,6 +113,7 @@ def change_course(request, pk):
     context = {
         'title': page_title,
         'form': form,
+        'course': course,
     }
 
     return render(request, 'course/course_change.html', context)
