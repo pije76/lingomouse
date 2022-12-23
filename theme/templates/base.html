@@ -59,11 +59,11 @@
                 {% endwith %}
                 {% endif %}
             </div> {% endcomment %}
-            {% include 'layout/app_sidebar.html' with app_list=available_apps show_changelinks=False %}
+            {% include 'app_sidebar.html' with app_list=available_apps show_changelinks=False %}
         </div>
     </nav>
     {% endif %}
-    {% include "layout/app_nav_header.html" with app_list=available_apps show_changelinks=False %}
+    {% include "app_nav_header.html" with app_list=available_apps show_changelinks=False %}
 
     <main class="relative pt-16 bg-slate-100 min-h-screen {% if is_active %} md:ml-64 {% endif %}">
         <div class="container w-full mx-auto">
