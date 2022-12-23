@@ -22,7 +22,16 @@ class SetupThemeMode(View):
         return JsonResponse({**request.session})
 
 
-@login_required()
+def config_index(request):
+    page_title = _('Select config to change')
+
+    context = {
+        'title': page_title,
+    }
+
+    return render(request,'config/config_index.html', context)
+
+
 def country_list(request):
     page_title = _('Country')
     data_country =   Country.objects.all()
