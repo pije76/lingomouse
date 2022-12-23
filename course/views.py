@@ -38,8 +38,6 @@ def course_list(request):
     page_title = _('Select course to change')
     data_course =   Course.objects.all()
 
-    print("data_course", data_course)
-
     context = {
         'title': page_title,
         'data_course': data_course,
