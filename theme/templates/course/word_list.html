@@ -97,31 +97,31 @@
 					<a href="/admin/course/word/1/change/">{{ item.id }}</a>
 				</td>
 				<td class="field-word">
-					<input type="text" name="form-0-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_form-0-word">
+					<input type="text" name="form-{{ item.id }}-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-word">
 				</td>
 				<td class="field-description">
-					<input type="text" name="form-0-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_form-0-description">
+					<input type="text" name="form-{{ item.id }}-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-description">
 				</td>
 				<td class="field-course nowrap">
 					{{ item.course }}
 				</td>
 				<td class="field-level nowrap">
 					<div class="related-widget-wrapper" data-model-ref="level">
-						<select name="form-0-level" id="id_form-0-level">
+						<select name="form-{{ item.id }}-level" id="id_form-{{ item.id }}-level">
 							{% for level in level_items %}
 							<option value="{{ level.id }}"{% if level.id == item_id %}selected="selected"{% endif %}>{{ level.name }}</option>
 							{% endfor %}
 						</select>
-						<a class="related-widget-wrapper-link change-related" id="change_id_form-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"data-popup="yes" title="Change selected level">
+						<a class="related-widget-wrapper-link change-related" id="change_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"data-popup="yes" title="Change selected level">
 							<img src="/static/admin/img/icon-changelink.svg" alt="Change">
 						</a>
-						<a class="related-widget-wrapper-link add-related" id="add_id_form-0-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+						<a class="related-widget-wrapper-link add-related" id="add_id_form-{{ item.id }}-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
 							<img src="/static/admin/img/icon-addlink.svg" alt="Add">
 						</a>
-						<a class="related-widget-wrapper-link delete-related" id="delete_id_form-0-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+						<a class="related-widget-wrapper-link delete-related" id="delete_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
 							<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
 						</a>
-						<a class="related-widget-wrapper-link view-related" id="view_id_form-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+						<a class="related-widget-wrapper-link view-related" id="view_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
 							<img src="/static/admin/img/icon-viewlink.svg" alt="View">
 						</a>
 					</div>
@@ -140,13 +140,19 @@
 
 {% block extra_javascript %}
 
-<script type="text/javascript">
+<script type='text/javascript'>
 $(document).ready(function()
 {
-	var course = "{{ item.course }}";
-	// var courseId = $(".field-course").val();
+	$("td.field-course").each(function()
+	{
+		var quantity1 = $(this).text();
+		// console.log("quantity1", quantity1);
+	})
 
-	console.log("course", course);
+	// var courseId = "form-{{ item.id }}-course";
+	// var courseId = $("#form-2-course").text();
+
+	// console.log("courseId", courseId);
 });
 </script>
 {% endblock %}

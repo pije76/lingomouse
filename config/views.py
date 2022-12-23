@@ -37,7 +37,7 @@ def country_list(request):
 
 def language_list(request):
     page_title = _('Languages')
-    data_language =   Languages.objects.all()
+    data_language =   Language.objects.all()
 
     context = {
         'title': page_title,
