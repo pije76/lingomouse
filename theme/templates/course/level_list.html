@@ -67,17 +67,15 @@
 			</tr>
 		</thead>
 		<tbody>
+			{% for item in data_level %}
 			<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
-				<td class="action-checkbox">
-					<input type="checkbox" name="_selected_action" value="5" class="action-select">
-				</td>
-				<th class="field-id">
-					<a href="/admin/course/level/5/change/">5</a>
-				</th>
-				<td class="field-name">Level 1</td>
-				<td class="field-course nowrap">Tagalog MasterClass</td>
-				<td class="field-word_count">2</td>
+				<td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select"></td>
+				<td class="field-id"><a href="{% url 'course:change_level' item.id %}">{{ item.id }}</a></td>
+				<td class="field-name">{{ item.name }}</td>
+				<td class="field-course nowrap">{{ item.course }}</td>
+				<td class="field-word_count">{{ item.word_count }}</td>
 			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 </div>
