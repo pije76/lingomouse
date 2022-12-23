@@ -87,22 +87,22 @@
 		</thead>
 
 		<tbody>
+			{% for item in data_course %}
 			<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
 				<td class="action-checkbox">
-					<input type="checkbox" name="_selected_action" value="13198" class="action-select">
+					<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
 				</td>
 				<th class="field-pk">
-					<a href="/admin/course/course/13198/change/">13198</a>
+					<a href="{% url 'course:change_course' item.id %}">{{ item.id }}</a>
 				</th>
-				<td class="field-name">English MasterClass</td>
-				<td class="field-description"></td>
-				<td class="field-native nowrap">Polish</td>
-				<td class="field-foreign nowrap">English</td>
-				<td class="field-image"></td>
-				<td class="field-is_active">
-					<img src="/static/admin/img/icon-yes.svg" alt="True">
-				</td>
+				<td class="field-name">{{ item.name }}</td>
+				<td class="field-description">{{ item.description }}</td>
+				<td class="field-native nowrap">{{ item.native }}</td>
+				<td class="field-foreign nowrap">{{ item.foreign }}</td>
+				<td class="field-image">{{ item.img }}</td>
+				<td class="field-is_active">{{ item.is_active }}</td>
 			</tr>
+			{% endfor %}
 		</tbody>
 	</table>
 </div>

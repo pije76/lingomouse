@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 from django.views import View
 
 from .models import *
+from .forms import *
 
 from itertools import chain
 
@@ -36,6 +37,8 @@ def course_index(request):
 def course_list(request):
     page_title = _('Select course to change')
     data_course =   Course.objects.all()
+
+    print("data_course", data_course)
 
     context = {
         'title': page_title,
@@ -70,3 +73,34 @@ def word_list(request):
     }
 
     return render(request,'course/word_list.html', context)
+
+
+def change_course(request, pk):
+    page_title = _('Change Course')
+    form = CourseForm(prefix='course')
+
+    if request.method == 'POST':
+        form = CourseForm(request.POST or None, instance=request.user)
+
+        if form.is_valid():
+            course = form.save(commit=False)
+            course.full_name = form.cleaned_data['full_name']
+            course.email = form.cleaned_data['email']
+            course.ic_number = form.cleaned_data['ic_number']
+            course.save()
+
+            messages.success(request, _('Your course has been change successfully.'))
+            return HttpResponseRedirect('/')
+        else:
+            messages.warning(request, form.errors)
+
+    else:
+        form = CourseForm(instance=request.user)
+
+    context = {
+        'title': page_title,
+        'form': form,
+    }
+
+    return render(request, 'course/course_change.html', context)
+
