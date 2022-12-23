@@ -62,12 +62,20 @@ def level_list(request):
 
 def word_list(request):
     page_title = _('Select word to change')
+
+    course_id = request.POST.get('course_id')
+
     data_word =   Word.objects.all()
+    level_items = Level.objects.filter(course=course_id)
+
+    print("course_id", course_id)
+    print("level_items", level_items)
 
 
     context = {
         'title': page_title,
         'data_word': data_word,
+        'level_items': level_items,
     }
 
     return render(request,'course/word_list.html', context)

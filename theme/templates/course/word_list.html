@@ -90,16 +90,26 @@
 		<tbody>
 			{% for item in data_word %}
 			<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
-				<td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select"></td>
-				<td class="field-id"><a href="/admin/course/word/1/change/">{{ item.id }}</a></td>
-				<td class="field-word"><input type="text" name="form-0-word" value="Hi" class="vTextField" maxlength="200" id="id_form-0-word"></td>
-				<td class="field-description"><input type="text" name="form-0-description" value="Cześć" class="vTextField" maxlength="200" id="id_form-0-description"></td>
-				<td class="field-course nowrap">{{ item.course }}</td>
+				<td class="action-checkbox">
+					<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
+				</td>
+				<td class="field-id">
+					<a href="/admin/course/word/1/change/">{{ item.id }}</a>
+				</td>
+				<td class="field-word">
+					<input type="text" name="form-0-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_form-0-word">
+				</td>
+				<td class="field-description">
+					<input type="text" name="form-0-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_form-0-description">
+				</td>
+				<td class="field-course nowrap">
+					{{ item.course }}
+				</td>
 				<td class="field-level nowrap">
 					<div class="related-widget-wrapper" data-model-ref="level">
 						<select name="form-0-level" id="id_form-0-level">
-							{% for item in level_items %}
-							<option value="{{ item.id }}"{% if item.id == item_id %}selected="selected"{% endif %}>{{ item.name }}</option>
+							{% for level in level_items %}
+							<option value="{{ level.id }}"{% if level.id == item_id %}selected="selected"{% endif %}>{{ level.name }}</option>
 							{% endfor %}
 						</select>
 						<a class="related-widget-wrapper-link change-related" id="change_id_form-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"data-popup="yes" title="Change selected level">
@@ -116,7 +126,9 @@
 						</a>
 					</div>
 				</td>
-				<td class="field-is_active"><img src="/static/admin/img/icon-yes.svg" alt="True"></td>
+				<td class="field-is_active">
+					<img src="/static/admin/img/icon-yes.svg" alt="True">
+				</td>
 			</tr>
 			{% endfor %}
 		</tbody>
@@ -125,3 +137,16 @@
 
 
 {% endblock content %}
+
+{% block extra_javascript %}
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+	var course = "{{ item.course }}";
+	// var courseId = $(".field-course").val();
+
+	console.log("course", course);
+});
+</script>
+{% endblock %}
