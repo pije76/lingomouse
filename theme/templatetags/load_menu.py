@@ -26,3 +26,10 @@ def app_list():
 	app_list = chain(course_course, course_level, course_word, config_country, config_language)
 
 	return app_list
+
+
+@register.filter
+# @register.filter(name='get_class')
+def get_class(value):
+    return value.__class__.__name__
+    # return value._meta.model.__name__

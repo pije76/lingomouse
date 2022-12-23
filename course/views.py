@@ -38,6 +38,11 @@ def course_list(request):
     page_title = _('Select course to change')
     data_course =   Course.objects.all()
 
+    if (request.POST.get('field_is_active')) == "True":
+        field_is_active =  "True"
+    else:
+        field_is_active =  "False"
+
     context = {
         'title': page_title,
         'data_course': data_course,
