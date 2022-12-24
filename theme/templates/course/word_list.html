@@ -1,6 +1,7 @@
 {% extends "base_site.html" %}
 {% load i18n static %}
 
+
 {% block extrastyle %}
 {{ block.super }}
 {% if cl.formset %}
@@ -24,8 +25,7 @@
 
 {% block bodyclass %}
 {{ block.super }}
-
- {% endblock bodyclass %}
+{% endblock bodyclass %}
 
 {% block object-tools %}
 {% if not is_popup %}
@@ -41,100 +41,101 @@
 
 {% block content %}
 
-<div class="results block w-full overflow-x-auto">
-	<table id="result_list" class="items-center w-full bg-transparent border-collapse">
-		<thead>
-			<tr>
-				<th scope="col"  class="action-checkbox-column">
-					<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-id sorted ascending">
-					<div class="sortoptions">
-						<a class="sortremove" href="?o=-6" title="Remove from sorting"></a>
-						<span class="sortpriority" title="Sorting priority: 2">2</span>
-						<a href="?o=-6.-1" class="toggle ascending" title="Toggle sorting"></a>
-					</div>
+	<main class="relative pt-16 bg-slate-100 min-h-screen">
+	<div class="results block w-full overflow-x-auto">
+		<table id="result_list" class="items-center w-full bg-transparent border-collapse">
+			<thead>
+				<tr>
+					<th scope="col"  class="action-checkbox-column">
+						<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+						<div class="clear"></div>
+					</th>
+					<th scope="col"  class="sortable column-id sorted ascending">
+						<div class="sortoptions">
+							<a class="sortremove" href="?o=-6" title="Remove from sorting"></a>
+							<span class="sortpriority" title="Sorting priority: 2">2</span>
+							<a href="?o=-6.-1" class="toggle ascending" title="Toggle sorting"></a>
+						</div>
 
-					<div class="text"><a href="?o=-1.-6">ID</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-word">
-					<div class="text"><a href="?o=2.-6.1">Foreign</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-description">
-					<div class="text"><a href="?o=3.-6.1">Native</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-course">
-					<div class="text"><a href="?o=4.-6.1">Course</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-level">
-					<div class="text"><a href="?o=5.-6.1">Level</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-is_active sorted descending">
-					<div class="sortoptions">
-						<a class="sortremove" href="?o=1" title="Remove from sorting"></a>
-						<span class="sortpriority" title="Sorting priority: 1">1</span>
-						<a href="?o=6.1" class="toggle descending" title="Toggle sorting"></a>
-					</div>
-					<div class="text"><a href="?o=6.1">Is active</a></div>
-					<div class="clear"></div>
-				</th>
-			</tr>
-		</thead>
+						<div class="text"><a href="?o=-1.-6">ID</a></div>
+						<div class="clear"></div>
+					</th>
+					<th scope="col"  class="sortable column-word">
+						<div class="text"><a href="?o=2.-6.1">Foreign</a></div>
+						<div class="clear"></div>
+					</th>
+					<th scope="col"  class="sortable column-description">
+						<div class="text"><a href="?o=3.-6.1">Native</a></div>
+						<div class="clear"></div>
+					</th>
+					<th scope="col"  class="sortable column-course">
+						<div class="text"><a href="?o=4.-6.1">Course</a></div>
+						<div class="clear"></div>
+					</th>
+					<th scope="col"  class="sortable column-level">
+						<div class="text"><a href="?o=5.-6.1">Level</a></div>
+						<div class="clear"></div>
+					</th>
+					<th scope="col"  class="sortable column-is_active sorted descending">
+						<div class="sortoptions">
+							<a class="sortremove" href="?o=1" title="Remove from sorting"></a>
+							<span class="sortpriority" title="Sorting priority: 1">1</span>
+							<a href="?o=6.1" class="toggle descending" title="Toggle sorting"></a>
+						</div>
+						<div class="text"><a href="?o=6.1">Is active</a></div>
+						<div class="clear"></div>
+					</th>
+				</tr>
+			</thead>
 
-		<tbody>
-			{% for item in data_word %}
-			<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
-				<td class="action-checkbox">
-					<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
-				</td>
-				<td class="field-id">
-					<a href="/admin/course/word/1/change/">{{ item.id }}</a>
-				</td>
-				<td class="field-word">
-					<input type="text" name="form-{{ item.id }}-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-word">
-				</td>
-				<td class="field-description">
-					<input type="text" name="form-{{ item.id }}-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-description">
-				</td>
-				<td class="field-course nowrap">
-					{{ item.course }}
-				</td>
-				<td class="field-level nowrap">
-					<div class="related-widget-wrapper" data-model-ref="level">
-						<select name="form-{{ item.id }}-level" id="id_form-{{ item.id }}-level">
-							{% for level in level_items %}
-							<option value="{{ level.id }}"{% if level.id == item_id %}selected="selected"{% endif %}>{{ level.name }}</option>
-							{% endfor %}
-						</select>
-						<a class="related-widget-wrapper-link change-related" id="change_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"data-popup="yes" title="Change selected level">
-							<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
-						</a>
-						<a class="related-widget-wrapper-link add-related" id="add_id_form-{{ item.id }}-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-							<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
-						</a>
-						<a class="related-widget-wrapper-link delete-related" id="delete_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
-							<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
-						</a>
-						<a class="related-widget-wrapper-link view-related" id="view_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
-							<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
-						</a>
-					</div>
-				</td>
-				<td class="field-is_active">
-					{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}
-				</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
-
+			<tbody>
+				{% for item in data_word %}
+				<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
+					<td class="action-checkbox">
+						<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
+					</td>
+					<td class="field-id">
+						<a href="/admin/course/word/1/change/">{{ item.id }}</a>
+					</td>
+					<td class="field-word">
+						<input type="text" name="form-{{ item.id }}-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-word">
+					</td>
+					<td class="field-description">
+						<input type="text" name="form-{{ item.id }}-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-description">
+					</td>
+					<td class="field-course nowrap">
+						{{ item.course }}
+					</td>
+					<td class="field-level nowrap">
+						<div class="related-widget-wrapper" data-model-ref="level">
+							<select name="form-{{ item.id }}-level" id="id_form-{{ item.id }}-level">
+								{% for level in level_items %}
+								<option value="{{ level.id }}"{% if level.id == item_id %}selected="selected"{% endif %}>{{ level.name }}</option>
+								{% endfor %}
+							</select>
+							<a class="related-widget-wrapper-link change-related" id="change_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"data-popup="yes" title="Change selected level">
+								<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
+							</a>
+							<a class="related-widget-wrapper-link add-related" id="add_id_form-{{ item.id }}-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+								<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
+							</a>
+							<a class="related-widget-wrapper-link delete-related" id="delete_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+								<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
+							</a>
+							<a class="related-widget-wrapper-link view-related" id="view_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+								<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
+							</a>
+						</div>
+					</td>
+					<td class="field-is_active">
+						{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</main>
 
 {% endblock content %}
 
