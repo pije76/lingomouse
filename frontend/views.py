@@ -13,7 +13,7 @@ from operator import itemgetter
 from config.models import *
 from course.models import *
 
-@login_required()
+
 def index(request):
 	page_title = _('Frontend')
 

@@ -13,11 +13,11 @@ urlpatterns = [
     path('level/', level_list, name="level_list"),
     path('word/', word_list, name="word_list"),
 
-    path('course/<int:pk>/change/', change_course, name='change_course'),
-    path('level/<int:pk>/change/', change_level, name='change_level'),
-    path('word/<int:pk>/change/', change_word, name='change_word'),
+    path('course/<int:pk>/change/', course_detail, name='course_detail'),
+    path('level/<int:pk>/change/', level_detail, name='level_detail'),
+    path('word/<int:pk>/change/', word_detail, name='word_detail'),
 
-    path('course/add/', add_course, name='add_course'),
+    path('course/add/', course_add, name='course_add'),
 
 ]
 

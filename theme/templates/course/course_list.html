@@ -55,7 +55,7 @@
 		<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
 			<ul class="object-tools mt-0">
 				<li>
-					<a href="{% url 'course:add_course' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Add course</a>
+					<a href="{% url 'course:course_add' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Add course</a>
 				</li>
 				<li>
 					<div class="float-right mb-2">
@@ -77,6 +77,11 @@
 
 		<div class="px-4 lg:px-10 mx-auto w-full">
 			<div class="w-full pb-12">
+
+				<div id="changelist-filter" class="block float-right">
+					<div class="float-right pb-2 pr-2">
+					</div>
+				</div>
 
 				<div class="relative relative-change flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
 					<div class="module filtered" id="changelist">
@@ -150,7 +155,7 @@
 											{% for item in data_course %}
 											<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
 												<td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select"></td>
-												<td class="field-pk"><a href="{% url 'course:change_course' item.id %}">{{ item.id }}</a></td>
+												<td class="field-pk"><a href="{% url 'course:course_detail' item.id %}">{{ item.id }}</a></td>
 												<td class="field-name">{{ item.name }}</td>
 												<td class="field-description">{{ item.description }}</td>
 												<td class="field-native nowrap">{{ item.native }}</td>

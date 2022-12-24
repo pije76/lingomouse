@@ -70,7 +70,7 @@
 			{% for item in data_level %}
 			<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
 				<td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select"></td>
-				<td class="field-id"><a href="{% url 'course:change_level' item.id %}">{{ item.id }}</a></td>
+				<td class="field-id"><a href="{% url 'course:level_detail' item.id %}">{{ item.id }}</a></td>
 				<td class="field-name">{{ item.name }}</td>
 				<td class="field-course nowrap">{{ item.course }}</td>
 				<td class="field-word_count">{{ item.word_count }}</td>

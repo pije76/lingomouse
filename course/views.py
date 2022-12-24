@@ -86,7 +86,7 @@ def word_list(request):
     return render(request,'course/word_list.html', context)
 
 
-def change_course(request, pk):
+def course_detail(request, pk):
     page_title = _('Change Course')
     course = get_object_or_404(Course, id=pk)
     word = Word.objects.all()
@@ -118,10 +118,10 @@ def change_course(request, pk):
         'word': word,
     }
 
-    return render(request, 'course/course_change.html', context)
+    return render(request, 'course/course_detail.html', context)
 
 
-def change_level(request, pk):
+def level_detail(request, pk):
     page_title = _('Change Level')
     form = CourseForm(prefix='level')
 
@@ -148,10 +148,10 @@ def change_level(request, pk):
         'form': form,
     }
 
-    return render(request, 'course/level_change.html', context)
+    return render(request, 'course/level_detail.html', context)
 
 
-def change_word(request, pk):
+def word_detail(request, pk):
     page_title = _('Change Word')
     form = CourseForm(prefix='word')
 
@@ -178,11 +178,11 @@ def change_word(request, pk):
         'form': form,
     }
 
-    return render(request, 'course/word_change.html', context)
+    return render(request, 'course/word_detail.html', context)
 
 
 
-def add_course(request):
+def course_add(request):
     page_title = _('Change Course')
     # course = get_object_or_404(Course, id=pk)
     word = Word.objects.all()
