@@ -55,7 +55,7 @@
 		<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
 			<ul class="object-tools mt-0">
 				<li>
-					<a href="/admin/course/course/add/" class="bg-green-500 hover:bg-green-600 text-white add-button">Add course</a>
+					<a href="/course/course/add/" class="bg-green-500 hover:bg-green-600 text-white add-button">Add course</a>
 				</li>
 				<li>
 					<div class="float-right mb-2">
@@ -63,7 +63,7 @@
 							<form id="changelist-search" method="get">
 								<div class="relative flex focus:ring rounded shadow bg-white">
 									<span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
-										<img src="/static/admin/img/search.svg" alt="Search">
+										<img src="{% static "admin/img/search.svg" %}" alt="Search">
 									</span>
 									<input id="searchbar" name="q" value="" type="text" placeholder="Search here..." class="placeholder-slate-300 text-slate-600 bg-white text-sm outline-none focus:outline-none border-0 p-2 pl-10 rounded-l">
 									<input type="submit" value="Search" class="text-sm h-full p-3 rounded-r">
