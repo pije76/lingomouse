@@ -67,9 +67,7 @@ def level_list(request):
 
 def word_list(request):
     page_title = _('Select word to change')
-
-    course_id = request.POST.get('course_id')
-
+    course_id = request.POST.get('course')
     data_word =   Word.objects.all()
     level_items = Level.objects.filter(course=course_id)
 
