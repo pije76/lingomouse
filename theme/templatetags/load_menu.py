@@ -7,29 +7,13 @@ from course.models import *
 
 register = template.Library()
 
-@register.simple_tag
-def app_list():
+@register.simple_tag(takes_context=True)
+def url_active(context, *args, **kwargs):
+	if 'request' not in context:
+		return ''
 
-	course_course = Course.objects.all()
-	course_level = Level.objects.all()
-	course_word = Word.objects.all()
-
-	course_list = config_country | config_language
-
-	config_country = Country.objects.all()
-	config_language = Language.objects.all()
-
-	config_list = config_country | config_language
-
-	# app_list = course_list | config_list
-
-	app_list = chain(course_course, course_level, course_word, config_country, config_language)
-
-	return app_list
-
-
-@register.filter
-# @register.filter(name='get_class')
-def get_class(value):
-    return value.__class__.__name__
-    # return value._meta.model.__name__
+	request = context['request']
+	if request.resolver_match.url_name in args:
+		return kwargs['active'] if 'active' in kwargs else 'inactive'
+	else:
+		return 'border-white text-gray-500'
