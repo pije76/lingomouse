@@ -1,6 +1,10 @@
 {% extends "base_detail.html" %}
 {% load i18n static paginator %}
 
+{% block title %}
+{{ course.name }} | {{ title }}
+{% endblock title %}
+
 {# note: content #}
 {% block content %}
 
@@ -40,6 +44,8 @@
 						</div>
 					</div>
 
+					<form enctype="multipart/form-data" method="post" id="course_form" novalidate>
+
 					<div>
 						<div class="submit-row">
 							<input type="submit" value="Save" class="default" name="_save">
@@ -70,16 +76,16 @@
 										<option value="2">English</option>
 									</select>
 									<a class="related-widget-wrapper-link change-related" id="change_id_native" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language" href="/admin/config/language/3/change/?_to_field=id&amp;_popup=1">
-										<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+										<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
 									</a>
 									<a class="related-widget-wrapper-link add-related" id="add_id_native" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
-										<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+										<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
 									</a>
 									<a class="related-widget-wrapper-link delete-related" id="delete_id_native" data-href-template="/admin/config/language/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected language" href="/admin/config/language/3/delete/?_to_field=id&amp;_popup=1">
-										<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+										<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
 									</a>
 									<a class="related-widget-wrapper-link view-related" id="view_id_native" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language" href="/admin/config/language/3/change/?_to_field=id">
-										<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+										<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
 									</a>
 								</div>
 							</div>
@@ -95,16 +101,16 @@
 										<option value="2" selected="">English</option>
 									</select>
 									<a class="related-widget-wrapper-link change-related" id="change_id_foreign" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language" href="/admin/config/language/2/change/?_to_field=id&amp;_popup=1">
-										<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+										<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
 									</a>
 									<a class="related-widget-wrapper-link add-related" id="add_id_foreign" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
-										<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+										<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
 									</a>
 									<a class="related-widget-wrapper-link delete-related" id="delete_id_foreign" data-href-template="/admin/config/language/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected language" href="/admin/config/language/2/delete/?_to_field=id&amp;_popup=1">
-										<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+										<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
 									</a>
 									<a class="related-widget-wrapper-link view-related" id="view_id_foreign" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language" href="/admin/config/language/2/change/?_to_field=id">
-										<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+										<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
 									</a>
 								</div>
 							</div>
@@ -323,16 +329,16 @@
 														<option value="7">Level 3</option>
 													</select>
 													<a class="related-widget-wrapper-link change-related" id="change_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
-														<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+														<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
 													</a>
 													<a class="related-widget-wrapper-link add-related" id="add_id_words-0-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-														<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+														<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
 													</a>
 													<a class="related-widget-wrapper-link delete-related" id="delete_id_words-0-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level" href="/admin/course/level/5/delete/?_to_field=id&amp;_popup=1">
-														<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+														<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
 													</a>
 													<a class="related-widget-wrapper-link view-related" id="view_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level" href="/admin/course/level/5/change/?_to_field=id">
-														<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+														<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
 													</a>
 												</div>
 											</td>
@@ -372,16 +378,16 @@
 														<option value="7">Level 3</option>
 													</select>
 													<a class="related-widget-wrapper-link change-related" id="change_id_words-1-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
-														<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+														<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
 													</a>
 													<a class="related-widget-wrapper-link add-related" id="add_id_words-1-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-														<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+														<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
 													</a>
 													<a class="related-widget-wrapper-link delete-related" id="delete_id_words-1-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level" href="/admin/course/level/5/delete/?_to_field=id&amp;_popup=1">
-														<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+														<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
 													</a>
 													<a class="related-widget-wrapper-link view-related" id="view_id_words-1-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level" href="/admin/course/level/5/change/?_to_field=id">
-														<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+														<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
 													</a>
 												</div>
 											</td>
@@ -418,16 +424,16 @@
 														<option value="7">Level 3</option>
 													</select>
 													<a class="related-widget-wrapper-link change-related" id="change_id_words-2-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
-														<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+														<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
 													</a>
 													<a class="related-widget-wrapper-link add-related" id="add_id_words-2-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-														<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+														<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
 													</a>
 													<a class="related-widget-wrapper-link delete-related" id="delete_id_words-2-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level" href="/admin/course/level/5/delete/?_to_field=id&amp;_popup=1">
-														<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+														<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
 													</a>
 													<a class="related-widget-wrapper-link view-related" id="view_id_words-2-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level" href="/admin/course/level/5/change/?_to_field=id">
-														<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+														<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
 													</a>
 												</div>
 											</td>
@@ -472,16 +478,16 @@
 														<option value="8">English MasterClass - Level 5</option>
 													</select>
 													<a class="related-widget-wrapper-link change-related" id="change_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
-														<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+														<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
 													</a>
 													<a class="related-widget-wrapper-link add-related" id="add_id_words-__prefix__-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-														<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+														<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
 													</a>
 													<a class="related-widget-wrapper-link delete-related" id="delete_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
-														<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+														<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
 													</a>
 													<a class="related-widget-wrapper-link view-related" id="view_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
-														<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+														<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
 													</a>
 												</div>
 											</td>
@@ -512,7 +518,9 @@
 						<input type="submit" value="Save and continue editing" name="_continue">
 					</div>
 				</div>
+				</form>
 				</div>
+				<br class="clear"/>
 			</div>
 		</div>
 	</div>

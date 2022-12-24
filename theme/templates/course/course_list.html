@@ -96,7 +96,7 @@
 				<td class="field-native nowrap">{{ item.native }}</td>
 				<td class="field-foreign nowrap">{{ item.foreign }}</td>
 				<td class="field-image">{{ item.img }}</td>
-				<td class="field-is_active">{% if item.is_active == True %} <img src="/static/admin/img/icon-yes.svg" alt="True"> {% else %} <img src="/static/admin/img/icon-no.svg" alt="False"> {% endif %}</td>
+				<td class="field-is_active">{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}</td>
 			</tr>
 			{% endfor %}
 		</tbody>
