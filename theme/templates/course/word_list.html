@@ -41,7 +41,7 @@
 
 {% block content %}
 
-	<main class="relative pt-16 bg-slate-100 min-h-screen">
+<main class="relative pt-16 bg-slate-100 min-h-screen">
 	<div class="results block w-full overflow-x-auto">
 		<table id="result_list" class="items-center w-full bg-transparent border-collapse">
 			<thead>
@@ -146,8 +146,8 @@ $(document).ready(function()
 {
 	$("td.field-course").each(function()
 	{
-		var quantity1 = $(this).text();
-		// console.log("quantity1", quantity1);
+		var course = $(this).text();
+		console.log("course", course);
 	})
 
 	// var courseId = "form-{{ item.id }}-course";
