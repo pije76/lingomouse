@@ -56,13 +56,13 @@
 						<fieldset class="module aligned shadow-lg rounded">
 							<div class="form-row field-id"><div>
 								<label class="required" for="id_id">Id:</label>
-								<input type="text" name="id" value="98764" class="vTextField" maxlength="200" required="" id="id_id">
+								<input type="text" name="id" value="{{ course.id }}" class="vTextField" maxlength="200" required="" id="id_id">
 							</div>
 						</div>
 						<div class="form-row field-name">
 							<div>
 								<label class="required" for="id_name">Name:</label>
-								<input type="text" name="name" value="Tagalog MasterClass" class="vTextField" maxlength="200" required="" id="id_name">
+								<input type="text" name="name" value="{{ course.name }}" class="vTextField" maxlength="200" required="" id="id_name">
 							</div>
 						</div>
 						<div class="form-row field-native">
@@ -118,7 +118,7 @@
 						<div class="form-row field-description">
 							<div>
 								<label for="id_description">Description:</label>
-								<textarea name="description" cols="40" rows="10" class="vLargeTextField" maxlength="1000" id="id_description"></textarea>
+								<textarea name="description" cols="40" rows="10" class="vLargeTextField" maxlength="1000" id="id_description">{{ course.description }}</textarea>
 							</div>
 						</div>
 						<div class="form-row field-image">

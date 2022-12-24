@@ -89,6 +89,7 @@ def word_list(request):
 def change_course(request, pk):
     page_title = _('Change Course')
     course = get_object_or_404(Course, id=pk)
+    word = Word.objects.all()
 
     form = CourseForm(prefix='course')
 
@@ -114,6 +115,7 @@ def change_course(request, pk):
         'title': page_title,
         'form': form,
         'course': course,
+        'word': word,
     }
 
     return render(request, 'course/course_change.html', context)
