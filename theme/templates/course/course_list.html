@@ -41,66 +41,128 @@
 
 {% block content %}
 
-<div class="results block w-full overflow-x-auto">
-	<table id="result_list" class="items-center w-full bg-transparent border-collapse">
-		<thead>
-			<tr>
-				<th scope="col"  class="action-checkbox-column" >
-					<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="column-pk" >
-
-					<div class="text"><span>Pk</span></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-name sorted ascending">
-					<div class="sortoptions">
-						<a class="sortremove" href="?o=" title="Remove from sorting"></a>
-						<a href="?o=-2" class="toggle ascending" title="Toggle sorting"></a>
+<main class="relative pt-16 bg-slate-100 min-h-screen ">
+	<div class="container w-full mx-auto">
+		<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
+			<ul class="object-tools mt-0">
+				<li>
+					<a href="/admin/course/course/add/" class="bg-green-500 hover:bg-green-600 text-white add-button">Add course</a>
+				</li>
+				<li>
+					<div class="float-right mb-2">
+						<div id="toolbar">
+							<form id="changelist-search" method="get">
+								<div class="relative flex focus:ring rounded shadow bg-white">
+									<span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
+										<img src="/static/admin/img/search.svg" alt="Search"/>
+									</span>
+									<input id="searchbar" name="q" value="" type="text" placeholder="Search here..." class="placeholder-slate-300 text-slate-600 bg-white text-sm outline-none focus:outline-none border-0 p-2 pl-10 rounded-l" />
+									<input type="submit" value="Search" class="text-sm h-full p-3 rounded-r"/>
+								</div>
+							</form>
+						</div>
 					</div>
+				</li>
+			</ul>
+		</div>
 
-					<div class="text"><a href="?o=-2">Name</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-description" >
-					<div class="text"><a href="?o=3.2">Description</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-native" >
-					<div class="text"><a href="?o=4.2">Native</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-foreign" >
-					<div class="text"><a href="?o=5.2">Foreign</a></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="column-image" >
-					<div class="text"><span>Image</span></div>
-					<div class="clear"></div>
-				</th>
-				<th scope="col"  class="sortable column-is_active" >
-					<div class="text"><a href="?o=7.2">Is active?</a></div>
-					<div class="clear"></div>
-				</th>
-			</tr>
-		</thead>
+		<div class="px-4 lg:px-10 mx-auto w-full">
+			<div class="w-full pb-12">
 
-		<tbody>
-			{% for item in data_course %}
-			<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
-				<td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select"></td>
-				<td class="field-pk"><a href="{% url 'course:change_course' item.id %}">{{ item.id }}</a></td>
-				<td class="field-name">{{ item.name }}</td>
-				<td class="field-description">{{ item.description }}</td>
-				<td class="field-native nowrap">{{ item.native }}</td>
-				<td class="field-foreign nowrap">{{ item.foreign }}</td>
-				<td class="field-image">{{ item.img }}</td>
-				<td class="field-is_active">{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-	</table>
-</div>
+				<div class="relative relative-change flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
+					<div class="module filtered" id="changelist">
+						<div class="changelist-form-container">
+
+							<form id="changelist-form" method="post" novalidate>
+								<div class="rounded-t mb-0 px-4 py-3 border-0">
+									<div class="flex flex-wrap justify-between items-center">
+										<div class="relative max-w-full flex-grow text-slate-700 dark:text-slate-200">
+											<div class="actions">
+												<label>Action:
+													<select name="action" required>
+														<option value="" selected>---------</option>
+														<option value="delete_selected">Delete selected courses</option>
+													</select>
+												</label>
+												<input type="hidden" name="select_across" value="0" class="select-across">
+												<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+												<span class="action-counter" data-actions-icnt="2">0 of 2 selected</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="results block w-full overflow-x-auto">
+									<table id="result_list" class="items-center w-full bg-transparent border-collapse">
+										<thead>
+											<tr>
+												<th scope="col"  class="action-checkbox-column" >
+													<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="column-pk" >
+
+													<div class="text"><span>Pk</span></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-name sorted ascending">
+													<div class="sortoptions">
+														<a class="sortremove" href="?o=" title="Remove from sorting"></a>
+														<a href="?o=-2" class="toggle ascending" title="Toggle sorting"></a>
+													</div>
+
+													<div class="text"><a href="?o=-2">Name</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-description" >
+													<div class="text"><a href="?o=3.2">Description</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-native" >
+													<div class="text"><a href="?o=4.2">Native</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-foreign" >
+													<div class="text"><a href="?o=5.2">Foreign</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="column-image" >
+													<div class="text"><span>Image</span></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-is_active" >
+													<div class="text"><a href="?o=7.2">Is active?</a></div>
+													<div class="clear"></div>
+												</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											{% for item in data_course %}
+											<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
+												<td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select"></td>
+												<td class="field-pk"><a href="{% url 'course:change_course' item.id %}">{{ item.id }}</a></td>
+												<td class="field-name">{{ item.name }}</td>
+												<td class="field-description">{{ item.description }}</td>
+												<td class="field-native nowrap">{{ item.native }}</td>
+												<td class="field-foreign nowrap">{{ item.foreign }}</td>
+												<td class="field-image">{{ item.img }}</td>
+												<td class="field-is_active">{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+
+								<p class="paginator">2 courses</p>
+							</form>
+						</div>
+					</div>
+				</div>
+				<br class="clear"/>
+			</div>
+		</div>
+	</div>
+</main>
 
 {% endblock content %}
