@@ -76,9 +76,9 @@
 					</a>
 
 					<!-- the menu here -->
-					<div class="absolute hidden peer-hover:flex hover:flex w-[300px]  flex-col bg-white drop-shadow-lg">
-						<a class="px-5 py-3 hover:bg-gray-500" href="{% url 'config:country_list' %}" title="Countries">Countries</a>
-						<a class="px-5 py-3 hover:bg-gray-500" href="{% url 'config:language_list' %}" title="Languages">Languages</a>
+					<div class="absolute hidden peer-hover:flex hover:flex w-[300px] flex-col bg-white drop-shadow-lg">
+						<a class="px-5 py-3 hover:bg-gray-500 {% suburl_active "country_list" active="bg-gray-200" %}" href="{% url 'config:country_list' %}" title="Countries">Countries</a>
+						<a class="px-5 py-3 hover:bg-gray-500 {% suburl_active "language_list" active="bg-gray-200" %}" href="{% url 'config:language_list' %}" title="Languages">Languages</a>
 					</div>
 				</li>
 
@@ -88,7 +88,7 @@
 					</a>
 
 					<!-- the menu here -->
-					<div class="absolute hidden peer-hover:flex hover:flex w-[300px]  flex-col bg-white drop-shadow-lg">
+					<div class="absolute hidden peer-hover:flex hover:flex w-[300px] flex-col bg-white drop-shadow-lg">
 						<a class="px-5 py-3 hover:bg-gray-500 {% suburl_active "course_list" active="bg-gray-200" %}" href="{% url 'course:course_list' %}" title="Course">Courses</a>
 						<a class="px-5 py-3 hover:bg-gray-500 {% suburl_active "level_list" active="bg-gray-200" %}" href="{% url 'course:level_list' %}" title="Level">Levels</a>
 						<a class="px-5 py-3 hover:bg-gray-500 {% suburl_active "word_list" active="bg-gray-200" %}" href="{% url 'course:word_list' %}" title="Words">Words</a>
