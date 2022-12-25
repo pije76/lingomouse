@@ -70,10 +70,6 @@ def word_list(request):
     data_word =   Word.objects.all()
     level_items = Level.objects.filter(course=course_id)
 
-    print("course_id", course_id)
-    print("level_items", level_items)
-
-
     context = {
         'title': page_title,
         'data_word': data_word,
