@@ -117,6 +117,7 @@ def course_detail(request, pk):
 def level_detail(request, pk):
     page_title = _('Change Level')
     form = CourseForm(prefix='level')
+    level = get_object_or_404(Level, id=pk)
 
     if request.method == 'POST':
         form = CourseForm(request.POST or None, instance=request.user)
@@ -139,6 +140,7 @@ def level_detail(request, pk):
     context = {
         'title': page_title,
         'form': form,
+        'level': level,
     }
 
     return render(request, 'course/level_detail.html', context)

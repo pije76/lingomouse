@@ -1,5 +1,10 @@
-{% extends "course/change_form.html" %}
-{% load i18n static admin_modify paginator %}
+{% extends "base_detail.html" %}
+{% load i18n static paginator %}
+
+{% block title %}
+{{ course.name }} | {{ title }}
+{% endblock title %}
+
 {# note: content #}
 {% block content %}
     <div id="content-main">

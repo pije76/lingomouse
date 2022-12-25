@@ -163,7 +163,7 @@
 													<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
 												</td>
 												<td class="field-id">
-													<a href="/admin/course/word/1/change/">{{ item.id }}</a>
+													<a href="{% url 'course:word_detail' item.id %}">{{ item.id }}</a>
 												</td>
 												<td class="field-word">
 													<input type="text" name="form-{{ item.id }}-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-word">
