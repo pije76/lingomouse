@@ -51,7 +51,7 @@
 			<div class="px-4 lg:px-10 mx-auto w-full">
 				<h1 class="font-normal text-xl md:text-2xl">Select level to change</h1>
 				<hr class="md:min-w-full" />
-				<a href="/admin/">Home</a>
+				<a href="/">Home</a>
 				> Select level to change
 			</div>
 		</div>
@@ -59,7 +59,7 @@
 		<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
 			<ul class="object-tools mt-0">
 				<li>
-					<a href="/admin/course/level/add/" class="bg-green-500 hover:bg-green-600 text-white add-button">Add level</a>
+					<a href="{% url 'course:level_add' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Add level</a>
 				</li>
 				<li>
 					<div class="float-right mb-2">
