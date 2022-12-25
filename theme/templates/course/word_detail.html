@@ -2,67 +2,197 @@
 {% load i18n static paginator %}
 
 {% block title %}
-{{ course.name }} | {{ title }}
+{{ word.word }} - {{ word.description }} | {{ title }}
 {% endblock title %}
 
 {# note: content #}
 {% block content %}
-    <div id="content-main">
-        {% if original %}
-            {% paginator %}
-        {% endif %}
-        <form {% if has_file_field %}enctype="multipart/form-data"{% endif %}
-              {% if form_url %}action="{{ form_url }}"{% endif %}
-              method="post"
-              id="{{ opts.model_name }}_form"
-              novalidate>
-            {% csrf_token %}
-            {% block form_top %}
-            {% endblock form_top %}
-            <div class="block md:grid md:grid-cols-2 gap-2">
-                {% if is_popup %}<input type="hidden" name="{{ is_popup_var }}" value="1"/>{% endif %}
-                {% if to_field %}<input type="hidden" name="{{ to_field_var }}" value="{{ to_field }}"/>{% endif %}
-                <div class="col-span-2">
-                    {% if save_on_top %}
-                        {% block submit_buttons_top %}
-                            {% submit_row %}
-                        {% endblock submit_buttons_top %}
-                    {% endif %}
-                    {% if errors %}
-                        <p class="errornote">
-                            {% if errors|length == 1 %}
-                                {% translate "Please correct the error below." %}
-                            {% else %}
-                                {% translate "Please correct the errors below." %}
-                            {% endif %}
-                        </p>
-                        {{ adminform.form.non_field_errors }}
-                    {% endif %}
+
+<main class="relative pt-16 bg-slate-100 min-h-screen">
+    <div class="container w-full mx-auto">
+        <div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+            <div class="px-4 lg:px-10 mx-auto w-full">
+                <h1 class="font-normal text-xl md:text-2xl">Change word</h1>
+                <h2 class="font-medium">{{ word.word }} - {{ word.description }}</h2>
+                <hr class="md:min-w-full" />
+                <div class="breadcrumbs">
+                    <a href="/">Home</a>
+                    &rsaquo; <a href="/course/">Course</a>
+                    &rsaquo; <a href="/course/word/">Words</a>
+                    &rsaquo; {{ word.word }} - {{ word.description }}
                 </div>
-                {% block field_sets %}
-                    {% for fieldset in adminform %}
-                        {% include "admin/includes/fieldset.html" %}
-                    {% endfor %}
-                {% endblock field_sets %}
-                {% block inline_field_sets %}
-                    {% for inline_admin_formset in inline_admin_formsets %}
-                        {% include inline_admin_formset.opts.template %}
-                    {% endfor %}
-                {% endblock inline_field_sets %}
-                <div class="col-span-2">
-                    {% block after_related_objects %}
-                    {% endblock after_related_objects %}
-                    {% block submit_buttons_bottom %}
-                        {% submit_row %}
-                    {% endblock submit_buttons_bottom %}
-                </div>
-                {% block admin_change_form_document_ready %}
-                    <script id="django-admin-form-add-constants" src="{% static 'admin/js/change_form.js' %}" {% if adminform and add %} data-model-name="{{ opts.model_name }}"{% endif %} async>
-                    </script>
-                {% endblock admin_change_form_document_ready %}
-                {# JavaScript for prepopulated fields #}
-                {% prepopulated_fields_js %}
             </div>
-        </form>
+        </div>
+        <div class="flex md:justify-end p-3 md:px-10">
+            <ul class="object-tools mt-0">
+                <li>
+                    <a href="/admin/course/word/2/history/" class="historylink">History</a>
+                </li>
+            </ul>
+        </div>
+        <div class="px-4 lg:px-10 mx-auto w-full">
+            <div class="w-full pb-12">
+                <div id="content-main">
+                    <div class="pager flex justify-end">
+                        <div class="block">
+                            <span class="page">
+                                <a href="/admin/course/word/1/change">< Prev </a>
+                            </span>
+                            <span class="page">
+                                <a href="/admin/course/word/3/change">Next ></a>
+                            </span>
+                        </div>
+                    </div>
+                    <form enctype="multipart/form-data" method="post" id="word_form" novalidate>
+                        <div class="block md:grid md:grid-cols-2 gap-2">
+                            <div class="col-span-2"></div>
+                            <fieldset class="module aligned">
+                                <div class="form-row field-word">
+                                    <div>
+                                        <label class="required" for="id_word">Foreign:</label>
+                                        <input type="text" name="word" value="{{ word.word }}" class="vTextField" maxlength="200" required id="id_word">
+                                    </div>
+                                </div>
+                                <div class="form-row field-description">
+                                    <div>
+                                        <label class="required" for="id_description">Native:</label>
+                                        <input type="text" name="description" value="{{ word.description }}" class="vTextField" maxlength="200" required id="id_description">
+                                    </div>
+                                </div>
+                                <div class="form-row field-literal_translation">
+                                    <div>
+                                        <label for="id_literal_translation">Literal translation:</label>
+                                        <input type="text" name="literal_translation" class="{{ word.literal_translation }}" maxlength="200" id="id_literal_translation">
+                                    </div>
+                                </div>
+                                <div class="form-row field-course">
+                                    <div>
+                                        <label class="required" for="id_course">Course:</label>
+                                        <div class="related-widget-wrapper" data-model-ref="course">
+                                            <select name="course" required id="id_course">
+                                                <option value="">---------</option>
+                                                <option value="13198" selected>English MasterClass</option>
+                                                <option value="98764">Tagalog MasterClass</option>
+                                            </select>
+                                            <a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
+                                                <img src="/static/admin/img/icon-changelink.svg" alt="Change">
+                                            </a>
+                                            <a class="related-widget-wrapper-link add-related" id="add_id_course" data-popup="yes" href="/admin/course/course/add/?_to_field=id&amp;_popup=1" title="Add another course">
+                                                <img src="/static/admin/img/icon-addlink.svg" alt="Add">
+                                            </a>
+                                            <a class="related-widget-wrapper-link view-related" id="view_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id" title="View selected course">
+                                                <img src="/static/admin/img/icon-viewlink.svg" alt="View">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row field-level">
+                                    <div>
+                                        <label for="id_level">Level:</label>
+                                        <div class="related-widget-wrapper" data-model-ref="level">
+                                            <select name="level" id="id_level">
+                                                <option value="">---------</option>
+                                                <option value="1" selected>English MasterClass - Level 1</option>
+                                                <option value="5">Tagalog MasterClass - Level 1</option>
+                                                <option value="2">English MasterClass - Level 2</option>
+                                                <option value="6">Tagalog MasterClass - Level 2</option>
+                                                <option value="3">English MasterClass - Level 3</option>
+                                                <option value="7">Tagalog MasterClass - Level 3</option>
+                                                <option value="4">English MasterClass - Level 4</option>
+                                                <option value="8">English MasterClass - Level 5</option>
+                                            </select>
+                                            <a class="related-widget-wrapper-link change-related" id="change_id_level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
+                                                <img src="/static/admin/img/icon-changelink.svg" alt="Change">
+                                            </a>
+                                            <a class="related-widget-wrapper-link add-related" id="add_id_level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+                                                <img src="/static/admin/img/icon-addlink.svg" alt="Add">
+                                            </a>
+                                            <a class="related-widget-wrapper-link delete-related" id="delete_id_level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+                                                <img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+                                            </a>
+                                            <a class="related-widget-wrapper-link view-related" id="view_id_level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+                                                <img src="/static/admin/img/icon-viewlink.svg" alt="View">
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row field-is_active">
+                                    <div class="checkbox-row">
+                                        <input type="checkbox" name="is_active" id="id_is_active" checked>
+                                        <label class="vCheckboxLabel" for="id_is_active">Is active</label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="medias-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#medias&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;medias&quot;, &quot;addText&quot;: &quot;Add another Word media&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
+                                <div class="tabular inline-related last-related">
+                                    <input type="hidden" name="medias-TOTAL_FORMS" value="0" id="id_medias-TOTAL_FORMS">
+                                    <input type="hidden" name="medias-INITIAL_FORMS" value="0" id="id_medias-INITIAL_FORMS">
+                                    <input type="hidden" name="medias-MIN_NUM_FORMS" value="0" id="id_medias-MIN_NUM_FORMS">
+                                    <input type="hidden" name="medias-MAX_NUM_FORMS" value="1000" id="id_medias-MAX_NUM_FORMS">
+                                    <fieldset class="module">
+                                        <h2 class="text-slate-600 dark:text-slate-200 px-3">Word medias</h2>
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="original"></th>
+                                                    <th class="column-media_type required">Media type</th>
+                                                    <th class="column-path_to_file required">Path to file</th>
+                                                    <th>Delete?</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="form-row  empty-form" id="medias-empty">
+                                                    <td class="original">
+                                                        <input type="hidden" name="medias-__prefix__-id" id="id_medias-__prefix__-id">
+                                                        <input type="hidden" name="medias-__prefix__-word" value="2" id="id_medias-__prefix__-word">
+                                                    </td>
+                                                    <td class="field-media_type">
+                                                        <select name="medias-__prefix__-media_type" id="id_medias-__prefix__-media_type">
+                                                            <option value="AUDIO">Audio</option>
+                                                            <option value="VIDEO">Video</option>
+                                                            <option value="IMAGE">Image</option>
+                                                        </select>
+                                                    </td>
+                                                    <td class="field-path_to_file">
+                                                        <div id="medias-__prefix__-path_to_file_with_media_recorder">
+                                                            <div class="py-2">
+                                                                <input type="file" name="medias-__prefix__-path_to_file" class="bg-slate-100 p-2" id="id_medias-__prefix__-path_to_file"/>
+                                                            </div>
+                                                            <p>Or record an audio</p>
+                                                            <div class="btn-group" role="group">
+                                                                <button id="medias-__prefix__-path_to_file_record_start" type="button" class="px-2 py-1 text-white bg-green-500 disabled:bg-gray-500 rounded-sm" onclick="startRecording(this)">Record</button>
+                                                                <button id="medias-__prefix__-path_to_file_record_stop" type="button" class="px-2 py-1 text-white bg-red-500 disabled:bg-gray-500 disabled:text-gray-200 rounded-sm" disabled onclick="stopRecording(this)">Stop</button>
+                                                            </div>
+                                                            <div class="recording" id="medias-__prefix__-path_to_file-record-status">
+                                                                <span class="text-sm">Click the "Start Recording" button to start recording</span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="delete"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </fieldset>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="submit-row">
+                                    <input type="submit" value="Save" class="default" name="_save">
+                                    <p class="deletelink-box">
+                                        <a href="/admin/course/word/2/delete/" class="deletelink">Delete</a>
+                                    </p>
+                                    <input type="submit" value="Save and add another" name="_addanother">
+                                    <input type="submit" value="Save and continue editing" name="_continue">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <br class="clear"/>
+            </div>
+        </div>
     </div>
+</main>
+
+
 {% endblock content %}

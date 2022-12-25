@@ -149,6 +149,7 @@ def level_detail(request, pk):
 def word_detail(request, pk):
     page_title = _('Change Word')
     form = CourseForm(prefix='word')
+    word = get_object_or_404(Word, id=pk)
 
     if request.method == 'POST':
         form = CourseForm(request.POST or None, instance=request.user)
@@ -171,6 +172,7 @@ def word_detail(request, pk):
     context = {
         'title': page_title,
         'form': form,
+        'word': word,
     }
 
     return render(request, 'course/word_detail.html', context)
