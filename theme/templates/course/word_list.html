@@ -1,6 +1,9 @@
-{% extends "base_site.html" %}
+{% extends "base_list.html" %}
 {% load i18n static %}
 
+{% block title %}
+{{ title }}
+{% endblock title %}
 
 {% block extrastyle %}
 {{ block.super }}
@@ -42,98 +45,179 @@
 {% block content %}
 
 <main class="relative pt-16 bg-slate-100 min-h-screen">
-	<div class="results block w-full overflow-x-auto">
-		<table id="result_list" class="items-center w-full bg-transparent border-collapse">
-			<thead>
-				<tr>
-					<th scope="col"  class="action-checkbox-column">
-						<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
-						<div class="clear"></div>
-					</th>
-					<th scope="col"  class="sortable column-id sorted ascending">
-						<div class="sortoptions">
-							<a class="sortremove" href="?o=-6" title="Remove from sorting"></a>
-							<span class="sortpriority" title="Sorting priority: 2">2</span>
-							<a href="?o=-6.-1" class="toggle ascending" title="Toggle sorting"></a>
-						</div>
 
-						<div class="text"><a href="?o=-1.-6">ID</a></div>
-						<div class="clear"></div>
-					</th>
-					<th scope="col"  class="sortable column-word">
-						<div class="text"><a href="?o=2.-6.1">Foreign</a></div>
-						<div class="clear"></div>
-					</th>
-					<th scope="col"  class="sortable column-description">
-						<div class="text"><a href="?o=3.-6.1">Native</a></div>
-						<div class="clear"></div>
-					</th>
-					<th scope="col"  class="sortable column-course">
-						<div class="text"><a href="?o=4.-6.1">Course</a></div>
-						<div class="clear"></div>
-					</th>
-					<th scope="col"  class="sortable column-level">
-						<div class="text"><a href="?o=5.-6.1">Level</a></div>
-						<div class="clear"></div>
-					</th>
-					<th scope="col"  class="sortable column-is_active sorted descending">
-						<div class="sortoptions">
-							<a class="sortremove" href="?o=1" title="Remove from sorting"></a>
-							<span class="sortpriority" title="Sorting priority: 1">1</span>
-							<a href="?o=6.1" class="toggle descending" title="Toggle sorting"></a>
-						</div>
-						<div class="text"><a href="?o=6.1">Is active</a></div>
-						<div class="clear"></div>
-					</th>
-				</tr>
-			</thead>
+	<div class="container w-full mx-auto">
+		<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+			<div class="px-4 lg:px-10 mx-auto w-full">
+				<h1 class="font-normal text-xl md:text-2xl">Select word to change</h1>
+				<hr class="md:min-w-full" />
+				<a href="/">Home</a> > Select word to change
+			</div>
+		</div>
 
-			<tbody>
-				{% for item in data_word %}
-				<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
-					<td class="action-checkbox">
-						<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
-					</td>
-					<td class="field-id">
-						<a href="/admin/course/word/1/change/">{{ item.id }}</a>
-					</td>
-					<td class="field-word">
-						<input type="text" name="form-{{ item.id }}-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-word">
-					</td>
-					<td class="field-description">
-						<input type="text" name="form-{{ item.id }}-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-description">
-					</td>
-					<td class="field-course nowrap">
-						{{ item.course }}
-					</td>
-					<td class="field-level nowrap">
-						<div class="related-widget-wrapper" data-model-ref="level">
-							<select name="form-{{ item.id }}-level" id="id_form-{{ item.id }}-level">
-								{% for level in level_items %}
-								<option value="{{ level.id }}"{% if level.id == item_id %}selected="selected"{% endif %}>{{ level.name }}</option>
-								{% endfor %}
-							</select>
-							<a class="related-widget-wrapper-link change-related" id="change_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"data-popup="yes" title="Change selected level">
-								<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
-							</a>
-							<a class="related-widget-wrapper-link add-related" id="add_id_form-{{ item.id }}-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-								<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
-							</a>
-							<a class="related-widget-wrapper-link delete-related" id="delete_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
-								<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
-							</a>
-							<a class="related-widget-wrapper-link view-related" id="view_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
-								<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
-							</a>
+		<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
+			<ul class="object-tools mt-0">
+				<li>
+					<a href="{% url 'course:word_add' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Add word</a>
+				</li>
+				<li>
+					<div class="float-right mb-2">
+						<div id="toolbar">
+							<form id="changelist-search" method="get">
+								<div class="relative flex focus:ring rounded shadow bg-white">
+									<span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
+										<img src="{% static "admin/img/search.svg" %}" alt="Search">
+									</span>
+									<input id="searchbar" name="q" value="" type="text" placeholder="Search here..." class="placeholder-slate-300 text-slate-600 bg-white text-sm outline-none focus:outline-none border-0 p-2 pl-10 rounded-l">
+									<input type="submit" value="Search" class="text-sm h-full p-3 rounded-r">
+								</div>
+							</form>
 						</div>
-					</td>
-					<td class="field-is_active">
-						{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="px-4 lg:px-10 mx-auto w-full">
+			<div class="w-full pb-12">
+
+				<div id="changelist-filter" class="block float-right">
+					<div class="float-right pb-2 pr-2">
+					</div>
+				</div>
+
+				<div class="relative relative-change flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
+					<div class="module filtered" id="changelist">
+						<div class="changelist-form-container">
+
+							<form id="changelist-form" method="post" novalidate>
+								<div class="rounded-t mb-0 px-4 py-3 border-0">
+									<div class="flex flex-wrap justify-between items-center">
+										<div class="relative max-w-full flex-grow text-slate-700 dark:text-slate-200">
+											<div class="actions">
+												<label>Action:
+													<select name="action" required>
+														<option value="" selected>---------</option>
+														<option value="delete_selected">Delete selected words</option>
+													</select>
+												</label>
+												<input type="hidden" name="select_across" value="0" class="select-across">
+												<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+												<span class="action-counter" data-actions-icnt="2">0 of 2 selected</span>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<div class="results block w-full overflow-x-auto">
+
+									<table id="result_list" class="items-center w-full bg-transparent border-collapse">
+										<thead>
+											<tr>
+												<th scope="col"  class="action-checkbox-column">
+													<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-id sorted ascending">
+													<div class="sortoptions">
+														<a class="sortremove" href="?o=-6" title="Remove from sorting"></a>
+														<span class="sortpriority" title="Sorting priority: 2">2</span>
+														<a href="?o=-6.-1" class="toggle ascending" title="Toggle sorting"></a>
+													</div>
+
+													<div class="text"><a href="?o=-1.-6">ID</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-word">
+													<div class="text"><a href="?o=2.-6.1">Foreign</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-description">
+													<div class="text"><a href="?o=3.-6.1">Native</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-course">
+													<div class="text"><a href="?o=4.-6.1">Course</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-level">
+													<div class="text"><a href="?o=5.-6.1">Level</a></div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-is_active sorted descending">
+													<div class="sortoptions">
+														<a class="sortremove" href="?o=1" title="Remove from sorting"></a>
+														<span class="sortpriority" title="Sorting priority: 1">1</span>
+														<a href="?o=6.1" class="toggle descending" title="Toggle sorting"></a>
+													</div>
+													<div class="text"><a href="?o=6.1">Is active</a></div>
+													<div class="clear"></div>
+												</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											{% for item in data_word %}
+											<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
+												<td class="action-checkbox">
+													<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
+												</td>
+												<td class="field-id">
+													<a href="/admin/course/word/1/change/">{{ item.id }}</a>
+												</td>
+												<td class="field-word">
+													<input type="text" name="form-{{ item.id }}-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-word">
+												</td>
+												<td class="field-description">
+													<input type="text" name="form-{{ item.id }}-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_form-{{ item.id }}-description">
+												</td>
+												<td class="field-course nowrap">
+													{{ item.course }}
+												</td>
+												<td class="field-level nowrap">
+													<div class="related-widget-wrapper" data-model-ref="level">
+														<select name="form-{{ item.id }}-level" id="id_form-{{ item.id }}-level">
+															{% for level in level_items %}
+															<option value="{{ level.id }}"{% if level.id == item_id %}selected="selected"{% endif %}>{{ level.name }}</option>
+															{% endfor %}
+														</select>
+														<a class="related-widget-wrapper-link change-related" id="change_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"data-popup="yes" title="Change selected level">
+															<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
+														</a>
+														<a class="related-widget-wrapper-link add-related" id="add_id_form-{{ item.id }}-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+															<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
+														</a>
+														<a class="related-widget-wrapper-link delete-related" id="delete_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+															<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
+														</a>
+														<a class="related-widget-wrapper-link view-related" id="view_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+															<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
+														</a>
+													</div>
+												</td>
+												<td class="field-is_active">
+													{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}
+												</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								<p class="paginator">
+									<span class="this-page">1</span>
+									<a href="?p=2">2</a>
+									<a href="?p=3" class="end">3</a>
+									109 words
+									<a href="?all=" class="showall">Show all</a>
+									<input type="submit" name="_save" class="default" value="Save">
+								</p>
+							</form>
+						</div>
+					</div>
+				</div>
+				<br class="clear"/>
+			</div>
+		</div>
 	</div>
 </main>
 

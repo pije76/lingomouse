@@ -244,3 +244,37 @@ def level_add(request):
     }
 
     return render(request, 'course/level_add.html', context)
+
+
+def word_add(request):
+    page_title = _('Change Course')
+    # word = get_object_or_404(Course, id=pk)
+    word = Word.objects.all()
+
+    form = CourseForm(prefix='word')
+
+    if request.method == 'POST':
+        form = CourseForm(request.POST or None, instance=request.user)
+
+        if form.is_valid():
+            word = form.save(commit=False)
+            word.full_name = form.cleaned_data['full_name']
+            word.email = form.cleaned_data['email']
+            word.ic_number = form.cleaned_data['ic_number']
+            word.save()
+
+            messages.success(request, _('Your word has been change successfully.'))
+            return HttpResponseRedirect('/')
+        else:
+            messages.warning(request, form.errors)
+
+    else:
+        form = CourseForm()
+
+    context = {
+        'title': page_title,
+        'form': form,
+        'word': word,
+    }
+
+    return render(request, 'course/word_add.html', context)

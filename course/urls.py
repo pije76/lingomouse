@@ -19,6 +19,7 @@ urlpatterns = [
 
     path('course/add/', course_add, name='course_add'),
     path('level/add/', level_add, name='level_add'),
+    path('word/add/', word_add, name='word_add'),
 
 ]
 
