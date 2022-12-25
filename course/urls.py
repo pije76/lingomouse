@@ -18,6 +18,7 @@ urlpatterns = [
     path('word/<int:pk>/change/', word_detail, name='word_detail'),
 
     path('course/add/', course_add, name='course_add'),
+    path('level/add/', level_add, name='level_add'),
 
 ]
 
