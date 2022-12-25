@@ -25,7 +25,7 @@ class BulkLevelSet(View):
 
 
 def course_index(request):
-    page_title = _('Select course to change')
+    page_title = _('Course')
 
     context = {
         'title': page_title,
@@ -54,7 +54,6 @@ def course_list(request):
 def level_list(request):
     page_title = _('Select level to change')
     data_level =   Level.objects.all()
-
 
     context = {
         'title': page_title,

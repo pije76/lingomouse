@@ -1,12 +1,19 @@
 {% extends "base_site.html" %}
 {% load i18n static %}
 
-{% block coltype %}colMS{% endblock coltype %}
+{% block coltype %}
+colMS
+{% endblock coltype %}
 
-{% block bodyclass %}{{ block.super }} dashboard home{% endblock bodyclass %}
+{% block bodyclass %}{{ block.super }}
+dashboard home
+{% endblock bodyclass %}
 
-{% block breadcrumbs %}{% endblock breadcrumbs %}
-{% block content_title %}{% endblock content_title %}
+{% block breadcrumbs %}
+{% endblock breadcrumbs %}
+
+{% block content_title %}
+{% endblock content_title %}
 
 {% block content %}
     <div id="content-main">

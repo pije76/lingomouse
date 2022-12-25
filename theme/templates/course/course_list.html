@@ -1,6 +1,9 @@
 {% extends "base_list.html" %}
 {% load i18n static %}
 
+{% block title %}
+{{ title }}
+{% endblock title %}
 
 {% block extrastyle %}
 {{ block.super }}
@@ -111,7 +114,11 @@
 										<thead>
 											<tr>
 												<th scope="col"  class="action-checkbox-column" >
-													<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
+													<div class="text">
+														<span>
+															<input type="checkbox" id="action-toggle">
+														</span>
+													</div>
 													<div class="clear"></div>
 												</th>
 												<th scope="col"  class="column-pk" >
@@ -154,14 +161,30 @@
 										<tbody>
 											{% for item in data_course %}
 											<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
-												<td class="action-checkbox"><input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select"></td>
-												<td class="field-pk"><a href="{% url 'course:course_detail' item.id %}">{{ item.id }}</a></td>
-												<td class="field-name">{{ item.name }}</td>
-												<td class="field-description">{{ item.description }}</td>
-												<td class="field-native nowrap">{{ item.native }}</td>
-												<td class="field-foreign nowrap">{{ item.foreign }}</td>
-												<td class="field-image">{{ item.img }}</td>
-												<td class="field-is_active">{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}</td>
+												<td class="action-checkbox">
+													<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
+												</td>
+												<td class="field-pk">
+													<a href="{% url 'course:course_detail' item.id %}">{{ item.id }}</a>
+												</td>
+												<td class="field-name">
+													{{ item.name }}
+												</td>
+												<td class="field-description">
+													{{ item.description }}
+												</td>
+												<td class="field-native nowrap">
+													{{ item.native }}
+												</td>
+												<td class="field-foreign nowrap">
+													{{ item.foreign }}
+												</td>
+												<td class="field-image">
+													{{ item.img }}
+												</td>
+												<td class="field-is_active">
+													{% if item.is_active == True %} <img src="{% static "admin/img/icon-yes.svg" %}" alt="True"> {% else %} <img src="{% static "admin/img/icon-no.svg" %}" alt="False"> {% endif %}
+												</td>
 											</tr>
 											{% endfor %}
 										</tbody>

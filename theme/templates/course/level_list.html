@@ -1,6 +1,9 @@
 {% extends "base_list.html" %}
 {% load i18n static %}
 
+{% block title %}
+{{ title }}
+{% endblock title %}
 
 {% block extrastyle %}
 {{ block.super }}
@@ -41,114 +44,128 @@
 
 {% block content %}
 
-<main class="relative pt-16 bg-slate-100 min-h-screen ">
-<div class="container w-full mx-auto">
-<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
-<div class="px-4 lg:px-10 mx-auto w-full">
-<h1 class="font-normal text-xl md:text-2xl">Select level to change</h1>
-<hr class="md:min-w-full" />
-<a href="/admin/">Home</a>
-> Select level to change
-</div>
-</div>
-<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
-<ul class="object-tools mt-0">
-<li>
-<a href="/admin/course/level/add/" class="bg-green-500 hover:bg-green-600 text-white add-button">
-Add level
-</a>
-</li>
-<li>
-<div class="float-right mb-2">
-<div id="toolbar"><form id="changelist-search" method="get">
-<div class="relative flex focus:ring rounded shadow bg-white">
-<span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
-<img src="/static/admin/img/search.svg" alt="Search"/>
-</span>
-<input
-id="searchbar"
-name="q"
-value=""
-type="text"
-placeholder="Search here..."
-class="placeholder-slate-300 text-slate-600 bg-white text-sm outline-none focus:outline-none border-0 p-2 pl-10 rounded-l"
-/>
-<input type="submit" value="Search" class="text-sm h-full p-3 rounded-r"/>
-</div>
-</form>
-</div>
-</div>
-</li>
-</ul>
-</div>
-<div class="px-4 lg:px-10 mx-auto w-full">
-<div class="w-full pb-12">
-<div class="relative relative-change flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
-<div class="module" id="changelist">
-<div class="changelist-form-container">
-<form id="changelist-form" method="post" novalidate><input type="hidden" name="csrfmiddlewaretoken" value="6YLEvXk38vmz4D2c8EK1AqMR3GZJqKk7iC722bSkxzQu9nfjj1kYtMgdP2Y67L8B">
-<div class="rounded-t mb-0 px-4 py-3 border-0">
-<div class="flex flex-wrap justify-between items-center">
-<div class="relative max-w-full flex-grow text-slate-700 dark:text-slate-200">
-<div class="actions">
-<label>Action: <select name="action" required>
-<option value="" selected>---------</option>
-<option value="delete_selected">Delete selected levels</option>
-</select></label><input type="hidden" name="select_across" value="0" class="select-across">
-<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
-<span class="action-counter" data-actions-icnt="8">0 of 8 selected</span>
-</div>
-</div>
-</div>
-</div>
-<div class="results block w-full overflow-x-auto">
-<table id="result_list" class="items-center w-full bg-transparent border-collapse">
-<thead>
-<tr>
-<th scope="col"  class="action-checkbox-column">
-<div class="text"><span><input type="checkbox" id="action-toggle"></span></div>
-<div class="clear"></div>
-</th>
-<th scope="col"  class="sortable column-id">
-<div class="text"><a href="?o=1">ID</a></div>
-<div class="clear"></div>
-</th>
-<th scope="col"  class="sortable column-name">
-<div class="text"><a href="?o=2">Name</a></div>
-<div class="clear"></div>
-</th>
-<th scope="col"  class="sortable column-course">
-<div class="text"><a href="?o=3">Course</a></div>
-<div class="clear"></div>
-</th>
-<th scope="col"  class="column-word_count">
-<div class="text"><span>Word count</span></div>
-<div class="clear"></div>
-</th>
-</tr>
-</thead>
-<tbody>
-<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="5" class="action-select"></td><th class="field-id"><a href="/admin/course/level/5/change/">5</a></th><td class="field-name">Level 1</td><td class="field-course nowrap">Tagalog MasterClass</td><td class="field-word_count">2</td></tr>
-<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="1" class="action-select"></td><th class="field-id"><a href="/admin/course/level/1/change/">1</a></th><td class="field-name">Level 1</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">23</td></tr>
-<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="6" class="action-select"></td><th class="field-id"><a href="/admin/course/level/6/change/">6</a></th><td class="field-name">Level 2</td><td class="field-course nowrap">Tagalog MasterClass</td><td class="field-word_count">0</td></tr>
-<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="2" class="action-select"></td><th class="field-id"><a href="/admin/course/level/2/change/">2</a></th><td class="field-name">Level 2</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">20</td></tr>
-<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="7" class="action-select"></td><th class="field-id"><a href="/admin/course/level/7/change/">7</a></th><td class="field-name">Level 3</td><td class="field-course nowrap">Tagalog MasterClass</td><td class="field-word_count">0</td></tr>
-<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="3" class="action-select"></td><th class="field-id"><a href="/admin/course/level/3/change/">3</a></th><td class="field-name">Level 3</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">47</td></tr>
-<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="4" class="action-select"></td><th class="field-id"><a href="/admin/course/level/4/change/">4</a></th><td class="field-name">Level 4</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">17</td></tr>
-<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap"><td class="action-checkbox"><input type="checkbox" name="_selected_action" value="8" class="action-select"></td><th class="field-id"><a href="/admin/course/level/8/change/">8</a></th><td class="field-name">Level 5</td><td class="field-course nowrap">English MasterClass</td><td class="field-word_count">0</td></tr>
-</tbody>
-</table>
-</div>
-<p class="paginator">
-8 levels
-</p>
-</form>
-</div>
-</div>
-</div>
-<br class="clear"/>
-</div>
-</div>
-</div>
+<main class="relative pt-16 bg-slate-100 min-h-screen">
+	<div class="container w-full mx-auto">
+
+		<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+			<div class="px-4 lg:px-10 mx-auto w-full">
+				<h1 class="font-normal text-xl md:text-2xl">Select level to change</h1>
+				<hr class="md:min-w-full" />
+				<a href="/admin/">Home</a>
+				> Select level to change
+			</div>
+		</div>
+
+		<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
+			<ul class="object-tools mt-0">
+				<li>
+					<a href="/admin/course/level/add/" class="bg-green-500 hover:bg-green-600 text-white add-button">Add level</a>
+				</li>
+				<li>
+					<div class="float-right mb-2">
+						<div id="toolbar">
+							<form id="changelist-search" method="get">
+								<div class="relative flex focus:ring rounded shadow bg-white">
+									<span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
+										<img src="/static/admin/img/search.svg" alt="Search"/>
+									</span>
+									<input id="searchbar" name="q" value="" type="text" placeholder="Search here..." class="placeholder-slate-300 text-slate-600 bg-white text-sm outline-none focus:outline-none border-0 p-2 pl-10 rounded-l" />
+									<input type="submit" value="Search" class="text-sm h-full p-3 rounded-r"/>
+								</div>
+							</form>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+		<div class="px-4 lg:px-10 mx-auto w-full">
+			<div class="w-full pb-12">
+				<div class="relative relative-change flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
+					<div class="module" id="changelist">
+						<div class="changelist-form-container">
+							<form id="changelist-form" method="post" novalidate>
+								<div class="rounded-t mb-0 px-4 py-3 border-0">
+									<div class="flex flex-wrap justify-between items-center">
+										<div class="relative max-w-full flex-grow text-slate-700 dark:text-slate-200">
+											<div class="actions">
+												<label>Action:
+													<select name="action" required>
+														<option value="" selected>---------</option>
+														<option value="delete_selected">Delete selected levels</option>
+													</select>
+												</label>
+												<input type="hidden" name="select_across" value="0" class="select-across">
+												<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+												<span class="action-counter" data-actions-icnt="8">0 of 8 selected</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="results block w-full overflow-x-auto">
+									<table id="result_list" class="items-center w-full bg-transparent border-collapse">
+										<thead>
+											<tr>
+												<th scope="col" class="action-checkbox-column">
+													<div class="text">
+														<span>
+															<input type="checkbox" id="action-toggle">
+														</span>
+													</div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-id">
+													<div class="text">
+														<a href="?o=1">ID</a>
+													</div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-name">
+													<div class="text">
+														<a href="?o=2">Name</a>
+													</div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="sortable column-course">
+													<div class="text">
+														<a href="?o=3">Course</a>
+													</div>
+													<div class="clear"></div>
+												</th>
+												<th scope="col"  class="column-word_count">
+													<div class="text">
+														<span>Word count</span>
+													</div>
+													<div class="clear"></div>
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for item in data_level %}
+											<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
+												<td class="action-checkbox">
+													<input type="checkbox" name="_selected_action" value="5" class="action-select">
+												</td>
+												<th class="field-id">
+													<a href="{% url 'course:level_detail' item.id %}">{{ item.id }}</a>
+												</th>
+												<td class="field-name">{{ item.name }}</td>
+												<td class="field-course nowrap">{{ item.course }}</td>
+												<td class="field-word_count">{{ item.word_count }}</td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								<p class="paginator">8 levels</p>
+							</form>
+						</div>
+					</div>
+				</div>
+				<br class="clear"/>
+			</div>
+		</div>
+
+	</div>
 </main>
 {% endblock content %}
