@@ -1,6 +1,9 @@
 {% extends "base_detail.html" %}
-{% load i18n static %}
+{% load i18n static crispy_forms_tags %}
 
+{% block title %}
+{{ title }}
+{% endblock title %}
 
 {% block extrastyle %}
 {{ block.super }}
@@ -42,439 +45,393 @@
 {% block content %}
 
 <main class="relative pt-16 bg-slate-100 min-h-screen">
-<div class="container w-full mx-auto">
-<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
-<div class="px-4 lg:px-10 mx-auto w-full">
-<h1 class="font-normal text-xl md:text-2xl">Add course</h1>
-<hr class="md:min-w-full" />
-<div class="breadcrumbs">
-<a href="/">Home</a>
-&rsaquo; <a href="/course/">Course</a>
-&rsaquo; <a href="/course/course/">Courses</a>
-&rsaquo; Add course
-</div>
-</div>
-</div>
-<div class="px-4 lg:px-10 mx-auto w-full">
-<div class="w-full pb-12">
-<div id="content-main">
-<div class="pager flex justify-end">
-<div class="block">
-</div>
-</div>
-<form enctype="multipart/form-data" method="post" id="course_form" novalidate>
-<div>
-<div class="submit-row">
-<input type="submit" value="Save" class="default" name="_save">
-<input type="submit" value="Save and add another" name="_addanother">
-<input type="submit" value="Save and continue editing" name="_continue">
-</div>
-<fieldset class="module aligned shadow-lg rounded">
-<div class="form-row field-id">
-<div>
-<label class="required" for="id_id">Id:</label>
-<input type="text" name="id" class="vTextField" maxlength="200" required id="id_id">
-</div>
-</div>
-<div class="form-row field-name">
-<div>
-<label class="required" for="id_name">Name:</label>
-<input type="text" name="name" class="vTextField" maxlength="200" required id="id_name">
-</div>
-</div>
-<div class="form-row field-native">
-<div>
-<label class="required" for="id_native">Native:</label>
-<div class="related-widget-wrapper" data-model-ref="language">
-<select name="native" required id="id_native">
-<option value="" selected>---------</option>
-<option value="1">Polish</option>
-<option value="3">Tagalog</option>
-<option value="2">English</option>
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_native"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected language"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_native"
-data-popup="yes"
-href="/admin/config/language/add/?_to_field=id&amp;_popup=1"
-title="Add another language"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link delete-related" id="delete_id_native"
-data-href-template="/admin/config/language/__fk__/delete/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Delete selected language"><img src="/static/admin/img/icon-deletelink.svg" alt="Delete"></a><a class="related-widget-wrapper-link view-related" id="view_id_native"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id"
-title="View selected language"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</div>
-</div>
-<div class="form-row field-foreign">
-<div>
-<label class="required" for="id_foreign">Foreign:</label>
-<div class="related-widget-wrapper" data-model-ref="language">
-<select name="foreign" required id="id_foreign">
-<option value="" selected>---------</option>
-<option value="1">Polish</option>
-<option value="3">Tagalog</option>
-<option value="2">English</option>
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_foreign"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected language"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_foreign"
-data-popup="yes"
-href="/admin/config/language/add/?_to_field=id&amp;_popup=1"
-title="Add another language"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link delete-related" id="delete_id_foreign"
-data-href-template="/admin/config/language/__fk__/delete/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Delete selected language"><img src="/static/admin/img/icon-deletelink.svg" alt="Delete"></a><a class="related-widget-wrapper-link view-related" id="view_id_foreign"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id"
-title="View selected language"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</div>
-</div>
-<div class="form-row field-description">
-<div>
-<label for="id_description">Description:</label>
-<textarea name="description" cols="40" rows="10" class="vLargeTextField" maxlength="1000" id="id_description">
-</textarea>
-</div>
-</div>
-<div class="form-row field-image">
-<div>
-<label>Image:</label>
-<div class="readonly"></div>
-</div>
-</div>
-<div class="form-row field-img">
-<div>
-<label for="id_img">Img:</label>
-<input type="file" name="img" accept="image/*" id="id_img">
-</div>
-</div>
-<div class="form-row field-is_active">
-<div class="checkbox-row">
-<input type="checkbox" name="is_active" id="id_is_active" checked><label class="vCheckboxLabel" for="id_is_active">Is active?</label>
-</div>
-</div>
-</fieldset>
-<div class="inline-group flex justify-between p-4 md:px-10">
-<div>
-<h2 class="mb-2">Create levels</h2>
-<input name="level_count"
-type="number"
-placeholder="0"
-min="0"
-/>
-<input type="submit"
-value=" Create level "
-name="_continue"
-class="btn bg-green-500 hover:bg-green-600 text-white px-4 py-3"/>
-</div>
-
-<div>
-<h2 class="mb-2">Set how much words per level</h2>
-<ul>
-<li>
-<input name="word_level"
-type="number"
-placeholder="Words per level"/>
-<input type="submit"
-value=" Set word "
-name="_setlevel"
-class="btn bg-green-500 hover:bg-green-600 text-white px-4 py-3"/>
-</li>
-</ul>
-</div>
-</div>
-<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll"
-id="levels-group"
-data-inline-type="tabular"
-data-inline-formset="{&quot;name&quot;: &quot;#levels&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;levels&quot;, &quot;addText&quot;: &quot;Add another Level&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
-<div class="tabular inline-related">
-<input type="hidden" name="levels-TOTAL_FORMS" value="0" id="id_levels-TOTAL_FORMS"><input type="hidden" name="levels-INITIAL_FORMS" value="0" id="id_levels-INITIAL_FORMS"><input type="hidden" name="levels-MIN_NUM_FORMS" value="0" id="id_levels-MIN_NUM_FORMS"><input type="hidden" name="levels-MAX_NUM_FORMS" value="1000" id="id_levels-MAX_NUM_FORMS">
-<fieldset class="module">
-<h2 class="px-3">Levels</h2>
-<table>
-<thead>
-<tr>
-<th class="original"></th>
-<th class="column-pk">
-Pk
-</th>
-<th class="column-sequence required">
-Sequence
-</th>
-<th class="column-name required">
-Name
-</th>
-<th>Delete?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="form-row  empty-form"
-id="levels-empty">
-<td class="original">
-<input type="hidden" name="levels-__prefix__-id" id="id_levels-__prefix__-id">
-<input type="hidden" name="levels-__prefix__-course" id="id_levels-__prefix__-course">
-</td>
-<td class="field-pk">
-<p>
-None
-</p>
-</td>
-<td class="field-sequence">
-<input type="number" name="levels-__prefix__-sequence" value="0" class="vIntegerField" id="id_levels-__prefix__-sequence">
-</td>
-<td class="field-name">
-<input type="text" name="levels-__prefix__-name" value="Level" class="vTextField" maxlength="200" id="id_levels-__prefix__-name">
-</td>
-<td class="delete">
-</td>
-</tr>
-</tbody>
-</table>
-</fieldset>
-</div>
-</div>
-<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll"
-id="words-group"
-data-inline-type="tabular"
-data-inline-formset="{&quot;name&quot;: &quot;#words&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;words&quot;, &quot;addText&quot;: &quot;Add another Word&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
-<div class="p-3">
-<label for="bulk-set-level" class="block mb-3 text-lg">Bulk set level to selected words</label>
-<div class="flex">
-<div>
-<select id="bulk-set-level" name="bulk-set-level">
-<option value="">Select level</option>
-</select>
-</div>
-<div class="pl-6">
-<button type="button" id="perform-bulk-set-level" data-course-id="" class="bg-green-500 text-white py-2 px-4">Set Level</button>
-</div>
-</div>
-</div>
-<div class="tabular inline-related last-related">
-<input type="hidden" name="words-TOTAL_FORMS" value="3" id="id_words-TOTAL_FORMS"><input type="hidden" name="words-INITIAL_FORMS" value="0" id="id_words-INITIAL_FORMS"><input type="hidden" name="words-MIN_NUM_FORMS" value="0" id="id_words-MIN_NUM_FORMS"><input type="hidden" name="words-MAX_NUM_FORMS" value="1000" id="id_words-MAX_NUM_FORMS">
-<fieldset class="module">
-<h2 class="px-3">Words</h2>
-<table>
-<thead>
-<tr>
-<th>Bulk</th>
-<th class="original"></th>
-<th class="column-pk">
-Pk
-</th>
-<th class="column-word required">
-Foreign
-</th>
-<th class="column-description required">
-Native
-</th>
-<th class="column-level">
-Level
-</th>
-<th class="column-is_active">
-Is active
-</th>
-<th>Delete?</th>
-</tr>
-</thead>
-<tbody>
-<tr class="form-row "
-id="words-0">
-<td><input type="checkbox" name="select-bulk" value=""></td>
-<td class="original">
-<input type="hidden" name="words-0-id" id="id_words-0-id">
-<input type="hidden" name="words-0-course" id="id_words-0-course">
-</td>
-<td class="field-pk">
-<p>
-None
-</p>
-</td>
-<td class="field-word">
-<input type="text" name="words-0-word" class="vTextField" maxlength="200" id="id_words-0-word">
-</td>
-<td class="field-description">
-<input type="text" name="words-0-description" class="vTextField" maxlength="200" id="id_words-0-description">
-</td>
-<td class="field-level">
-<div class="related-widget-wrapper" data-model-ref="level">
-<select name="words-0-level" id="id_words-0-level">
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_words-0-level"
-data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected level"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_words-0-level"
-data-popup="yes"
-href="/admin/course/level/add/?_to_field=id&amp;_popup=1"
-title="Add another level"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link delete-related" id="delete_id_words-0-level"
-data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Delete selected level"><img src="/static/admin/img/icon-deletelink.svg" alt="Delete"></a><a class="related-widget-wrapper-link view-related" id="view_id_words-0-level"
-data-href-template="/admin/course/level/__fk__/change/?_to_field=id"
-title="View selected level"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</td>
-<td class="field-is_active">
-<input type="checkbox" name="words-0-is_active" id="id_words-0-is_active" checked>
-</td>
-<td class="delete">
-</td>
-</tr>
-<tr class="form-row "
-id="words-1">
-<td><input type="checkbox" name="select-bulk" value=""></td>
-<td class="original">
-<input type="hidden" name="words-1-id" id="id_words-1-id">
-<input type="hidden" name="words-1-course" id="id_words-1-course">
-</td>
-<td class="field-pk">
-<p>
-None
-</p>
-</td>
-<td class="field-word">
-<input type="text" name="words-1-word" class="vTextField" maxlength="200" id="id_words-1-word">
-</td>
-<td class="field-description">
-<input type="text" name="words-1-description" class="vTextField" maxlength="200" id="id_words-1-description">
-</td>
-<td class="field-level">
-<div class="related-widget-wrapper" data-model-ref="level">
-<select name="words-1-level" id="id_words-1-level">
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_words-1-level"
-data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected level"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_words-1-level"
-data-popup="yes"
-href="/admin/course/level/add/?_to_field=id&amp;_popup=1"
-title="Add another level"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link delete-related" id="delete_id_words-1-level"
-data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Delete selected level"><img src="/static/admin/img/icon-deletelink.svg" alt="Delete"></a><a class="related-widget-wrapper-link view-related" id="view_id_words-1-level"
-data-href-template="/admin/course/level/__fk__/change/?_to_field=id"
-title="View selected level"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</td>
-<td class="field-is_active">
-<input type="checkbox" name="words-1-is_active" id="id_words-1-is_active" checked>
-</td>
-<td class="delete">
-</td>
-</tr>
-<tr class="form-row "
-id="words-2">
-<td><input type="checkbox" name="select-bulk" value=""></td>
-<td class="original">
-<input type="hidden" name="words-2-id" id="id_words-2-id">
-<input type="hidden" name="words-2-course" id="id_words-2-course">
-</td>
-<td class="field-pk">
-<p>
-None
-</p>
-</td>
-<td class="field-word">
-<input type="text" name="words-2-word" class="vTextField" maxlength="200" id="id_words-2-word">
-</td>
-<td class="field-description">
-<input type="text" name="words-2-description" class="vTextField" maxlength="200" id="id_words-2-description">
-</td>
-<td class="field-level">
-<div class="related-widget-wrapper" data-model-ref="level">
-<select name="words-2-level" id="id_words-2-level">
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_words-2-level"
-data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected level"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_words-2-level"
-data-popup="yes"
-href="/admin/course/level/add/?_to_field=id&amp;_popup=1"
-title="Add another level"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link delete-related" id="delete_id_words-2-level"
-data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Delete selected level"><img src="/static/admin/img/icon-deletelink.svg" alt="Delete"></a><a class="related-widget-wrapper-link view-related" id="view_id_words-2-level"
-data-href-template="/admin/course/level/__fk__/change/?_to_field=id"
-title="View selected level"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</td>
-<td class="field-is_active">
-<input type="checkbox" name="words-2-is_active" id="id_words-2-is_active" checked>
-</td>
-<td class="delete">
-</td>
-</tr>
-<tr class="form-row  empty-form"
-id="words-empty">
-<td><input type="checkbox" name="select-bulk" value=""></td>
-<td class="original">
-<input type="hidden" name="words-__prefix__-id" id="id_words-__prefix__-id">
-<input type="hidden" name="words-__prefix__-course" id="id_words-__prefix__-course">
-</td>
-<td class="field-pk">
-<p>
-None
-</p>
-</td>
-<td class="field-word">
-<input type="text" name="words-__prefix__-word" class="vTextField" maxlength="200" id="id_words-__prefix__-word">
-</td>
-<td class="field-description">
-<input type="text" name="words-__prefix__-description" class="vTextField" maxlength="200" id="id_words-__prefix__-description">
-</td>
-<td class="field-level">
-<div class="related-widget-wrapper" data-model-ref="level">
-<select name="words-__prefix__-level" id="id_words-__prefix__-level">
-<option value="" selected>---------</option>
-<option value="1">English MasterClass - Level 1</option>
-<option value="5">Tagalog MasterClass - Level 1</option>
-<option value="2">English MasterClass - Level 2</option>
-<option value="6">Tagalog MasterClass - Level 2</option>
-<option value="3">English MasterClass - Level 3</option>
-<option value="7">Tagalog MasterClass - Level 3</option>
-<option value="4">English MasterClass - Level 4</option>
-<option value="8">English MasterClass - Level 5</option>
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_words-__prefix__-level"
-data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected level"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_words-__prefix__-level"
-data-popup="yes"
-href="/admin/course/level/add/?_to_field=id&amp;_popup=1"
-title="Add another level"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link delete-related" id="delete_id_words-__prefix__-level"
-data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Delete selected level"><img src="/static/admin/img/icon-deletelink.svg" alt="Delete"></a><a class="related-widget-wrapper-link view-related" id="view_id_words-__prefix__-level"
-data-href-template="/admin/course/level/__fk__/change/?_to_field=id"
-title="View selected level"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</td>
-<td class="field-is_active">
-<input type="checkbox" name="words-__prefix__-is_active" id="id_words-__prefix__-is_active" checked>
-</td>
-<td class="delete">
-</td>
-</tr>
-</tbody>
-</table>
-</fieldset>
-</div>
-</div>
-<div class="submit-row">
-<input type="submit" value="Save" class="default" name="_save">
-<input type="submit" value="Save and add another" name="_addanother">
-<input type="submit" value="Save and continue editing" name="_continue">
-</div>
-</div>
-</form>
-</div>
-<br class="clear"/>
-</div>
-</div>
-</div>
+	<div class="container w-full mx-auto">
+		<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+			<div class="px-4 lg:px-10 mx-auto w-full">
+				<h1 class="font-normal text-xl md:text-2xl">Add course</h1>
+				<hr class="md:min-w-full" />
+				<div class="breadcrumbs">
+					<a href="/">Home</a>
+					&rsaquo; <a href="/course/">Course</a>
+					&rsaquo; <a href="/course/course/">Courses</a>
+					&rsaquo; Add course
+				</div>
+			</div>
+		</div>
+		<div class="px-4 lg:px-10 mx-auto w-full">
+			<div class="w-full pb-12">
+				<div id="content-main">
+					<div class="pager flex justify-end">
+						<div class="block"></div>
+					</div>
+					<form enctype="multipart/form-data" method="post" id="course_form" novalidate>
+						<div>
+							<div class="submit-row">
+								<input type="submit" value="Save" class="default" name="_save">
+								<input type="submit" value="Save and add another" name="_addanother">
+								<input type="submit" value="Save and continue editing" name="_continue">
+							</div>
+							<fieldset class="module aligned shadow-lg rounded">
+								<div class="form-row field-id">
+									<div>
+										<label class="required" for="id_id">Id:</label>
+										{{ form.id|as_crispy_field }}
+									</div>
+								</div>
+								<div class="form-row field-name">
+									<div>
+										<label class="required" for="id_name">Name:</label>
+										{{ form.name|as_crispy_field }}
+									</div>
+								</div>
+								<div class="form-row field-native">
+									<div>
+										<label class="required" for="id_native">Native:</label>
+										<div class="related-widget-wrapper" data-model-ref="language">
+											<select name="native" required id="id_native">
+												<option value="" selected>---------</option>
+												<option value="1">Polish</option>
+												<option value="3">Tagalog</option>
+												<option value="2">English</option>
+											</select>
+											<a class="related-widget-wrapper-link change-related" id="change_id_native" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language">
+												<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+											</a>
+											<a class="related-widget-wrapper-link add-related" id="add_id_native" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
+												<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+											</a>
+											<a class="related-widget-wrapper-link delete-related" id="delete_id_native" data-href-template="/admin/config/language/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected language">
+												<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+											</a>
+											<a class="related-widget-wrapper-link view-related" id="view_id_native" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language">
+												<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-row field-foreign">
+									<div>
+										<label class="required" for="id_foreign">Foreign:</label>
+										<div class="related-widget-wrapper" data-model-ref="language">
+											<select name="foreign" required id="id_foreign">
+												<option value="" selected>---------</option>
+												<option value="1">Polish</option>
+												<option value="3">Tagalog</option>
+												<option value="2">English</option>
+											</select>
+											<a class="related-widget-wrapper-link change-related" id="change_id_foreign" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language">
+												<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+											</a>
+											<a class="related-widget-wrapper-link add-related" id="add_id_foreign" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
+												<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+											</a>
+											<a class="related-widget-wrapper-link delete-related" id="delete_id_foreign" data-href-template="/admin/config/language/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected language">
+												<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+											</a>
+											<a class="related-widget-wrapper-link view-related" id="view_id_foreign" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language">
+												<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-row field-description">
+									<div>
+										<label for="id_description">Description:</label>
+										{{ form.description|as_crispy_field }}
+									</div>
+								</div>
+								<div class="form-row field-image">
+									<div>
+										<label>Image:</label>
+										<div class="readonly"></div>
+									</div>
+								</div>
+								<div class="form-row field-img">
+									<div>
+										<label for="id_img">Img:</label>
+										<input type="file" name="img" accept="image/*" id="id_img">
+									</div>
+								</div>
+								<div class="form-row field-is_active">
+									<div class="checkbox-row">
+										<input type="checkbox" name="is_active" id="id_is_active" checked>
+										<label class="vCheckboxLabel" for="id_is_active">Is active?</label>
+									</div>
+								</div>
+							</fieldset>
+							<div class="inline-group flex justify-between p-4 md:px-10">
+								<div>
+									<h2 class="mb-2">Create levels</h2>
+									<input name="level_count" type="number" placeholder="0" min="0" />
+									<input type="submit" value=" Create level " name="_continue" class="btn bg-green-500 hover:bg-green-600 text-white px-4 py-3"/>
+								</div>
+								<div>
+									<h2 class="mb-2">Set how much words per level</h2>
+									<ul>
+										<li>
+											<input name="word_level" type="number" placeholder="Words per level"/>
+											<input type="submit" value=" Set word " name="_setlevel" class="btn bg-green-500 hover:bg-green-600 text-white px-4 py-3"/>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="levels-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#levels&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;levels&quot;, &quot;addText&quot;: &quot;Add another Level&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
+								<div class="tabular inline-related">
+									<input type="hidden" name="levels-TOTAL_FORMS" value="0" id="id_levels-TOTAL_FORMS">
+									<input type="hidden" name="levels-INITIAL_FORMS" value="0" id="id_levels-INITIAL_FORMS">
+									<input type="hidden" name="levels-MIN_NUM_FORMS" value="0" id="id_levels-MIN_NUM_FORMS">
+									<input type="hidden" name="levels-MAX_NUM_FORMS" value="1000" id="id_levels-MAX_NUM_FORMS">
+									<fieldset class="module">
+										<h2 class="px-3">Levels</h2>
+										<table>
+											<thead>
+												<tr>
+													<th class="original"></th>
+													<th class="column-pk">Pk</th>
+													<th class="column-sequence required">Sequence</th>
+													<th class="column-name required">Name</th>
+													<th>Delete?</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="form-row  empty-form" id="levels-empty">
+													<td class="original">
+														<input type="hidden" name="levels-__prefix__-id" id="id_levels-__prefix__-id">
+														<input type="hidden" name="levels-__prefix__-course" id="id_levels-__prefix__-course">
+													</td>
+													<td class="field-pk">
+														<p>None</p>
+													</td>
+													<td class="field-sequence">
+														<input type="number" name="levels-__prefix__-sequence" value="0" class="vIntegerField" id="id_levels-__prefix__-sequence">
+													</td>
+													<td class="field-name">
+														<input type="text" name="levels-__prefix__-name" value="Level" class="vTextField" maxlength="200" id="id_levels-__prefix__-name">
+													</td>
+													<td class="delete"></td>
+												</tr>
+											</tbody>
+										</table>
+									</fieldset>
+								</div>
+							</div>
+							<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="words-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#words&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;words&quot;, &quot;addText&quot;: &quot;Add another Word&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
+								<div class="p-3">
+									<label for="bulk-set-level" class="block mb-3 text-lg">Bulk set level to selected words</label>
+									<div class="flex">
+										<div>
+											<select id="bulk-set-level" name="bulk-set-level">
+												<option value="">Select level</option>
+											</select>
+										</div>
+										<div class="pl-6">
+											<button type="button" id="perform-bulk-set-level" data-course-id="" class="bg-green-500 text-white py-2 px-4">Set Level</button>
+										</div>
+									</div>
+								</div>
+								<div class="tabular inline-related last-related">
+									<input type="hidden" name="words-TOTAL_FORMS" value="3" id="id_words-TOTAL_FORMS">
+									<input type="hidden" name="words-INITIAL_FORMS" value="0" id="id_words-INITIAL_FORMS">
+									<input type="hidden" name="words-MIN_NUM_FORMS" value="0" id="id_words-MIN_NUM_FORMS">
+									<input type="hidden" name="words-MAX_NUM_FORMS" value="1000" id="id_words-MAX_NUM_FORMS">
+									<fieldset class="module">
+										<h2 class="px-3">Words</h2>
+										<table>
+											<thead>
+												<tr>
+													<th>Bulk</th>
+													<th class="original"></th>
+													<th class="column-pk">Pk</th>
+													<th class="column-word required">Foreign</th>
+													<th class="column-description required">Native</th>
+													<th class="column-level">Level</th>
+													<th class="column-is_active">Is active</th>
+													<th>Delete?</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr class="form-row" id="words-0">
+													<td>
+														<input type="checkbox" name="select-bulk" value="">
+													</td>
+													<td class="original">
+														<input type="hidden" name="words-0-id" id="id_words-0-id">
+														<input type="hidden" name="words-0-course" id="id_words-0-course">
+													</td>
+													<td class="field-pk">
+														<p>None</p>
+													</td>
+													<td class="field-word">
+														<input type="text" name="words-0-word" class="vTextField" maxlength="200" id="id_words-0-word">
+													</td>
+													<td class="field-description">
+														<input type="text" name="words-0-description" class="vTextField" maxlength="200" id="id_words-0-description">
+													</td>
+													<td class="field-level">
+														<div class="related-widget-wrapper" data-model-ref="level">
+															<select name="words-0-level" id="id_words-0-level"></select>
+															<a class="related-widget-wrapper-link change-related" id="change_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
+																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+															</a>
+															<a class="related-widget-wrapper-link add-related" id="add_id_words-0-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+																<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+															</a>
+															<a class="related-widget-wrapper-link delete-related" id="delete_id_words-0-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+																<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+															</a>
+															<a class="related-widget-wrapper-link view-related" id="view_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+																<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+															</a>
+														</div>
+													</td>
+													<td class="field-is_active">
+														<input type="checkbox" name="words-0-is_active" id="id_words-0-is_active" checked>
+													</td>
+													<td class="delete"></td>
+												</tr>
+												<tr class="form-row" id="words-1">
+													<td>
+														<input type="checkbox" name="select-bulk" value="">
+													</td>
+													<td class="original">
+														<input type="hidden" name="words-1-id" id="id_words-1-id">
+														<input type="hidden" name="words-1-course" id="id_words-1-course">
+													</td>
+													<td class="field-pk">
+														<p>None</p>
+													</td>
+													<td class="field-word">
+														<input type="text" name="words-1-word" class="vTextField" maxlength="200" id="id_words-1-word">
+													</td>
+													<td class="field-description">
+														<input type="text" name="words-1-description" class="vTextField" maxlength="200" id="id_words-1-description">
+													</td>
+													<td class="field-level">
+														<div class="related-widget-wrapper" data-model-ref="level">
+															<select name="words-1-level" id="id_words-1-level"></select>
+															<a class="related-widget-wrapper-link change-related" id="change_id_words-1-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
+																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+															</a>
+															<a class="related-widget-wrapper-link add-related" id="add_id_words-1-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+																<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+															</a>
+															<a class="related-widget-wrapper-link delete-related" id="delete_id_words-1-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+																<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+															</a>
+															<a class="related-widget-wrapper-link view-related" id="view_id_words-1-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+																<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+															</a>
+														</div>
+													</td>
+													<td class="field-is_active">
+														<input type="checkbox" name="words-1-is_active" id="id_words-1-is_active" checked>
+													</td>
+													<td class="delete"></td>
+												</tr>
+												<tr class="form-row" id="words-2">
+													<td>
+														<input type="checkbox" name="select-bulk" value="">
+													</td>
+													<td class="original">
+														<input type="hidden" name="words-2-id" id="id_words-2-id">
+														<input type="hidden" name="words-2-course" id="id_words-2-course">
+													</td>
+													<td class="field-pk">
+														<p>None</p>
+													</td>
+													<td class="field-word">
+														<input type="text" name="words-2-word" class="vTextField" maxlength="200" id="id_words-2-word">
+													</td>
+													<td class="field-description">
+														<input type="text" name="words-2-description" class="vTextField" maxlength="200" id="id_words-2-description">
+													</td>
+													<td class="field-level">
+														<div class="related-widget-wrapper" data-model-ref="level">
+															<select name="words-2-level" id="id_words-2-level"></select>
+															<a class="related-widget-wrapper-link change-related" id="change_id_words-2-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
+																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+															</a>
+															<a class="related-widget-wrapper-link add-related" id="add_id_words-2-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+																<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+															</a>
+															<a class="related-widget-wrapper-link delete-related" id="delete_id_words-2-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+																<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+															</a>
+															<a class="related-widget-wrapper-link view-related" id="view_id_words-2-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+																<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+															</a>
+														</div>
+													</td>
+													<td class="field-is_active">
+														<input type="checkbox" name="words-2-is_active" id="id_words-2-is_active" checked>
+													</td>
+													<td class="delete"></td>
+												</tr>
+												<tr class="form-row  empty-form" id="words-empty">
+													<td>
+														<input type="checkbox" name="select-bulk" value="">
+													</td>
+													<td class="original">
+														<input type="hidden" name="words-__prefix__-id" id="id_words-__prefix__-id">
+														<input type="hidden" name="words-__prefix__-course" id="id_words-__prefix__-course">
+													</td>
+													<td class="field-pk">
+														<p>None</p>
+													</td>
+													<td class="field-word">
+														<input type="text" name="words-__prefix__-word" class="vTextField" maxlength="200" id="id_words-__prefix__-word">
+													</td>
+													<td class="field-description">
+														<input type="text" name="words-__prefix__-description" class="vTextField" maxlength="200" id="id_words-__prefix__-description">
+													</td>
+													<td class="field-level">
+														<div class="related-widget-wrapper" data-model-ref="level">
+															<select name="words-__prefix__-level" id="id_words-__prefix__-level">
+																<option value="" selected>---------</option>
+																<option value="1">English MasterClass - Level 1</option>
+																<option value="5">Tagalog MasterClass - Level 1</option>
+																<option value="2">English MasterClass - Level 2</option>
+																<option value="6">Tagalog MasterClass - Level 2</option>
+																<option value="3">English MasterClass - Level 3</option>
+																<option value="7">Tagalog MasterClass - Level 3</option>
+																<option value="4">English MasterClass - Level 4</option>
+																<option value="8">English MasterClass - Level 5</option>
+															</select>
+															<a class="related-widget-wrapper-link change-related" id="change_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
+																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+															</a>
+															<a class="related-widget-wrapper-link add-related" id="add_id_words-__prefix__-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+																<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+															</a>
+															<a class="related-widget-wrapper-link delete-related" id="delete_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+																<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+															</a>
+															<a class="related-widget-wrapper-link view-related" id="view_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+																<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+															</a>
+														</div>
+													</td>
+													<td class="field-is_active">
+														<input type="checkbox" name="words-__prefix__-is_active" id="id_words-__prefix__-is_active" checked>
+													</td>
+													<td class="delete"></td>
+												</tr>
+											</tbody>
+										</table>
+									</fieldset>
+								</div>
+							</div>
+							<div class="submit-row">
+								<input type="submit" value="Save" class="default" name="_save">
+								<input type="submit" value="Save and add another" name="_addanother">
+								<input type="submit" value="Save and continue editing" name="_continue">
+							</div>
+						</div>
+					</form>
+				</div>
+				<br class="clear"/>
+			</div>
+		</div>
+	</div>
 </main>
-
 {% endblock content %}
