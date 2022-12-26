@@ -195,7 +195,7 @@ def course_add(request):
             course.ic_number = form.cleaned_data['ic_number']
             course.save()
 
-            messages.success(request, _('Your course has been change successfully.'))
+            messages.success(request, _('Your course has been saved successfully.'))
             return HttpResponseRedirect('/')
         else:
             messages.warning(request, form.errors)

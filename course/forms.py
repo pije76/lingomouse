@@ -1,6 +1,6 @@
 from django import forms
-from django.utils.translation import gettext_lazy as _
 from django.forms.models import BaseInlineFormSet
+from django.utils.translation import gettext_lazy as _
 
 from config.models import *
 
@@ -18,7 +18,7 @@ class CourseForm(forms.Form):
 	native = forms.ChoiceField(label=_(u''), required=False, choices=(LANGUAGE_CHOICES), widget=forms.Select)
 	foreign = forms.ChoiceField(label=_(u''), required=False, choices=(LANGUAGE_CHOICES), widget=forms.Select)
 	img = forms.ImageField(label=_(u''), required=False)
-	is_active = forms.BooleanField(label=_(u''), required=False, widget=forms.CheckboxInput(attrs={'class':'vCheckboxLabel'}))
+	is_active = forms.BooleanField(label=_(u'Is active?'), required=False, widget=forms.CheckboxInput(attrs={'checked': "checked"}))
 
 
 class CourseModelForm(forms.ModelForm):
@@ -45,8 +45,7 @@ class CourseModelForm(forms.ModelForm):
 class WordMediaForm(forms.ModelForm):
 	""" If field type is field then add recorder to """
 	media_type = forms.ChoiceField(choices=MEDIA_TYPE)
-	path_to_file = forms.FileField(
-		widget=MediaFileInput)
+	path_to_file = forms.FileField(widget=MediaFileInput)
 
 
 class WordChangeListForm(forms.ModelForm):
