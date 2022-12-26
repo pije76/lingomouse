@@ -2,17 +2,22 @@ from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.forms.models import BaseInlineFormSet
 
+from config.models import *
+
 from .models import *
 from .widgets import *
 
 
-class CustomTextWidget(forms.TextInput):
-    pass
-
 class CourseForm(forms.Form):
+	LANGUAGE_CHOICES = Language.objects.all().values_list("code", flat=True)
+
 	id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	name = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
+	# native = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select, choices=((x.id, x.name) for x in LANGUAGE_CHOICES))
+	native = forms.ChoiceField(label=_(u''), required=False, choices=(LANGUAGE_CHOICES), widget=forms.Select)
+	foreign = forms.ChoiceField(label=_(u''), required=False, choices=(LANGUAGE_CHOICES), widget=forms.Select)
+	img = forms.ImageField(label=_(u''), required=False)
 
 
 class CourseModelForm(forms.ModelForm):

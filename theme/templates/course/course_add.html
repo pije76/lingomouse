@@ -88,12 +88,7 @@
 									<div>
 										<label class="required" for="id_native">Native:</label>
 										<div class="related-widget-wrapper" data-model-ref="language">
-											<select name="native" required id="id_native">
-												<option value="" selected>---------</option>
-												<option value="1">Polish</option>
-												<option value="3">Tagalog</option>
-												<option value="2">English</option>
-											</select>
+											{{ form.native|as_crispy_field }}
 											<a class="related-widget-wrapper-link change-related" id="change_id_native" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language">
 												<img src="/static/admin/img/icon-changelink.svg" alt="Change">
 											</a>
@@ -113,12 +108,7 @@
 									<div>
 										<label class="required" for="id_foreign">Foreign:</label>
 										<div class="related-widget-wrapper" data-model-ref="language">
-											<select name="foreign" required id="id_foreign">
-												<option value="" selected>---------</option>
-												<option value="1">Polish</option>
-												<option value="3">Tagalog</option>
-												<option value="2">English</option>
-											</select>
+											{{ form.foreign|as_crispy_field }}
 											<a class="related-widget-wrapper-link change-related" id="change_id_foreign" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language">
 												<img src="/static/admin/img/icon-changelink.svg" alt="Change">
 											</a>
@@ -149,7 +139,7 @@
 								<div class="form-row field-img">
 									<div>
 										<label for="id_img">Img:</label>
-										<input type="file" name="img" accept="image/*" id="id_img">
+										{{ form.img|as_crispy_field }}
 									</div>
 								</div>
 								<div class="form-row field-is_active">
