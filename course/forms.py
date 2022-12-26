@@ -6,7 +6,16 @@ from .models import *
 from .widgets import *
 
 
-class CourseForm(forms.ModelForm):
+class CustomTextWidget(forms.TextInput):
+    pass
+
+class CourseForm(forms.Form):
+	id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	name = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
+
+
+class CourseModelForm(forms.ModelForm):
 	class Meta:
 		model = Course
 		fields = '__all__'

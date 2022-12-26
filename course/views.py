@@ -179,7 +179,7 @@ def word_detail(request, pk):
 
 
 def course_add(request):
-    page_title = _('Change Course')
+    page_title = _('Add Course')
     # course = get_object_or_404(Course, id=pk)
     word = Word.objects.all()
 
