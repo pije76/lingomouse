@@ -145,7 +145,7 @@
 								<div class="form-row field-is_active">
 									<div class="checkbox-row">
 										<input type="checkbox" name="is_active" id="id_is_active" checked>
-										<label class="vCheckboxLabel" for="id_is_active">Is active?</label>
+										{{ form.is_active|as_crispy_field }}
 									</div>
 								</div>
 							</fieldset>

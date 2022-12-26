@@ -18,6 +18,7 @@ class CourseForm(forms.Form):
 	native = forms.ChoiceField(label=_(u''), required=False, choices=(LANGUAGE_CHOICES), widget=forms.Select)
 	foreign = forms.ChoiceField(label=_(u''), required=False, choices=(LANGUAGE_CHOICES), widget=forms.Select)
 	img = forms.ImageField(label=_(u''), required=False)
+	is_active = forms.BooleanField(label=_(u''), required=False, widget=forms.CheckboxInput(attrs={'class':'vCheckboxLabel'}))
 
 
 class CourseModelForm(forms.ModelForm):
