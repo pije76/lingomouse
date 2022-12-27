@@ -88,7 +88,12 @@ def course_detail(request, pk):
     get_language = Language.objects.all()
     native_id = Course.objects.filter(id=pk).values_list("native", flat=True).first()
     foreign_id = Course.objects.filter(id=pk).values_list("foreign", flat=True).first()
-    word = Word.objects.all()
+    get_level = Level.objects.filter(course=pk)
+    get_word = Word.objects.filter(course=pk)
+    # word_id = Word.objects.filter(course=pk).values_list("level", flat=True)
+    word_id = Course.objects.filter(id=pk).values_list("words")
+    print("get_level", get_level)
+    print("word_id", word_id)
 
     form = CourseForm(prefix='course')
 
@@ -114,10 +119,12 @@ def course_detail(request, pk):
         'title': page_title,
         'form': form,
         'course': course,
-        'word': word,
         'get_language': get_language,
         'native_id': native_id,
         'foreign_id': foreign_id,
+        'get_level': get_level,
+        'get_word': get_word,
+        'word_id': word_id,
     }
 
     return render(request, 'course/course_detail.html', context)

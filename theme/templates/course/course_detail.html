@@ -179,6 +179,7 @@
 										</tr>
 									</thead>
 									<tbody>
+										{% for item in get_level %}
 										<tr class="form-row has_original dynamic-levels" id="levels-0">
 											<td class="original">
 												<p>Tagalog MasterClass - Level 1
@@ -188,76 +189,19 @@
 												<input type="hidden" name="levels-0-course" value="98764" id="id_levels-0-course">
 											</td>
 											<td class="field-pk">
-												<p>5</p>
+												<p>{{ item.pk }}</p>
 											</td>
 											<td class="field-sequence">
-												<input type="number" name="levels-0-sequence" value="0" class="vIntegerField" id="id_levels-0-sequence">
+												<input type="number" name="levels-0-sequence" value="{{ item.sequence }}" class="vIntegerField" id="id_levels-0-sequence">
 											</td>
 											<td class="field-name">
-												<input type="text" name="levels-0-name" value="Level 1" class="vTextField" maxlength="200" id="id_levels-0-name">
+												<input type="text" name="levels-0-name" value="{{ item.name }}" class="vTextField" maxlength="200" id="id_levels-0-name">
 											</td>
 											<td class="delete">
 												<input type="checkbox" name="levels-0-DELETE" id="id_levels-0-DELETE">
 											</td>
 										</tr>
-										<tr class="form-row has_original dynamic-levels" id="levels-1">
-											<td class="original">
-												<p>Tagalog MasterClass - Level 2
-													<a href="/admin/course/level/6/change/" class="inlinechangelink">Change</a>
-												</p>
-												<input type="hidden" name="levels-1-id" value="6" id="id_levels-1-id">
-												<input type="hidden" name="levels-1-course" value="98764" id="id_levels-1-course">
-											</td>
-											<td class="field-pk">
-												<p>6</p>
-											</td>
-											<td class="field-sequence">
-												<input type="number" name="levels-1-sequence" value="1" class="vIntegerField" id="id_levels-1-sequence">
-											</td>
-											<td class="field-name">
-												<input type="text" name="levels-1-name" value="Level 2" class="vTextField" maxlength="200" id="id_levels-1-name">
-											</td>
-											<td class="delete">
-												<input type="checkbox" name="levels-1-DELETE" id="id_levels-1-DELETE">
-											</td>
-										</tr>
-										<tr class="form-row has_original dynamic-levels" id="levels-2">
-											<td class="original">
-												<p>Tagalog MasterClass - Level 3
-													<a href="/admin/course/level/7/change/" class="inlinechangelink">Change</a>
-												</p>
-												<input type="hidden" name="levels-2-id" value="7" id="id_levels-2-id">
-												<input type="hidden" name="levels-2-course" value="98764" id="id_levels-2-course">
-											</td>
-											<td class="field-pk">
-												<p>7</p>
-											</td>
-											<td class="field-sequence">
-												<input type="number" name="levels-2-sequence" value="2" class="vIntegerField" id="id_levels-2-sequence">
-											</td>
-											<td class="field-name">
-												<input type="text" name="levels-2-name" value="Level 3" class="vTextField" maxlength="200" id="id_levels-2-name">
-											</td>
-											<td class="delete">
-												<input type="checkbox" name="levels-2-DELETE" id="id_levels-2-DELETE">
-											</td>
-										</tr>
-										<tr class="form-row  empty-form" id="levels-empty">
-											<td class="original">
-												<input type="hidden" name="levels-__prefix__-id" id="id_levels-__prefix__-id">
-												<input type="hidden" name="levels-__prefix__-course" value="98764" id="id_levels-__prefix__-course">
-											</td>
-											<td class="field-pk">
-												<p>None</p>
-											</td>
-											<td class="field-sequence">
-												<input type="number" name="levels-__prefix__-sequence" value="0" class="vIntegerField" id="id_levels-__prefix__-sequence">
-											</td>
-											<td class="field-name">
-												<input type="text" name="levels-__prefix__-name" value="Level" class="vTextField" maxlength="200" id="id_levels-__prefix__-name">
-											</td>
-											<td class="delete"></td>
-										</tr>
+										{% endfor %}
 										<tr class="add-row">
 											<td colspan="5">
 												<a href="#">Add another Level</a>
@@ -275,9 +219,11 @@
 								<div>
 									<select id="bulk-set-level" name="bulk-set-level">
 										<option value="">Select level</option>
-										<option value="5">Level 1</option>
-										<option value="6">Level 2</option>
-										<option value="7">Level 3</option>
+										{% for level in get_level %}
+										<option value="{{ level.id }}">
+										{{ level }}
+										</option>
+										{% endfor %}
 									</select>
 								</div>
 								<div class="pl-6">
@@ -306,6 +252,7 @@
 										</tr>
 									</thead>
 									<tbody>
+										{% for item in get_word %}
 										<tr class="form-row has_original dynamic-words" id="words-0">
 											<td><input type="checkbox" name="select-bulk" value="108"></td>
 											<td class="original">
@@ -316,20 +263,22 @@
 												<input type="hidden" name="words-0-course" value="98764" id="id_words-0-course">
 											</td>
 											<td class="field-pk">
-												<p>108</p>
+												<p>{{ item.pk }}</p>
 											</td>
 											<td class="field-word">
-												<input type="text" name="words-0-word" value="Good Bye" class="vTextField" maxlength="200" id="id_words-0-word">
+												<input type="text" name="words-0-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_words-0-word">
 											</td>
 											<td class="field-description">
-												<input type="text" name="words-0-description" value="Paalam" class="vTextField" maxlength="200" id="id_words-0-description">
+												<input type="text" name="words-0-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_words-0-description">
 											</td>
 											<td class="field-level">
 												<div class="related-widget-wrapper" data-model-ref="level">
 													<select name="words-0-level" id="id_words-0-level">
-														<option value="5" selected="">Level 1</option>
-														<option value="6">Level 2</option>
-														<option value="7">Level 3</option>
+														{% for level in get_level %}
+														<option value="{{ level.id }}" {% if item.level == level %}selected{% endif %}>
+														{{ level }}
+														</option>
+														{% endfor %}
 													</select>
 													<a class="related-widget-wrapper-link change-related" id="change_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
 														<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
@@ -346,159 +295,13 @@
 												</div>
 											</td>
 											<td class="field-is_active">
-												<input type="checkbox" name="words-0-is_active" id="id_words-0-is_active" checked="">
+												<input type="checkbox" name="words-0-is_active" id="id_words-0-is_active" {% if item.is_active == True %}checked{% else %}''{% endif %}>
 											</td>
 											<td class="delete">
 												<input type="checkbox" name="words-0-DELETE" id="id_words-0-DELETE">
 											</td>
 										</tr>
-
-										<tr class="form-row has_original dynamic-words" id="words-1">
-											<td>
-												<input type="checkbox" name="select-bulk" value="109">
-											</td>
-											<td class="original">
-												<p>Good Morning - Magandang umaga
-													<a href="/admin/course/word/109/change/" class="inlinechangelink">Change</a>
-												</p>
-												<input type="hidden" name="words-1-id" value="109" id="id_words-1-id">
-												<input type="hidden" name="words-1-course" value="98764" id="id_words-1-course">
-											</td>
-											<td class="field-pk">
-												<p>109</p>
-											</td>
-											<td class="field-word">
-												<input type="text" name="words-1-word" value="Good Morning" class="vTextField" maxlength="200" id="id_words-1-word">
-											</td>
-											<td class="field-description">
-												<input type="text" name="words-1-description" value="Magandang umaga" class="vTextField" maxlength="200" id="id_words-1-description">
-											</td>
-											<td class="field-level">
-												<div class="related-widget-wrapper" data-model-ref="level">
-													<select name="words-1-level" id="id_words-1-level">
-														<option value="5" selected="">Level 1</option>
-														<option value="6">Level 2</option>
-														<option value="7">Level 3</option>
-													</select>
-													<a class="related-widget-wrapper-link change-related" id="change_id_words-1-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
-														<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
-													</a>
-													<a class="related-widget-wrapper-link add-related" id="add_id_words-1-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-														<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
-													</a>
-													<a class="related-widget-wrapper-link delete-related" id="delete_id_words-1-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level" href="/admin/course/level/5/delete/?_to_field=id&amp;_popup=1">
-														<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
-													</a>
-													<a class="related-widget-wrapper-link view-related" id="view_id_words-1-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level" href="/admin/course/level/5/change/?_to_field=id">
-														<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
-													</a>
-												</div>
-											</td>
-											<td class="field-is_active">
-												<input type="checkbox" name="words-1-is_active" id="id_words-1-is_active" checked="">
-											</td>
-											<td class="delete">
-												<input type="checkbox" name="words-1-DELETE" id="id_words-1-DELETE">
-											</td>
-										</tr>
-
-										<tr class="form-row dynamic-words" id="words-2">
-											<td>
-												<input type="checkbox" name="select-bulk" value="">
-											</td>
-											<td class="original">
-												<input type="hidden" name="words-2-id" id="id_words-2-id">
-												<input type="hidden" name="words-2-course" value="98764" id="id_words-2-course">
-											</td>
-											<td class="field-pk">
-												<p>None</p>
-											</td>
-											<td class="field-word">
-												<input type="text" name="words-2-word" class="vTextField" maxlength="200" id="id_words-2-word">
-											</td>
-											<td class="field-description">
-												<input type="text" name="words-2-description" class="vTextField" maxlength="200" id="id_words-2-description">
-											</td>
-											<td class="field-level">
-												<div class="related-widget-wrapper" data-model-ref="level">
-													<select name="words-2-level" id="id_words-2-level">
-														<option value="5">Level 1</option>
-														<option value="6">Level 2</option>
-														<option value="7">Level 3</option>
-													</select>
-													<a class="related-widget-wrapper-link change-related" id="change_id_words-2-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
-														<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
-													</a>
-													<a class="related-widget-wrapper-link add-related" id="add_id_words-2-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-														<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
-													</a>
-													<a class="related-widget-wrapper-link delete-related" id="delete_id_words-2-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level" href="/admin/course/level/5/delete/?_to_field=id&amp;_popup=1">
-														<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
-													</a>
-													<a class="related-widget-wrapper-link view-related" id="view_id_words-2-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level" href="/admin/course/level/5/change/?_to_field=id">
-														<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
-													</a>
-												</div>
-											</td>
-											<td class="field-is_active">
-												<input type="checkbox" name="words-2-is_active" id="id_words-2-is_active" checked="">
-											</td>
-											<td class="delete">
-												<div>
-													<a class="inline-deletelink" href="#">Remove</a>
-												</div>
-											</td>
-										</tr>
-
-										<tr class="form-row empty-form" id="words-empty">
-											<td>
-												<input type="checkbox" name="select-bulk" value="">
-											</td>
-											<td class="original">
-												<input type="hidden" name="words-__prefix__-id" id="id_words-__prefix__-id">
-												<input type="hidden" name="words-__prefix__-course" value="98764" id="id_words-__prefix__-course">
-											</td>
-											<td class="field-pk">
-												<p>None</p>
-											</td>
-											<td class="field-word">
-												<input type="text" name="words-__prefix__-word" class="vTextField" maxlength="200" id="id_words-__prefix__-word">
-											</td>
-											<td class="field-description">
-												<input type="text" name="words-__prefix__-description" class="vTextField" maxlength="200" id="id_words-__prefix__-description">
-											</td>
-											<td class="field-level">
-												<div class="related-widget-wrapper" data-model-ref="level">
-													<select name="words-__prefix__-level" id="id_words-__prefix__-level">
-														<option value="" selected="">---------</option>
-														<option value="1">English MasterClass - Level 1</option>
-														<option value="5">Tagalog MasterClass - Level 1</option>
-														<option value="2">English MasterClass - Level 2</option>
-														<option value="6">Tagalog MasterClass - Level 2</option>
-														<option value="3">English MasterClass - Level 3</option>
-														<option value="7">Tagalog MasterClass - Level 3</option>
-														<option value="4">English MasterClass - Level 4</option>
-														<option value="8">English MasterClass - Level 5</option>
-													</select>
-													<a class="related-widget-wrapper-link change-related" id="change_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
-														<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
-													</a>
-													<a class="related-widget-wrapper-link add-related" id="add_id_words-__prefix__-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-														<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
-													</a>
-													<a class="related-widget-wrapper-link delete-related" id="delete_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
-														<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
-													</a>
-													<a class="related-widget-wrapper-link view-related" id="view_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
-														<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
-													</a>
-												</div>
-											</td>
-											<td class="field-is_active">
-												<input type="checkbox" name="words-__prefix__-is_active" id="id_words-__prefix__-is_active" checked="">
-											</td>
-											<td class="delete"></td>
-										</tr>
+										{% endfor %}
 
 										<tr class="add-row">
 											<td colspan="8">
