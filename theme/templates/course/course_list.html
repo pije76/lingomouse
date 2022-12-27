@@ -90,7 +90,8 @@
 					<div class="module filtered" id="changelist">
 						<div class="changelist-form-container">
 
-							<form id="changelist-form" method="post" novalidate>
+							<form method="POST" action="" id="changelist-form" novalidate>
+							{% csrf_token %}
 								<div class="rounded-t mb-0 px-4 py-3 border-0">
 									<div class="flex flex-wrap justify-between items-center">
 										<div class="relative max-w-full flex-grow text-slate-700 dark:text-slate-200">
@@ -102,7 +103,7 @@
 													</select>
 												</label>
 												<input type="hidden" name="select_across" value="0" class="select-across">
-												<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+												<button type="submit" class="button" title="Run the selected action" id="GoSubmit" value="0">Go</button>
 												<span class="action-counter" data-actions-icnt="2">0 of 2 selected</span>
 											</div>
 										</div>
@@ -121,9 +122,11 @@
 													</div>
 													<div class="clear"></div>
 												</th>
-												<th scope="col"  class="column-pk" >
+												<th scope="col" class="column-pk" >
 
-													<div class="text"><span>Pk</span></div>
+													<div class="text">
+														<span>Pk</span>
+													</div>
 													<div class="clear"></div>
 												</th>
 												<th scope="col"  class="sortable column-name sorted ascending">
@@ -132,27 +135,39 @@
 														<a href="?o=-2" class="toggle ascending" title="Toggle sorting"></a>
 													</div>
 
-													<div class="text"><a href="?o=-2">Name</a></div>
+													<div class="text">
+														<a href="?o=-2">Name</a>
+													</div>
 													<div class="clear"></div>
 												</th>
 												<th scope="col"  class="sortable column-description" >
-													<div class="text"><a href="?o=3.2">Description</a></div>
+													<div class="text">
+														<a href="?o=3.2">Description</a>
+													</div>
 													<div class="clear"></div>
 												</th>
 												<th scope="col"  class="sortable column-native" >
-													<div class="text"><a href="?o=4.2">Native</a></div>
+													<div class="text">
+														<a href="?o=4.2">Native</a>
+													</div>
 													<div class="clear"></div>
 												</th>
 												<th scope="col"  class="sortable column-foreign" >
-													<div class="text"><a href="?o=5.2">Foreign</a></div>
+													<div class="text">
+														<a href="?o=5.2">Foreign</a>
+													</div>
 													<div class="clear"></div>
 												</th>
 												<th scope="col"  class="column-image" >
-													<div class="text"><span>Image</span></div>
+													<div class="text">
+														<span>Image</span>
+													</div>
 													<div class="clear"></div>
 												</th>
 												<th scope="col"  class="sortable column-is_active" >
-													<div class="text"><a href="?o=7.2">Is active?</a></div>
+													<div class="text">
+														<a href="?o=7.2">Is active?</a>
+													</div>
 													<div class="clear"></div>
 												</th>
 											</tr>
@@ -203,3 +218,57 @@
 </main>
 
 {% endblock content %}
+
+{% block extra_javascript %}
+<script type='text/javascript'>
+$(document).ready(function()
+{
+	$(document).on("click","#GoSubmit",function()
+	{
+		var get_selected_course = [];
+		console.log("get_selected_course", get_selected_course);
+
+		$.each($("input[name='_selected_action']:checked"), function()
+		{
+			get_selected_course.push($(this).val());
+		});
+
+		if(get_selected_course.length == 0)
+		{
+			alert("Select course to delete");
+			return false;
+		}
+		else
+		{
+			console.log("course selected: " + get_selected_course.join(", "));
+		    // $.ajax(
+		    // {
+		    // 	// type: "GET",
+		    // 	method: 'POST',
+		    // 	url: "/course/course/",
+		    // 	data:
+		    // 	{
+		    // 		get_selected_course: get_selected_course,
+		    // 	},
+		    // 	success: function(data)
+		    // 	{
+		    // 		console.log("get_selected_course", get_selected_course);
+		    // 		// put more stuff here as per your requirement
+		    // 	}
+			// })
+		}
+
+
+	//ajax for deleting the multiple selelcted photos
+	})
+
+	$(".action-select").each(function(i)
+	{
+		if ($(this).is(":checked"))
+		{
+			console.log('courses');
+		}
+	});
+});
+</script>
+{% endblock %}

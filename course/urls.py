@@ -13,9 +13,9 @@ urlpatterns = [
     path('level/', level_list, name="level_list"),
     path('word/', word_list, name="word_list"),
 
-    path('course/<int:pk>/change/', course_detail, name='course_detail'),
-    path('level/<int:pk>/change/', level_detail, name='level_detail'),
-    path('word/<int:pk>/change/', word_detail, name='word_detail'),
+    path('course/<int:pk>/detail/', course_detail, name='course_detail'),
+    path('level/<int:pk>/detail/', level_detail, name='level_detail'),
+    path('word/<int:pk>/detail/', word_detail, name='word_detail'),
 
     path('course/add/', course_add, name='course_add'),
     path('level/add/', level_add, name='level_add'),

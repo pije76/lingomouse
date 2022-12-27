@@ -71,9 +71,10 @@
 								<div class="related-widget-wrapper" data-model-ref="language">
 									<select name="native" required="" id="id_native">
 										<option value="">---------</option>
-										<option value="1">Polish</option>
-										<option value="3" selected="">Tagalog</option>
-										<option value="2">English</option>
+										{% for item in get_language %}
+										<option value="{{ item.id }}"
+										{% if item.id == native_id %}selected="selected"{% endif %}>{{ item }}</option>
+										{% endfor %}
 									</select>
 									<a class="related-widget-wrapper-link change-related" id="change_id_native" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language" href="/admin/config/language/3/change/?_to_field=id&amp;_popup=1">
 										<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
@@ -96,9 +97,10 @@
 								<div class="related-widget-wrapper" data-model-ref="language">
 									<select name="foreign" required="" id="id_foreign">
 										<option value="">---------</option>
-										<option value="1">Polish</option>
-										<option value="3">Tagalog</option>
-										<option value="2" selected="">English</option>
+										{% for item in get_language %}
+										<option value="{{ item.id }}"
+										{% if item.id == foreign_id %}selected="selected"{% endif %}>{{ item }}</option>
+										{% endfor %}
 									</select>
 									<a class="related-widget-wrapper-link change-related" id="change_id_foreign" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language" href="/admin/config/language/2/change/?_to_field=id&amp;_popup=1">
 										<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
@@ -124,18 +126,19 @@
 						<div class="form-row field-image">
 							<div>
 								<label>Image:</label>
-								<div class="readonly"></div>
+								<div class="readonly">{{ course.img }}</div>
 							</div>
 						</div>
 						<div class="form-row field-img">
 							<div>
 								<label for="id_img">Img:</label>
 								<input type="file" name="img" accept="image/*" id="id_img">
+								{{ course.img }}
 							</div>
 						</div>
 						<div class="form-row field-is_active">
 							<div class="checkbox-row">
-								<input type="checkbox" name="is_active" id="id_is_active" checked="">
+								<input type="checkbox" name="is_active" id="id_is_active" {% if course.is_active == True %}checked{% else %}''{% endif %}>
 								<label class="vCheckboxLabel" for="id_is_active">Is active?</label>
 							</div>
 						</div>

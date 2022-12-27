@@ -2,19 +2,46 @@ from django import forms
 from django.forms.models import BaseInlineFormSet
 from django.utils.translation import gettext_lazy as _
 
+import pycountry
+
 from config.models import *
 
 from .models import *
 from .widgets import *
 
 
+LANGUAGE_CHOICES = Language.objects.all().values_list("code", flat=True)
+LANGUAGE_CHOICES = list(LANGUAGE_CHOICES)
+
+# obj = []
+
+# for item in LANGUAGE_CHOICES:
+# #     # language = pycountry.languages.lookup(item)
+#     language = pycountry.languages.get(alpha_2=item)
+#     language = language.name
+#     if language and language not in obj:
+#         obj.append(language)
+
+# LANG_CHOICES = [(language.name)
+#             for language in pycountry.languages]
+# list3 = set(obj) & set(LANG_CHOICES)
+
+# tuple1 = tuple(list3)
+
 class CourseForm(forms.Form):
-	LANGUAGE_CHOICES = Language.objects.all().values_list("code", flat=True)
+	# for item in LANGUAGE_CHOICES:
+	# 	obj = pycountry.languages.get(alpha_2=item).name
+
+	# languages.append(obj)
+	# print(languages)
+
 
 	id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	name = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
 	# native = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select, choices=((x.id, x.name) for x in LANGUAGE_CHOICES))
+	# native = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select, choices=[(k, v) for k, v in COUNTRIES.items()])
+	# native = forms.ChoiceField(choices=[(k, v) for k, v in LANGUAGE_CHOICES()],widget=Select2MultipleWidget)
 	native = forms.ChoiceField(label=_(u''), required=False, choices=(LANGUAGE_CHOICES), widget=forms.Select)
 	foreign = forms.ChoiceField(label=_(u''), required=False, choices=(LANGUAGE_CHOICES), widget=forms.Select)
 	img = forms.ImageField(label=_(u''), required=False)

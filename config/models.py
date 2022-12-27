@@ -38,11 +38,9 @@ class Country(models.Model):
 
 class Language(models.Model):
     '''Language model'''
-    code = models.CharField(max_length=3, verbose_name=_(
-        'Language code'), choices=sorted(LANG_CHOICES, key=lambda e: e[1]), default='pl', unique=True)
+    code = models.CharField(max_length=3, verbose_name=_('Language code'), choices=sorted(LANG_CHOICES, key=lambda e: e[1]), default='pl', unique=True)
     img = models.ImageField(upload_to='static/image/flags/', blank=True)
-    country = models.ManyToManyField(
-        Country, related_name='language', verbose_name=_('Country'), default='PL', blank=True)
+    country = models.ManyToManyField(Country, related_name='language', verbose_name=_('Country'), default='PL', blank=True)
     special_font = models.CharField(max_length=255, blank=True, null=True)
     sequence = models.CharField(_("sequence"), max_length=2, default=0)
 

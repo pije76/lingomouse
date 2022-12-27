@@ -64,7 +64,8 @@
 					<div class="pager flex justify-end">
 						<div class="block"></div>
 					</div>
-					<form enctype="multipart/form-data" method="post" id="course_form" novalidate>
+					<form method="POST" action="" id="course_form" enctype="multipart/form-data">
+					{% csrf_token %}
 						<div>
 							<div class="submit-row">
 								<input type="submit" value="Save" class="default" name="_save">
@@ -425,3 +426,47 @@
 	</div>
 </main>
 {% endblock content %}
+
+
+{% block extra_javascript %}
+<script type='text/javascript'>
+$(document).ready(function()
+{
+	var urls = "/course/course/add/";
+
+	$('select[name=native]').on('change', function(e)
+	{
+		e.preventDefault();
+
+		var get_selected_native = $('select[name=native] option').filter(':selected').val();
+		// console.log("course get_selected_native: ", get_selected_native);
+		console.log("get_selected_native1: ", get_selected_native);
+
+		$.ajax(
+        {
+        	type: 'GET',
+        	url: urls,
+        	data:
+        	{
+        		'get_selected_native':get_selected_native,
+        		// 'csrfmiddlewaretoken': csrftoken,
+        	},
+        	success: function(data)
+        	{
+        		if(!data["valid"])
+        		{
+        			console.log("get_selected_native2", get_selected_native);
+        		}
+        	},
+        });
+	})
+
+	$('select[name=foreign]').on('change', function()
+	{
+		var get_selected_foreign = $('select[name=foreign] option').filter(':selected').val();
+		console.log("get_selected_foreign: ", get_selected_foreign);
+	})
+
+});
+</script>
+{% endblock %}
