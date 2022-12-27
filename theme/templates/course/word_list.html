@@ -177,8 +177,8 @@
 												<td class="field-level nowrap">
 													<div class="related-widget-wrapper" data-model-ref="level">
 														<select name="form-{{ item.id }}-level" id="id_form-{{ item.id }}-level">
-															{% for level in level_items %}
-															<option value="{{ level.id }}"{% if level.id == item_id %}selected="selected"{% endif %}>{{ level.name }}</option>
+															{% for level in get_level %}
+															<option value="{{ level.id }}" {% if item.level == level %}selected{% endif %}>{{ level }}</option>
 															{% endfor %}
 														</select>
 														<a class="related-widget-wrapper-link change-related" id="change_id_form-{{ item.id }}-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1"data-popup="yes" title="Change selected level">

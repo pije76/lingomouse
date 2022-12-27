@@ -36,7 +36,7 @@ def course_index(request):
 
 def course_list(request):
     page_title = _('Select course to change')
-    data_course =   Course.objects.all()
+    course_detail =   Course.objects.all()
     # get_selected_course = request.GET.getlist('get_selected_course[]')
     # get_selected_course = request.POST.get('get_selected_course')
     # print("get_selected_course")
@@ -48,7 +48,7 @@ def course_list(request):
 
     context = {
         'title': page_title,
-        'data_course': data_course,
+        'course_detail': course_detail,
     }
 
     return render(request,'course/course_list.html', context)
@@ -71,12 +71,12 @@ def word_list(request):
     page_title = _('Select word to change')
     course_id = request.POST.get('course')
     data_word =   Word.objects.all()
-    level_items = Level.objects.filter(course=course_id)
+    get_level = Level.objects.all()
 
     context = {
         'title': page_title,
         'data_word': data_word,
-        'level_items': level_items,
+        'get_level': get_level,
     }
 
     return render(request,'course/word_list.html', context)
@@ -84,16 +84,13 @@ def word_list(request):
 
 def course_detail(request, pk):
     page_title = _('Change Course')
-    course = get_object_or_404(Course, id=pk)
+    course_detail = get_object_or_404(Course, id=pk)
     get_language = Language.objects.all()
     native_id = Course.objects.filter(id=pk).values_list("native", flat=True).first()
     foreign_id = Course.objects.filter(id=pk).values_list("foreign", flat=True).first()
     get_level = Level.objects.filter(course=pk)
     get_word = Word.objects.filter(course=pk)
-    # word_id = Word.objects.filter(course=pk).values_list("level", flat=True)
     word_id = Course.objects.filter(id=pk).values_list("words")
-    print("get_level", get_level)
-    print("word_id", word_id)
 
     form = CourseForm(prefix='course')
 
@@ -118,7 +115,7 @@ def course_detail(request, pk):
     context = {
         'title': page_title,
         'form': form,
-        'course': course,
+        'course_detail': course_detail,
         'get_language': get_language,
         'native_id': native_id,
         'foreign_id': foreign_id,
