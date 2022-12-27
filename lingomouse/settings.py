@@ -49,6 +49,9 @@ INSTALLED_APPS = [
 	'theme',
 	"crispy_forms",
 
+	# 'whoosh_index',
+    'haystack',
+
 	'debug_toolbar',
 ]
 
@@ -161,4 +164,25 @@ REST_FRAMEWORK = {
 	],
 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 	'PAGE_SIZE': 5
+}
+
+WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh_index/')
+
+HAYSTACK_CONNECTIONS = {
+    'default':
+    {
+        # 'ENGINE': 'haystack.backends.elasticsearch5_backend.Elasticsearch5SearchEngine',
+        # 'URL': 'http://127.0.0.1:9200/',
+        # 'INDEX_NAME': 'haystack',
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': WHOOSH_INDEX,
+    },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.redis.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379',
+    },
+
 }

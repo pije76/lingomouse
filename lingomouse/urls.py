@@ -32,6 +32,7 @@ urlpatterns = [
     path('config/', include('config.urls')),
     path('course/', include('course.urls')),
 
+    path('search/', include('haystack.urls')),
     # path('auth/', include('rest_framework.urls')),
     path('api/', include(api_routers)),
 ]
