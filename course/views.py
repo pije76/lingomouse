@@ -36,7 +36,7 @@ def course_index(request):
 
 def course_list(request):
     page_title = _('Select course to change')
-    course_detail =   Course.objects.all()
+    list_course =   Course.objects.all()
     # get_selected_course = request.GET.getlist('get_selected_course[]')
     # get_selected_course = request.POST.get('get_selected_course')
     # print("get_selected_course")
@@ -48,7 +48,7 @@ def course_list(request):
 
     context = {
         'title': page_title,
-        'course_detail': course_detail,
+        'list_course': list_course,
     }
 
     return render(request,'course/course_list.html', context)
@@ -56,11 +56,11 @@ def course_list(request):
 
 def level_list(request):
     page_title = _('Select level to change')
-    data_level =   Level.objects.all()
+    list_level =   Level.objects.all()
 
     context = {
         'title': page_title,
-        'data_level': data_level,
+        'list_level': list_level,
     }
 
     return render(request,'course/level_list.html', context)
@@ -70,12 +70,12 @@ def level_list(request):
 def word_list(request):
     page_title = _('Select word to change')
     course_id = request.POST.get('course')
-    data_word =   Word.objects.all()
+    list_word =   Word.objects.all()
     get_level = Level.objects.all()
 
     context = {
         'title': page_title,
-        'data_word': data_word,
+        'list_word': list_word,
         'get_level': get_level,
     }
 
