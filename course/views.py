@@ -37,14 +37,6 @@ def course_index(request):
 def course_list(request):
     page_title = _('Select course to change')
     list_course =   Course.objects.all()
-    # get_selected_course = request.GET.getlist('get_selected_course[]')
-    # get_selected_course = request.POST.get('get_selected_course')
-    # print("get_selected_course")
-
-    # if (request.POST.get('field_is_active')) == "True":
-    #     field_is_active =  "True"
-    # else:
-    #     field_is_active =  "False"
 
     context = {
         'title': page_title,
@@ -214,8 +206,8 @@ def course_add(request):
         if language and language not in obj:
             obj.append(language)
 
-    print("obj", obj)
-    print("obj", type(obj))
+    # print("obj", obj)
+    # print("obj", type(obj))
 
 
     # for item in LANGUAGE_CHOICES:
@@ -243,10 +235,10 @@ def course_add(request):
     # print("LANG_CHOICES", LANG_CHOICES)
 
     tuple1 = list(list3)
-    print("list3", list3)
-    print("list3", type(list3))
-    print("tuple1", tuple1)
-    print("tuple1", type(tuple1))
+    # print("list3", list3)
+    # print("list3", type(list3))
+    # print("tuple1", tuple1)
+    # print("tuple1", type(tuple1))
 
 
 

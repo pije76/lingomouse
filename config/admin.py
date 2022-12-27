@@ -8,13 +8,31 @@ class LanguageInline(admin.StackedInline):
 
 
 class CountryAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'code',
+        'img',
+    )
     search_fields: str = ['code']
     inlines = [LanguageInline]
     fields = ['code', 'img', ]
 
 class LanguageAdmin(admin.ModelAdmin):
-    list_display = ('code', 'code_name', 'image', 'special_font', 'sequence')
-    fields = ('code', 'img', 'country', 'special_font', 'sequence')
+    list_display = (
+        'id',
+        'code',
+        'code_name',
+        'image',
+        'special_font',
+        'sequence'
+    )
+    fields = (
+        'code',
+        'img',
+        'country',
+        'special_font',
+        'sequence'
+    )
     readonly_fields = ('image',)
 
 admin.site.register(Country, CountryAdmin)

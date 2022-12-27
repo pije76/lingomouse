@@ -12,8 +12,8 @@ urlpatterns = [
     path('country/', country_list, name="country_list"),
     path('language/', language_list, name="language_list"),
 
-    path('country/<int:pk>/change/', country_detail, name='country_detail'),
-    path('language/<int:pk>/change/', language_detail, name='language_detail'),
+    path('country/<int:pk>/detail/', country_detail, name='country_detail'),
+    path('language/<int:pk>/detail/', language_detail, name='language_detail'),
 
     path('country/add/', country_add, name='country_add'),
     path('language/add/', language_add, name='language_add'),
