@@ -150,62 +150,7 @@
 									</div>
 								</div>
 							</fieldset>
-							<div class="inline-group flex justify-between p-4 md:px-10">
-								<div>
-									<h2 class="mb-2">Create levels</h2>
-									<input name="level_count" type="number" placeholder="0" min="0" />
-									<input type="submit" value=" Create level " name="_continue" class="btn bg-green-500 hover:bg-green-600 text-white px-4 py-3"/>
-								</div>
-								<div>
-									<h2 class="mb-2">Set how much words per level</h2>
-									<ul>
-										<li>
-											<input name="word_level" type="number" placeholder="Words per level"/>
-											<input type="submit" value=" Set word " name="_setlevel" class="btn bg-green-500 hover:bg-green-600 text-white px-4 py-3"/>
-										</li>
-									</ul>
-								</div>
-							</div>
-							<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="levels-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#levels&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;levels&quot;, &quot;addText&quot;: &quot;Add another Level&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
-								<div class="tabular inline-related">
-									<input type="hidden" name="levels-TOTAL_FORMS" value="0" id="id_levels-TOTAL_FORMS">
-									<input type="hidden" name="levels-INITIAL_FORMS" value="0" id="id_levels-INITIAL_FORMS">
-									<input type="hidden" name="levels-MIN_NUM_FORMS" value="0" id="id_levels-MIN_NUM_FORMS">
-									<input type="hidden" name="levels-MAX_NUM_FORMS" value="1000" id="id_levels-MAX_NUM_FORMS">
-									<fieldset class="module">
-										<h2 class="px-3">Levels</h2>
-										<table>
-											<thead>
-												<tr>
-													<th class="original"></th>
-													<th class="column-pk">Pk</th>
-													<th class="column-sequence required">Sequence</th>
-													<th class="column-name required">Name</th>
-													<th>Delete?</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr class="form-row  empty-form" id="levels-empty">
-													<td class="original">
-														<input type="hidden" name="levels-__prefix__-id" id="id_levels-__prefix__-id">
-														<input type="hidden" name="levels-__prefix__-course" id="id_levels-__prefix__-course">
-													</td>
-													<td class="field-pk">
-														<p>None</p>
-													</td>
-													<td class="field-sequence">
-														<input type="number" name="levels-__prefix__-sequence" value="0" class="vIntegerField" id="id_levels-__prefix__-sequence">
-													</td>
-													<td class="field-name">
-														<input type="text" name="levels-__prefix__-name" value="Level" class="vTextField" maxlength="200" id="id_levels-__prefix__-name">
-													</td>
-													<td class="delete"></td>
-												</tr>
-											</tbody>
-										</table>
-									</fieldset>
-								</div>
-							</div>
+
 							<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="words-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#words&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;words&quot;, &quot;addText&quot;: &quot;Add another Word&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
 								<div class="p-3">
 									<label for="bulk-set-level" class="block mb-3 text-lg">Bulk set level to selected words</label>
