@@ -191,67 +191,95 @@ def course_add(request):
     native_id = request.POST.get('get_selected_native', None)
     # print("native_id0", native_id)
     # print("native_id1", native_id)
-    LANGUAGE_CHOICES = Language.objects.all().values_list("code", flat=True)
-    # LANGUAGE_CHOICES = len(LANGUAGE_CHOICES)
-    # LANGUAGE_CHOICES = list(LANGUAGE_CHOICES)
-    # print("LANGUAGE_CHOICES", LANGUAGE_CHOICES)
-    # print("LANGUAGE_CHOICES", LANGUAGE_CHOICES)
+    # get_language = Language.objects.filter().values("code")
+    get_language = Language.objects.all().values_list("code", flat=True)
+    # get_language = Course.objects.all().values_list("native", flat=True)
+    # get_language = Language.objects.filter(book__title__startswith='hello')
 
-    obj = []
+    # # get_language = len(get_language)
+    # post.attending_set.all()
 
-    for item in LANGUAGE_CHOICES:
-    #     # language = pycountry.languages.lookup(item)
-        language = pycountry.languages.get(alpha_2=item)
+    # get_language = list(get_language)
+    # # print("get_language", get_language)
+    # print("get_language", get_language)
+
+    # obj = []
+
+    for item in get_language:
+        language = pycountry.languages.lookup(item)
+        # language = pycountry.languages.get(alpha_2=item)
         language = language.name
+        # print("language", language)
         if language and language not in obj:
             obj.append(language)
 
     # print("obj", obj)
+
+    language_list = [item.name for item in pycountry.languages]
+    # language_tuples = ((item, item) for item in language_list)
+
+    list3 = []
+
+    for item in obj:
+        print("item", item)
+        if item and item in language_list:
+            # print("obj", obj)
+            # print("language_list", language_list)
+            list3.append(item)
+            print("item", item)
+
+
+    print("list3", list3)
+    # print("language_tuples", language_tuples)
     # print("obj", type(obj))
 
 
-    # for item in LANGUAGE_CHOICES:
+    # for item in get_language:
     #     language = pycountry.languages.get(alpha_2=item).name
     #     languages.append(language)
 
-    # for item in LANGUAGE_CHOICES:
+    # for item in get_language:
     #     obj = pycountry.languages.get(alpha_2=item).name
     #     print("obj", obj)
 
-    LANG_CHOICES = [(language.name)
-                for language in pycountry.languages]
+    LANG_CHOICES = [(language.alpha_2, language.name) for language in pycountry.languages if hasattr(language, 'alpha_2')]
+
+
+    # LANG_CHOICES = [(language.name) for language in pycountry.languages]
+    # LANG_CHOICES = [(item.alpha_2, item.name) for item in pycountry.languages if hasattr(item, 'alpha_2')]
+
     # print("LANG_CHOICES", LANG_CHOICES)
+    # print("LANG_CHOICES", type(LANG_CHOICES))
 
-    # list3 = []
+    # # for y in LANG_CHOICES:
+    # #     # print("y", y)
+    # #     if get_language == y:
+    # #         list3.append(y)
 
-    # for y in LANG_CHOICES:
-    #     # print("y", y)
-    #     if LANGUAGE_CHOICES == y:
-    #         list3.append(y)
+    # list3 = set(obj) & set(LANG_CHOICES)
+    # list3 = set(obj).intersection(set(LANG_CHOICES))
 
-    list3 = set(obj) & set(LANG_CHOICES)
+    # # # print("obj", obj)
+    # # # print("LANG_CHOICES", LANG_CHOICES)
 
-    # print("obj", obj)
-    # print("LANG_CHOICES", LANG_CHOICES)
-
-    tuple1 = list(list3)
+    # list3 = list(list3)
     # print("list3", list3)
     # print("list3", type(list3))
-    # print("tuple1", tuple1)
+    # # print("tuple1", tuple1)
     # print("tuple1", type(tuple1))
 
 
 
     if request.method == 'POST':
-        form = CourseForm(request.POST or None)
+        form = CourseModelForm(request.POST or None)
         native_id = request.GET.get('get_selected_native', None)
         native_id = request.POST.get('get_selected_native', None)
         # print("native_id2", native_id)
         # print("native_id3", native_id)
 
         if form.is_valid():
-            course = Course()
-            # course = form.save(commit=False)
+            # course = Course()
+            course = form.save(commit=False)
             course.id = form.cleaned_data['id']
             course.name = form.cleaned_data['name']
             course.native = form.cleaned_data['native']
@@ -259,15 +287,16 @@ def course_add(request):
             course.description = form.cleaned_data['description']
             course.img = form.cleaned_data['img']
             course.is_active = form.cleaned_data['is_active']
-            # course.save()
+            course.save()
 
-            return redirect('course:course_add')
+            return redirect('course:course_list')
 
-    if request.method == 'GET':
-        form = CourseForm()
+    else:
+    # if request.method == 'GET':
+        form = CourseModelForm()
         # form = CourseForm(prefix='course')
-        native_id = request.GET.get('get_selected_native', None)
-        native_id = request.POST.get('get_selected_native', None)
+        # native_id = request.GET.get('get_selected_native', None)
+        # native_id = request.POST.get('get_selected_native', None)
         # print("native_id4", native_id)
         # print("native_id5", native_id)
 
