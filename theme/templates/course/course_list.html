@@ -63,7 +63,7 @@
 				<li>
 					<div class="float-right mb-2">
 						<div id="toolbar">
-							<form id="changelist-search" method="get">
+							<form method="GET" action="" id="changelist-search">
 								<div class="relative flex focus:ring rounded shadow bg-white">
 									<span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
 										<img src="{% static "admin/img/search.svg" %}" alt="Search">
@@ -90,7 +90,9 @@
 					<div class="module filtered" id="changelist">
 						<div class="changelist-form-container">
 
-							<form method="POST" action="" id="changelist-form" novalidate>
+							{% for item in list_course %}
+							<form method="POST" action="{% url 'course:course_delete' item.pk %}" id="changelist-form">
+							{% endfor %}
 							{% csrf_token %}
 								<div class="rounded-t mb-0 px-4 py-3 border-0">
 									<div class="flex flex-wrap justify-between items-center">
@@ -177,7 +179,7 @@
 											{% for item in list_course %}
 											<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
 												<td class="action-checkbox">
-													<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
+													<input type="checkbox" name="selected_action" value="{{ item.id }}" class="action-select">
 												</td>
 												<td class="field-pk">
 													<a href="{% url 'course:course_detail' item.id %}">{{ item.id }}</a>
@@ -223,6 +225,9 @@
 <script type='text/javascript'>
 $(document).ready(function()
 {
+	var get_selected_course = "{{ item.id }}";
+	selected_courses = []
+
 	$("#action-toggle").change(function()
 	{
 		if (this.checked)
@@ -245,22 +250,102 @@ $(document).ready(function()
 	{
 		if ($(this).is(":checked"))
 		{
+			var get_course_value = $(this).val()
+			// console.log("get_course_value", get_course_value);
+			selected_courses.push(get_course_value);
+			// console.log("selected_courses", selected_courses);
+
+			var urls = "/course/course/" + selected_courses + "/delete/";
+			// console.log("urls", urls);
+
+			$.ajax(
+			{
+				type: "POST",
+				url: urls,
+				data:
+				{
+					get_selected_course: selected_courses,
+				},
+				success: function(data)
+				{
+					console.log("selected_courses", selected_courses);
+					// put more stuff here as per your requirement
+				}
+			})
+
 			var isAllChecked = 0;
+
 			$(".action-select").each(function()
 			{
-				if (!this.checked) isAllChecked = 1;
+				if (!this.checked)
+				{
+					// selected_courses.push($(this).val());
+					// var get_course_id = $('.action-select').val();
+					// console.log("get_course_id", get_course_id);
+					isAllChecked = 1;
+					// $.each($("input[name='selected_action']:checked"), function()
+					// {
+					// 	// selected_courses.push($(this).val());
+					// });
+					// console.log("get_selected_course1", get_selected_course);
+					// console.log("selected_courses", selected_courses);
+				}
 			});
 
+			// All checkec
 			if (isAllChecked == 0)
 			{
 				$("#action-toggle").prop("checked", true);
+				// console.log("get_selected_course2", get_selected_course);
 			}
+			// console.log("get_selected_course3", get_selected_course);
 		}
 		else
 		{
 			$("#action-toggle").prop("checked", false);
+			// console.log("get_selected_course4", get_selected_course);
 		}
 	});
+
+	// $(document).on("click","#GoSubmit",function()
+	// {
+		// var get_selected_course = [];
+		// var get_selected_course = "{{ item.id }}";
+		// console.log("get_selected_course", get_selected_course);
+
+		// $.each($("input[name='selected_action']:checked"), function()
+		// {
+		// 	get_selected_course.push($(this).val());
+		// 	console.log("course selected: ", get_selected_course);
+		// });
+
+		// if(get_selected_course.length == 0)
+		// {
+		// 	alert("Select course to delete");
+		// 	return false;
+		// }
+		// else
+		// {
+		// 	console.log("course selected: " + get_selected_course.join(", "));
+			// $.ajax(
+			// {
+			// 	type: "GET",
+			// 	url: "/course/course/",
+			// 	data:
+			// 	{
+			// 		get_selected_course: get_selected_course,
+			// 	},
+			// 	success: function(data)
+			// 	{
+			// 		console.log("get_selected_course", get_selected_course);
+			// 		// put more stuff here as per your requirement
+			// 	}
+			// })
+		// }
+
+
+	//ajax for deleting the multiple selelcted photos
+	// })
 
 	$(".action-select").each(function(i)
 	{

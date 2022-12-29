@@ -144,7 +144,7 @@
 											{% for item in list_level %}
 											<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
 												<td class="action-checkbox">
-													<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
+													<input type="checkbox" name="selected_action" value="{{ item.id }}" class="action-select">
 												</td>
 												<th class="field-id">
 													<a href="{% url 'course:level_detail' item.id %}">{{ item.id }}</a>

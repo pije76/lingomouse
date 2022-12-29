@@ -34,6 +34,7 @@ def course_index(request):
     return render(request,'course/course_index.html', context)
 
 
+########### LIST VIEW ############
 def course_list(request):
     page_title = _('Select course to change')
     list_course =   Course.objects.all()
@@ -58,7 +59,6 @@ def level_list(request):
     return render(request,'course/level_list.html', context)
 
 
-
 def word_list(request):
     page_title = _('Select word to change')
     course_id = request.POST.get('course')
@@ -74,6 +74,7 @@ def word_list(request):
     return render(request,'course/word_list.html', context)
 
 
+########### DETAIL VIEW ############
 def course_detail(request, pk):
     page_title = _('Change Course')
     course_detail = get_object_or_404(Course, id=pk)
@@ -97,7 +98,7 @@ def course_detail(request, pk):
             course.save()
 
             messages.success(request, _('Your course has been change successfully.'))
-            return HttpResponseRedirect('/')
+            return redirect('course:course_list')
         else:
             messages.warning(request, form.errors)
 
@@ -135,7 +136,7 @@ def level_detail(request, pk):
             level.save()
 
             messages.success(request, _('Your level has been change successfully.'))
-            return HttpResponseRedirect('/')
+            return redirect('course:level_list')
         else:
             messages.warning(request, form.errors)
 
@@ -167,7 +168,7 @@ def word_detail(request, pk):
             word.save()
 
             messages.success(request, _('Your word has been change successfully.'))
-            return HttpResponseRedirect('/')
+            return redirect('course:word_list')
         else:
             messages.warning(request, form.errors)
 
@@ -183,6 +184,7 @@ def word_detail(request, pk):
     return render(request, 'course/word_detail.html', context)
 
 
+########### CREATE VIEW ############
 def course_add(request):
     page_title = _('Add Course')
     # course = get_object_or_404(Course, id=pk)
@@ -195,6 +197,7 @@ def course_add(request):
     get_language = Language.objects.all().values_list("code", flat=True)
     # get_language = Course.objects.all().values_list("native", flat=True)
     # get_language = Language.objects.filter(book__title__startswith='hello')
+    get_level = Level.objects.all().values_list("name", flat=True)
 
     # # get_language = len(get_language)
     # post.attending_set.all()
@@ -304,6 +307,7 @@ def course_add(request):
         'title': page_title,
         'form': form,
         'word': word,
+        'get_level': get_level,
     }
 
     return render(request, 'course/course_add.html', context)
@@ -327,7 +331,7 @@ def level_add(request):
             course.save()
 
             messages.success(request, _('Your course has been change successfully.'))
-            return HttpResponseRedirect('/')
+            return redirect('course:level_list')
         else:
             messages.warning(request, form.errors)
 
@@ -361,7 +365,7 @@ def word_add(request):
             word.save()
 
             messages.success(request, _('Your word has been change successfully.'))
-            return HttpResponseRedirect('/')
+            return redirect('course:word_list')
         else:
             messages.warning(request, form.errors)
 
@@ -375,3 +379,11 @@ def word_add(request):
     }
 
     return render(request, 'course/word_add.html', context)
+
+
+########### DELETE VIEW ############
+def course_delete(request, pk):
+    course_data = get_object_or_404(Course, id=pk)
+    course_data.delete()
+
+    return redirect('course:course_list')
