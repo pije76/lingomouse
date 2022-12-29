@@ -1,0 +1,257 @@
+{% extends "base_detail.html" %}
+{% load i18n static paginator crispy_forms_tags %}
+
+{% block title %}
+{{ config_detail.name }} | {{ title }}
+{% endblock title %}
+
+{# note: content #}
+{% block content %}
+
+<main class="relative pt-16 bg-slate-100 min-h-screen">
+
+	<div class="container w-full mx-auto">
+		<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+			<div class="px-4 lg:px-10 mx-auto w-full">
+				<h1 class="font-normal text-xl md:text-2xl">Change course</h1>
+				<h2 class="font-medium">{{ config_detail.name }}</h2>
+				<hr class="md:min-w-full" />
+				<div class="breadcrumbs">
+					<a href="/">Home</a>
+					&rsaquo; <a href="/course/">Course</a>
+					&rsaquo; <a href="/course/course/">Courses</a>
+					&rsaquo; {{ config_detail.name }}
+				</div>
+
+			</div>
+		</div>
+		<div class="flex md:justify-end p-3 md:px-10">
+			<ul class="object-tools mt-0">
+				<li>
+					<a href="/admin/course/course/98764/history/" class="historylink">History</a>
+				</li>
+			</ul>
+		</div>
+		<div class="px-4 lg:px-10 mx-auto w-full">
+			<div class="w-full pb-12">
+				<div id="content-main">
+
+					<div class="pager flex justify-end">
+						<div class="block">
+							<span class="page">
+								<a href="/admin/course/course/13198/change">< Prev </a>
+							</span>
+						</div>
+					</div>
+
+					<form enctype="multipart/form-data" method="post" id="course_form" novalidate>
+					{% csrf_token %}
+
+						<div>
+							<div class="submit-row">
+								<input type="submit" value="Save" class="default" name="_save">
+								<p class="deletelink-box">
+									<a href="{% url 'config:country_delete' config_detail.pk %}" class="deletelink">Delete</a>
+								</p>
+								<input type="submit" value="Save and add another" name="_addanother">
+								<input type="submit" value="Save and continue editing" name="_continue">
+							</div>
+
+							<fieldset class="module aligned shadow-lg rounded">
+								<div class="form-row field-id"><div>
+									<label class="required" for="id_id">Id:</label>
+									{{ form.id|as_crispy_field }}
+								</div>
+							</div>
+								<div class="form-row field-name">
+									<div>
+										<label class="required" for="id_name">Name:</label>
+										{{ form.name|as_crispy_field }}
+									</div>
+								</div>
+								<div class="form-row field-native">
+									<div>
+										<label class="required" for="id_native">Native:</label>
+										<div class="related-widget-wrapper" data-model-ref="language">
+											{{ form.native|as_crispy_field }}
+											<a class="related-widget-wrapper-link change-related" id="change_id_native" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language" href="/admin/config/language/3/change/?_to_field=id&amp;_popup=1">
+												<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
+											</a>
+											<a class="related-widget-wrapper-link add-related" id="add_id_native" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
+												<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
+											</a>
+											<a class="related-widget-wrapper-link delete-related" id="delete_id_native" data-href-template="/admin/config/language/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected language" href="/admin/config/language/3/delete/?_to_field=id&amp;_popup=1">
+												<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
+											</a>
+											<a class="related-widget-wrapper-link view-related" id="view_id_native" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language" href="/admin/config/language/3/change/?_to_field=id">
+												<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-row field-foreign">
+									<div>
+										<label class="required" for="id_foreign">Foreign:</label>
+										<div class="related-widget-wrapper" data-model-ref="language">
+											{{ form.foreign|as_crispy_field }}
+											<a class="related-widget-wrapper-link change-related" id="change_id_foreign" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language" href="/admin/config/language/2/change/?_to_field=id&amp;_popup=1">
+												<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
+											</a>
+											<a class="related-widget-wrapper-link add-related" id="add_id_foreign" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
+												<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
+											</a>
+											<a class="related-widget-wrapper-link delete-related" id="delete_id_foreign" data-href-template="/admin/config/language/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected language" href="/admin/config/language/2/delete/?_to_field=id&amp;_popup=1">
+												<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
+											</a>
+											<a class="related-widget-wrapper-link view-related" id="view_id_foreign" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language" href="/admin/config/language/2/change/?_to_field=id">
+												<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
+											</a>
+										</div>
+									</div>
+								</div>
+								<div class="form-row field-description">
+									<div>
+										<label for="id_description">Description:</label>
+										{{ form.description|as_crispy_field }}
+									</div>
+								</div>
+								<div class="form-row field-image">
+									<div>
+										<label>Image:</label>
+										<div class="readonly">
+											<img style="width:150px;height:100px;" src="/uploads/{{ config_detail.img }}" alt="">
+										</div>
+									</div>
+								</div>
+								<div class="form-row field-img">
+									<div>
+										<label for="id_img">Img:</label>
+										{{ form.img|as_crispy_field }}
+									</div>
+								</div>
+								<div class="form-row field-is_active">
+									<div class="checkbox-row">
+										{{ form.is_active|as_crispy_field }}
+									</div>
+								</div>
+							</fieldset>
+
+						<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="words-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#words&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;words&quot;, &quot;addText&quot;: &quot;Add another Word&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
+							<div class="p-3">
+								<label for="bulk-set-level" class="block mb-3 text-lg">Bulk set level to selected words</label>
+								<div class="flex">
+									<div>
+										<select id="bulk-set-level" name="bulk-set-level">
+											<option value="">Select level</option>
+											{% for level in get_level %}
+											<option value="{{ level.id }}">
+											{{ level }}
+											</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="pl-6">
+										<button type="button" id="perform-bulk-set-level" data-course-id="98764" class="bg-green-500 text-white py-2 px-4">Set Level</button>
+									</div>
+								</div>
+							</div>
+							<div class="tabular inline-related last-related">
+								<input type="hidden" name="words-TOTAL_FORMS" value="5" id="id_words-TOTAL_FORMS" autocomplete="off">
+								<input type="hidden" name="words-INITIAL_FORMS" value="2" id="id_words-INITIAL_FORMS">
+								<input type="hidden" name="words-MIN_NUM_FORMS" value="0" id="id_words-MIN_NUM_FORMS" autocomplete="off">
+								<input type="hidden" name="words-MAX_NUM_FORMS" value="1000" id="id_words-MAX_NUM_FORMS" autocomplete="off">
+								<fieldset class="module">
+									<h2 class="px-3">Words</h2>
+									<table>
+										<thead>
+											<tr>
+												<th>Bulk</th>
+												<th class="original"></th>
+												<th class="column-pk">Pk</th>
+												<th class="column-word required">Foreign</th>
+												<th class="column-description required">Native</th>
+												<th class="column-level">Level</th>
+												<th class="column-is_active">Is active</th>
+												<th>Delete?</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for item in get_word %}
+											<tr class="form-row has_original dynamic-words" id="words-0">
+												<td><input type="checkbox" name="select-bulk" value="108"></td>
+												<td class="original">
+													<p>{{ item.word }} - {{ item.word }}
+														<a href="/admin/course/word/108/change/" class="inlinechangelink">Change</a>
+													</p>
+													<input type="hidden" name="words-0-id" value="108" id="id_words-0-id">
+													<input type="hidden" name="words-0-course" value="98764" id="id_words-0-course">
+												</td>
+												<td class="field-pk">
+													<p>{{ item.pk }}</p>
+												</td>
+												<td class="field-word">
+													<input type="text" name="words-0-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_words-0-word">
+												</td>
+												<td class="field-description">
+													<input type="text" name="words-0-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_words-0-description">
+												</td>
+												<td class="field-level">
+													<div class="related-widget-wrapper" data-model-ref="level">
+														<select name="words-0-level" id="id_words-0-level">
+															{% for level in get_level %}
+															<option value="{{ level.id }}" {% if item.level == level %}selected{% endif %}>{{ level }}</option>
+															{% endfor %}
+														</select>
+														<a class="related-widget-wrapper-link change-related" id="change_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
+															<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
+														</a>
+														<a class="related-widget-wrapper-link add-related" id="add_id_words-0-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+															<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
+														</a>
+														<a class="related-widget-wrapper-link delete-related" id="delete_id_words-0-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level" href="/admin/course/level/5/delete/?_to_field=id&amp;_popup=1">
+															<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
+														</a>
+														<a class="related-widget-wrapper-link view-related" id="view_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level" href="/admin/course/level/5/change/?_to_field=id">
+															<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
+														</a>
+													</div>
+												</td>
+												<td class="field-is_active">
+													<input type="checkbox" name="words-0-is_active" id="id_words-0-is_active" {% if item.is_active == True %}checked{% else %}''{% endif %}>
+												</td>
+												<td class="delete">
+													<input type="checkbox" name="words-0-DELETE" id="id_words-0-DELETE">
+												</td>
+											</tr>
+											{% endfor %}
+
+											<tr class="add-row">
+												<td colspan="8">
+													<a href="#">Add another Word</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</fieldset>
+							</div>
+						</div>
+
+						<div class="submit-row">
+							<input type="submit" value="Save" class="default" name="_save">
+							<p class="deletelink-box">
+								<a href="{% url 'config:country_delete' config_detail.pk %}" class="deletelink">Delete</a>
+							</p>
+
+							<input type="submit" value="Save and add another" name="_addanother">
+							<input type="submit" value="Save and continue editing" name="_continue">
+						</div>
+						</div>
+					</form>
+				</div>
+				<br class="clear"/>
+			</div>
+		</div>
+	</div>
+
+</main>
+{% endblock content %}

@@ -9,6 +9,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
+from .forms import *
 
 @method_decorator(csrf_exempt, name='dispatch')
 class SetupThemeMode(View):
@@ -51,48 +52,12 @@ def country_list(request):
 
 def country_detail(request, pk):
     page_title = _('Change Country')
-    course = get_object_or_404(Course, id=pk)
-    word = Word.objects.all()
+    country = get_object_or_404(Country, id=pk)
 
-    form = CourseForm(prefix='course')
-
-    if request.method == 'POST':
-        form = CourseForm(request.POST or None, instance=request.user)
-
-        if form.is_valid():
-            course = form.save(commit=False)
-            course.full_name = form.cleaned_data['full_name']
-            course.email = form.cleaned_data['email']
-            course.ic_number = form.cleaned_data['ic_number']
-            course.save()
-
-            messages.success(request, _('Your course has been change successfully.'))
-            return HttpResponseRedirect('/')
-        else:
-            messages.warning(request, form.errors)
-
-    else:
-        form = CourseForm()
-
-    context = {
-        'title': page_title,
-        'form': form,
-        'course': course,
-        'word': word,
-    }
-
-    return render(request, 'config/country_detail.html', context)
-
-
-def country_add(request):
-    page_title = _('Change Course')
-    # country = get_object_or_404(Course, id=pk)
-    word = Word.objects.all()
-
-    form = CourseForm(prefix='country')
+    form = CountryForm(prefix='country')
 
     if request.method == 'POST':
-        form = CourseForm(request.POST or None, instance=request.user)
+        form = CountryForm(request.POST or None, instance=request.user)
 
         if form.is_valid():
             country = form.save(commit=False)
@@ -107,7 +72,41 @@ def country_add(request):
             messages.warning(request, form.errors)
 
     else:
-        form = CourseForm()
+        form = CountryForm()
+
+    context = {
+        'title': page_title,
+        'form': form,
+        'country': country,
+    }
+
+    return render(request, 'config/country_detail.html', context)
+
+
+def country_add(request):
+    page_title = _('Change Country')
+    # country = get_object_or_404(Country, id=pk)
+    word = Word.objects.all()
+
+    form = CountryForm(prefix='country')
+
+    if request.method == 'POST':
+        form = CountryForm(request.POST or None, instance=request.user)
+
+        if form.is_valid():
+            country = form.save(commit=False)
+            country.full_name = form.cleaned_data['full_name']
+            country.email = form.cleaned_data['email']
+            country.ic_number = form.cleaned_data['ic_number']
+            country.save()
+
+            messages.success(request, _('Your country has been change successfully.'))
+            return HttpResponseRedirect('/')
+        else:
+            messages.warning(request, form.errors)
+
+    else:
+        form = CountryForm()
 
     context = {
         'title': page_title,
@@ -119,7 +118,7 @@ def country_add(request):
 
 
 def country_delete(request, pk):
-    country_data = get_object_or_404(Course, id=pk)
+    country_data = get_object_or_404(Country, id=pk)
     country_data.delete()
 
     return redirect('course:course_list')
