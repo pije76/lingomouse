@@ -223,44 +223,84 @@
 <script type='text/javascript'>
 $(document).ready(function()
 {
-	$(document).on("click","#GoSubmit",function()
+	$("#action-toggle").change(function()
 	{
-		var get_selected_course = [];
-		console.log("get_selected_course", get_selected_course);
-
-		$.each($("input[name='_selected_action']:checked"), function()
+		if (this.checked)
 		{
-			get_selected_course.push($(this).val());
-		});
-
-		if(get_selected_course.length == 0)
-		{
-			alert("Select course to delete");
-			return false;
+			$(".action-select").each(function()
+			{
+				this.checked=true;
+			});
 		}
 		else
 		{
-			console.log("course selected: " + get_selected_course.join(", "));
-		    // $.ajax(
-		    // {
-		    // 	// type: "GET",
-		    // 	method: 'POST',
-		    // 	url: "/course/course/",
-		    // 	data:
-		    // 	{
-		    // 		get_selected_course: get_selected_course,
-		    // 	},
-		    // 	success: function(data)
-		    // 	{
-		    // 		console.log("get_selected_course", get_selected_course);
-		    // 		// put more stuff here as per your requirement
-		    // 	}
-			// })
+			$(".action-select").each(function()
+			{
+				this.checked=false;
+			});
 		}
+	});
+
+	$(".action-select").click(function()
+	{
+		if ($(this).is(":checked"))
+		{
+			var isAllChecked = 0;
+			$(".action-select").each(function()
+			{
+				if (!this.checked) isAllChecked = 1;
+			});
+
+			if (isAllChecked == 0)
+			{
+				$("#action-toggle").prop("checked", true);
+			}
+		}
+		else
+		{
+			$("#action-toggle").prop("checked", false);
+		}
+	});
+
+	// $(document).on("click","#GoSubmit",function()
+	// {
+	// 	var get_selected_course = [];
+	// 	console.log("get_selected_course", get_selected_course);
+
+	// 	$.each($("input[name='_selected_action']:checked"), function()
+	// 	{
+	// 		get_selected_course.push($(this).val());
+	// 		console.log("course selected: ", get_selected_course);
+	// 	});
+
+	// 	if(get_selected_course.length == 0)
+	// 	{
+	// 		alert("Select course to delete");
+	// 		return false;
+	// 	}
+	// 	else
+	// 	{
+	// 		console.log("course selected: " + get_selected_course.join(", "));
+	// 	    // $.ajax(
+	// 	    // {
+	// 	    // 	// type: "GET",
+	// 	    // 	method: 'POST',
+	// 	    // 	url: "/course/course/",
+	// 	    // 	data:
+	// 	    // 	{
+	// 	    // 		get_selected_course: get_selected_course,
+	// 	    // 	},
+	// 	    // 	success: function(data)
+	// 	    // 	{
+	// 	    // 		console.log("get_selected_course", get_selected_course);
+	// 	    // 		// put more stuff here as per your requirement
+	// 	    // 	}
+	// 		// })
+	// 	}
 
 
-	//ajax for deleting the multiple selelcted photos
-	})
+	// //ajax for deleting the multiple selelcted photos
+	// })
 
 	$(".action-select").each(function(i)
 	{
