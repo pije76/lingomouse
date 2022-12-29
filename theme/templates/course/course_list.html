@@ -262,46 +262,6 @@ $(document).ready(function()
 		}
 	});
 
-	// $(document).on("click","#GoSubmit",function()
-	// {
-	// 	var get_selected_course = [];
-	// 	console.log("get_selected_course", get_selected_course);
-
-	// 	$.each($("input[name='_selected_action']:checked"), function()
-	// 	{
-	// 		get_selected_course.push($(this).val());
-	// 		console.log("course selected: ", get_selected_course);
-	// 	});
-
-	// 	if(get_selected_course.length == 0)
-	// 	{
-	// 		alert("Select course to delete");
-	// 		return false;
-	// 	}
-	// 	else
-	// 	{
-	// 		console.log("course selected: " + get_selected_course.join(", "));
-	// 	    // $.ajax(
-	// 	    // {
-	// 	    // 	// type: "GET",
-	// 	    // 	method: 'POST',
-	// 	    // 	url: "/course/course/",
-	// 	    // 	data:
-	// 	    // 	{
-	// 	    // 		get_selected_course: get_selected_course,
-	// 	    // 	},
-	// 	    // 	success: function(data)
-	// 	    // 	{
-	// 	    // 		console.log("get_selected_course", get_selected_course);
-	// 	    // 		// put more stuff here as per your requirement
-	// 	    // 	}
-	// 		// })
-	// 	}
-
-
-	// //ajax for deleting the multiple selelcted photos
-	// })
-
 	$(".action-select").each(function(i)
 	{
 		if ($(this).is(":checked"))
