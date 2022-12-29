@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseRedirect
@@ -34,7 +35,7 @@ def course_index(request):
     return render(request,'course/course_index.html', context)
 
 
-########### LIST VIEW ############
+########### COURSE VIEW ############
 def course_list(request):
     page_title = _('Select course to change')
     list_course =   Course.objects.all()
@@ -47,34 +48,6 @@ def course_list(request):
     return render(request,'course/course_list.html', context)
 
 
-def level_list(request):
-    page_title = _('Select level to change')
-    list_level =   Level.objects.all()
-
-    context = {
-        'title': page_title,
-        'list_level': list_level,
-    }
-
-    return render(request,'course/level_list.html', context)
-
-
-def word_list(request):
-    page_title = _('Select word to change')
-    course_id = request.POST.get('course')
-    list_word =   Word.objects.all()
-    get_level = Level.objects.all()
-
-    context = {
-        'title': page_title,
-        'list_word': list_word,
-        'get_level': get_level,
-    }
-
-    return render(request,'course/word_list.html', context)
-
-
-########### DETAIL VIEW ############
 def course_detail(request, pk):
     page_title = _('Change Course')
     course_detail = get_object_or_404(Course, id=pk)
@@ -85,25 +58,25 @@ def course_detail(request, pk):
     get_word = Word.objects.filter(course=pk)
     word_id = Course.objects.filter(id=pk).values_list("words")
 
-    form = CourseForm(prefix='course')
+    # form = CourseModelForm(prefix='course')
 
     if request.method == 'POST':
-        form = CourseForm(request.POST or None, instance=request.user)
+        form = CourseModelForm(request.POST or None)
 
         if form.is_valid():
-            course = form.save(commit=False)
-            course.full_name = form.cleaned_data['full_name']
-            course.email = form.cleaned_data['email']
-            course.ic_number = form.cleaned_data['ic_number']
-            course.save()
+            save_course = form.save(commit=False)
+            save_course.id = form.cleaned_data['id']
+            save_course.name = form.cleaned_data['name']
+            save_course.native = form.cleaned_data['native']
+            save_course.save()
 
             messages.success(request, _('Your course has been change successfully.'))
-            return redirect('course:course_list')
+            return redirect('course:course_detail')
         else:
             messages.warning(request, form.errors)
 
     else:
-        form = CourseForm()
+        form = CourseModelForm()
 
     context = {
         'title': page_title,
@@ -120,71 +93,6 @@ def course_detail(request, pk):
     return render(request, 'course/course_detail.html', context)
 
 
-def level_detail(request, pk):
-    page_title = _('Change Level')
-    form = CourseForm(prefix='level')
-    level = get_object_or_404(Level, id=pk)
-
-    if request.method == 'POST':
-        form = CourseForm(request.POST or None, instance=request.user)
-
-        if form.is_valid():
-            level = form.save(commit=False)
-            level.full_name = form.cleaned_data['full_name']
-            level.email = form.cleaned_data['email']
-            level.ic_number = form.cleaned_data['ic_number']
-            level.save()
-
-            messages.success(request, _('Your level has been change successfully.'))
-            return redirect('course:level_list')
-        else:
-            messages.warning(request, form.errors)
-
-    else:
-        form = CourseForm()
-
-    context = {
-        'title': page_title,
-        'form': form,
-        'level': level,
-    }
-
-    return render(request, 'course/level_detail.html', context)
-
-
-def word_detail(request, pk):
-    page_title = _('Change Word')
-    form = CourseForm(prefix='word')
-    word = get_object_or_404(Word, id=pk)
-
-    if request.method == 'POST':
-        form = CourseForm(request.POST or None, instance=request.user)
-
-        if form.is_valid():
-            word = form.save(commit=False)
-            word.full_name = form.cleaned_data['full_name']
-            word.email = form.cleaned_data['email']
-            word.ic_number = form.cleaned_data['ic_number']
-            word.save()
-
-            messages.success(request, _('Your word has been change successfully.'))
-            return redirect('course:word_list')
-        else:
-            messages.warning(request, form.errors)
-
-    else:
-        form = CourseForm()
-
-    context = {
-        'title': page_title,
-        'form': form,
-        'word': word,
-    }
-
-    return render(request, 'course/word_detail.html', context)
-
-
-########### CREATE VIEW ############
 def course_add(request):
     page_title = _('Add Course')
     # course = get_object_or_404(Course, id=pk)
@@ -313,6 +221,26 @@ def course_add(request):
     return render(request, 'course/course_add.html', context)
 
 
+def course_delete(request, pk):
+    course_data = get_object_or_404(Course, id=pk)
+    course_data.delete()
+
+    return redirect('course:course_list')
+
+
+########### LEVEL VIEW ############
+def level_list(request):
+    page_title = _('Select level to change')
+    list_level =   Level.objects.all()
+
+    context = {
+        'title': page_title,
+        'list_level': list_level,
+    }
+
+    return render(request,'course/level_list.html', context)
+
+
 def level_add(request):
     page_title = _('Change Course')
     # course = get_object_or_404(Course, id=pk)
@@ -345,6 +273,93 @@ def level_add(request):
     }
 
     return render(request, 'course/level_add.html', context)
+
+
+def level_detail(request, pk):
+    page_title = _('Change Level')
+    form = CourseForm(prefix='level')
+    level = get_object_or_404(Level, id=pk)
+
+    if request.method == 'POST':
+        form = CourseForm(request.POST or None, instance=request.user)
+
+        if form.is_valid():
+            level = form.save(commit=False)
+            level.full_name = form.cleaned_data['full_name']
+            level.email = form.cleaned_data['email']
+            level.ic_number = form.cleaned_data['ic_number']
+            level.save()
+
+            messages.success(request, _('Your level has been change successfully.'))
+            return redirect('course:level_list')
+        else:
+            messages.warning(request, form.errors)
+
+    else:
+        form = CourseForm()
+
+    context = {
+        'title': page_title,
+        'form': form,
+        'level': level,
+    }
+
+    return render(request, 'course/level_detail.html', context)
+
+
+def level_delete(request, pk):
+    level_data = get_object_or_404(Level, id=pk)
+    level_data.delete()
+
+    return redirect('course:level_list')
+
+
+########### WORD VIEW ############
+def word_list(request):
+    page_title = _('Select word to change')
+    course_id = request.POST.get('course')
+    list_word =   Word.objects.all()
+    get_level = Level.objects.all()
+
+    context = {
+        'title': page_title,
+        'list_word': list_word,
+        'get_level': get_level,
+    }
+
+    return render(request,'course/word_list.html', context)
+
+
+def word_detail(request, pk):
+    page_title = _('Change Word')
+    form = CourseForm(prefix='word')
+    word = get_object_or_404(Word, id=pk)
+
+    if request.method == 'POST':
+        form = CourseForm(request.POST or None, instance=request.user)
+
+        if form.is_valid():
+            word = form.save(commit=False)
+            word.full_name = form.cleaned_data['full_name']
+            word.email = form.cleaned_data['email']
+            word.ic_number = form.cleaned_data['ic_number']
+            word.save()
+
+            messages.success(request, _('Your word has been change successfully.'))
+            return redirect('course:word_list')
+        else:
+            messages.warning(request, form.errors)
+
+    else:
+        form = CourseForm()
+
+    context = {
+        'title': page_title,
+        'form': form,
+        'word': word,
+    }
+
+    return render(request, 'course/word_detail.html', context)
 
 
 def word_add(request):
@@ -381,9 +396,10 @@ def word_add(request):
     return render(request, 'course/word_add.html', context)
 
 
-########### DELETE VIEW ############
-def course_delete(request, pk):
-    course_data = get_object_or_404(Course, id=pk)
-    course_data.delete()
+def word_delete(request, pk):
+    word_data = get_object_or_404(Word, id=pk)
+    word_data.delete()
 
-    return redirect('course:course_list')
+    return redirect('course:word_list')
+
+
