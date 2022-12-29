@@ -49,16 +49,16 @@
 	<div class="container w-full mx-auto">
 		<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
 			<div class="px-4 lg:px-10 mx-auto w-full">
-				<h1 class="font-normal text-xl md:text-2xl">Select course to change</h1>
+				<h1 class="font-normal text-xl md:text-2xl">{{ title }}</h1>
 				<hr class="md:min-w-full" />
-				<a href="/">Home</a> > Select course to change
+				<a href="/">Home</a> > {{ title }}
 			</div>
 		</div>
 
 		<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
 			<ul class="object-tools mt-0">
 				<li>
-					<a href="{% url 'course:course_add' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Add course</a>
+					<a href="{% url 'config:country_add' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Add country</a>
 				</li>
 				<li>
 					<div class="float-right mb-2">
@@ -90,8 +90,8 @@
 					<div class="module filtered" id="changelist">
 						<div class="changelist-form-container">
 
-							{% for item in list_course %}
-							<form method="POST" action="{% url 'course:course_delete' item.pk %}" id="changelist-form">
+							{% for item in country_list %}
+							<form method="POST" action="{% url 'config:country_delete' item.pk %}" id="changelist-form">
 							{% endfor %}
 							{% csrf_token %}
 								<div class="rounded-t mb-0 px-4 py-3 border-0">
@@ -101,7 +101,7 @@
 												<label>Action:
 													<select name="action" required>
 														<option value="" selected>---------</option>
-														<option value="delete_selected">Delete selected courses</option>
+														<option value="delete_selected">Delete selected configs</option>
 													</select>
 												</label>
 												<input type="hidden" name="select_across" value="0" class="select-across">
@@ -176,16 +176,16 @@
 										</thead>
 
 										<tbody>
-											{% for item in list_course %}
+											{% for item in country_list %}
 											<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
 												<td class="action-checkbox">
 													<input type="checkbox" name="selected_action" value="{{ item.id }}" class="action-select">
 												</td>
 												<td class="field-pk">
-													<a href="{% url 'course:course_detail' item.id %}">{{ item.id }}</a>
+													<a href="{% url 'config:country_detail' item.id %}">{{ item.id }}</a>
 												</td>
 												<td class="field-name">
-													{{ item.name }}
+													{{ item.code }}
 												</td>
 												<td class="field-description">
 													{{ item.description }}
@@ -208,7 +208,7 @@
 									</table>
 								</div>
 
-								<p class="paginator">2 courses</p>
+								<p class="paginator">2 configs</p>
 							</form>
 						</div>
 					</div>
@@ -225,8 +225,8 @@
 <script type='text/javascript'>
 $(document).ready(function()
 {
-	var get_selected_course = "{{ item.id }}";
-	selected_courses = []
+	var get_selected_config = "{{ item.id }}";
+	selected_configs = []
 
 	$("#action-toggle").change(function()
 	{
@@ -250,12 +250,12 @@ $(document).ready(function()
 	{
 		if ($(this).is(":checked"))
 		{
-			var get_course_value = $(this).val()
-			// console.log("get_course_value", get_course_value);
-			selected_courses.push(get_course_value);
-			// console.log("selected_courses", selected_courses);
+			var get_config_value = $(this).val()
+			// console.log("get_config_value", get_config_value);
+			selected_configs.push(get_config_value);
+			// console.log("selected_configs", selected_configs);
 
-			var urls = "/course/course/" + selected_courses + "/delete/";
+			var urls = "/config/config/" + selected_configs + "/delete/";
 			// console.log("urls", urls);
 
 			$.ajax(
@@ -264,11 +264,11 @@ $(document).ready(function()
 				url: urls,
 				data:
 				{
-					get_selected_course: selected_courses,
+					get_selected_config: selected_configs,
 				},
 				success: function(data)
 				{
-					console.log("selected_courses", selected_courses);
+					console.log("selected_configs", selected_configs);
 					// put more stuff here as per your requirement
 				}
 			})
@@ -279,16 +279,16 @@ $(document).ready(function()
 			{
 				if (!this.checked)
 				{
-					// selected_courses.push($(this).val());
-					// var get_course_id = $('.action-select').val();
-					// console.log("get_course_id", get_course_id);
+					// selected_configs.push($(this).val());
+					// var get_config_id = $('.action-select').val();
+					// console.log("get_config_id", get_config_id);
 					isAllChecked = 1;
 					// $.each($("input[name='selected_action']:checked"), function()
 					// {
-					// 	// selected_courses.push($(this).val());
+					// 	// selected_configs.push($(this).val());
 					// });
-					// console.log("get_selected_course1", get_selected_course);
-					// console.log("selected_courses", selected_courses);
+					// console.log("get_selected_config1", get_selected_config);
+					// console.log("selected_configs", selected_configs);
 				}
 			});
 
@@ -296,48 +296,48 @@ $(document).ready(function()
 			if (isAllChecked == 0)
 			{
 				$("#action-toggle").prop("checked", true);
-				// console.log("get_selected_course2", get_selected_course);
+				// console.log("get_selected_config2", get_selected_config);
 			}
-			// console.log("get_selected_course3", get_selected_course);
+			// console.log("get_selected_config3", get_selected_config);
 		}
 		else
 		{
 			$("#action-toggle").prop("checked", false);
-			// console.log("get_selected_course4", get_selected_course);
+			// console.log("get_selected_config4", get_selected_config);
 		}
 	});
 
 	// $(document).on("click","#GoSubmit",function()
 	// {
-		// var get_selected_course = [];
-		// var get_selected_course = "{{ item.id }}";
-		// console.log("get_selected_course", get_selected_course);
+		// var get_selected_config = [];
+		// var get_selected_config = "{{ item.id }}";
+		// console.log("get_selected_config", get_selected_config);
 
 		// $.each($("input[name='selected_action']:checked"), function()
 		// {
-		// 	get_selected_course.push($(this).val());
-		// 	console.log("course selected: ", get_selected_course);
+		// 	get_selected_config.push($(this).val());
+		// 	console.log("config selected: ", get_selected_config);
 		// });
 
-		// if(get_selected_course.length == 0)
+		// if(get_selected_config.length == 0)
 		// {
-		// 	alert("Select course to delete");
+		// 	alert("Select config to delete");
 		// 	return false;
 		// }
 		// else
 		// {
-		// 	console.log("course selected: " + get_selected_course.join(", "));
+		// 	console.log("config selected: " + get_selected_config.join(", "));
 			// $.ajax(
 			// {
 			// 	type: "GET",
-			// 	url: "/course/course/",
+			// 	url: "/config/config/",
 			// 	data:
 			// 	{
-			// 		get_selected_course: get_selected_course,
+			// 		get_selected_config: get_selected_config,
 			// 	},
 			// 	success: function(data)
 			// 	{
-			// 		console.log("get_selected_course", get_selected_course);
+			// 		console.log("get_selected_config", get_selected_config);
 			// 		// put more stuff here as per your requirement
 			// 	}
 			// })
@@ -351,7 +351,7 @@ $(document).ready(function()
 	{
 		if ($(this).is(":checked"))
 		{
-			console.log('courses');
+			console.log('configs');
 		}
 	});
 });

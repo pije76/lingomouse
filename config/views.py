@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.forms.models import model_to_dict
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseRedirect
-from django.shortcuts import redirect, render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views import View
@@ -35,28 +35,18 @@ def config_index(request):
     return render(request,'config/config_index.html', context)
 
 
+################# COUNTRY VIEW #############
 def country_list(request):
-    page_title = _('Country')
-    data_country =   Country.objects.all()
+    page_title = _('Select country to change')
+    country_list =   Country.objects.all()
 
     context = {
         'title': page_title,
-        'data_country': data_country,
+        'country_list': country_list,
     }
 
-    return render(request,'config/config_set.html', context)
+    return render(request,'config/country_list.html', context)
 
-
-def language_list(request):
-    page_title = _('Languages')
-    data_language =   Language.objects.all()
-
-    context = {
-        'title': page_title,
-        'data_language': data_language,
-    }
-
-    return render(request,'config/config_set.html', context)
 
 
 def country_detail(request, pk):
@@ -94,6 +84,59 @@ def country_detail(request, pk):
     return render(request, 'config/country_detail.html', context)
 
 
+def country_add(request):
+    page_title = _('Change Course')
+    # country = get_object_or_404(Course, id=pk)
+    word = Word.objects.all()
+
+    form = CourseForm(prefix='country')
+
+    if request.method == 'POST':
+        form = CourseForm(request.POST or None, instance=request.user)
+
+        if form.is_valid():
+            country = form.save(commit=False)
+            country.full_name = form.cleaned_data['full_name']
+            country.email = form.cleaned_data['email']
+            country.ic_number = form.cleaned_data['ic_number']
+            country.save()
+
+            messages.success(request, _('Your country has been change successfully.'))
+            return HttpResponseRedirect('/')
+        else:
+            messages.warning(request, form.errors)
+
+    else:
+        form = CourseForm()
+
+    context = {
+        'title': page_title,
+        'form': form,
+        'word': word,
+    }
+
+    return render(request, 'config/country_add.html', context)
+
+
+def country_delete(request, pk):
+    country_data = get_object_or_404(Course, id=pk)
+    country_data.delete()
+
+    return redirect('course:course_list')
+
+################# COUNTRY VIEW #############
+def language_list(request):
+    page_title = _('Languages')
+    data_language =   Language.objects.all()
+
+    context = {
+        'title': page_title,
+        'data_language': data_language,
+    }
+
+    return render(request,'config/config_set.html', context)
+
+
 def language_detail(request, pk):
     page_title = _('Change Country')
     course = get_object_or_404(Course, id=pk)
@@ -127,40 +170,6 @@ def language_detail(request, pk):
     }
 
     return render(request, 'config/language_detail.html', context)
-
-
-def country_add(request):
-    page_title = _('Change Course')
-    # course = get_object_or_404(Course, id=pk)
-    word = Word.objects.all()
-
-    form = CourseForm(prefix='course')
-
-    if request.method == 'POST':
-        form = CourseForm(request.POST or None, instance=request.user)
-
-        if form.is_valid():
-            course = form.save(commit=False)
-            course.full_name = form.cleaned_data['full_name']
-            course.email = form.cleaned_data['email']
-            course.ic_number = form.cleaned_data['ic_number']
-            course.save()
-
-            messages.success(request, _('Your course has been change successfully.'))
-            return HttpResponseRedirect('/')
-        else:
-            messages.warning(request, form.errors)
-
-    else:
-        form = CourseForm()
-
-    context = {
-        'title': page_title,
-        'form': form,
-        'word': word,
-    }
-
-    return render(request, 'course/country_add.html', context)
 
 
 def language_add(request):

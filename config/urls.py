@@ -17,4 +17,7 @@ urlpatterns = [
 
     path('country/add/', country_add, name='country_add'),
     path('language/add/', language_add, name='language_add'),
+
+    path('country/<int:pk>/delete/', country_delete, name='country_delete'),
+
 ]
