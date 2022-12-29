@@ -82,8 +82,8 @@ class Level (TimestampedModel):
 
     def __str__(self):
         '''String representation'''
-        return str(self.course)+' - '+str(self.name)
-        # return str(self.name)
+        # return str(self.course)+' - '+str(self.name)
+        return str(self.name)
 
     class Meta:
         ordering = ["sequence"]

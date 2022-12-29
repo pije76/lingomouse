@@ -182,7 +182,6 @@
 												<tr>
 													<th>Bulk</th>
 													<th class="original"></th>
-													<th class="column-pk">Pk</th>
 													<th class="column-word required">Foreign</th>
 													<th class="column-description required">Native</th>
 													<th class="column-level">Level</th>
@@ -198,9 +197,6 @@
 													<td class="original">
 														<input type="hidden" name="words-0-id" id="id_words-0-id">
 														<input type="hidden" name="words-0-course" id="id_words-0-course">
-													</td>
-													<td class="field-pk">
-														<p>None</p>
 													</td>
 													<td class="field-word">
 														<input type="text" name="words-0-word" class="vTextField" maxlength="200" id="id_words-0-word">
@@ -233,55 +229,6 @@
 													</td>
 													<td class="field-is_active">
 														<input type="checkbox" name="words-0-is_active" id="id_words-0-is_active" checked>
-													</td>
-													<td class="delete"></td>
-												</tr>
-												<tr class="form-row  empty-form" id="words-empty">
-													<td>
-														<input type="checkbox" name="select-bulk" value="">
-													</td>
-													<td class="original">
-														<input type="hidden" name="words-__prefix__-id" id="id_words-__prefix__-id">
-														<input type="hidden" name="words-__prefix__-course" id="id_words-__prefix__-course">
-													</td>
-													<td class="field-pk">
-														<p>None</p>
-													</td>
-													<td class="field-word">
-														<input type="text" name="words-__prefix__-word" class="vTextField" maxlength="200" id="id_words-__prefix__-word">
-													</td>
-													<td class="field-description">
-														<input type="text" name="words-__prefix__-description" class="vTextField" maxlength="200" id="id_words-__prefix__-description">
-													</td>
-													<td class="field-level">
-														<div class="related-widget-wrapper" data-model-ref="level">
-															<select name="words-__prefix__-level" id="id_words-__prefix__-level">
-																<option value="" selected>---------</option>
-																<option value="1">English MasterClass - Level 1</option>
-																<option value="5">Tagalog MasterClass - Level 1</option>
-																<option value="2">English MasterClass - Level 2</option>
-																<option value="6">Tagalog MasterClass - Level 2</option>
-																<option value="3">English MasterClass - Level 3</option>
-																<option value="7">Tagalog MasterClass - Level 3</option>
-																<option value="4">English MasterClass - Level 4</option>
-																<option value="8">English MasterClass - Level 5</option>
-															</select>
-															<a class="related-widget-wrapper-link change-related" id="change_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
-																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
-															</a>
-															<a class="related-widget-wrapper-link add-related" id="add_id_words-__prefix__-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-																<img src="/static/admin/img/icon-addlink.svg" alt="Add">
-															</a>
-															<a class="related-widget-wrapper-link delete-related" id="delete_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
-																<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
-															</a>
-															<a class="related-widget-wrapper-link view-related" id="view_id_words-__prefix__-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
-																<img src="/static/admin/img/icon-viewlink.svg" alt="View">
-															</a>
-														</div>
-													</td>
-													<td class="field-is_active">
-														<input type="checkbox" name="words-__prefix__-is_active" id="id_words-__prefix__-is_active" checked>
 													</td>
 													<td class="delete"></td>
 												</tr>
