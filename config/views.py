@@ -17,10 +17,12 @@ class SetupThemeMode(View):
             theme_mode = 'light'
         else:
             theme_mode = 'dark'
-
         request.session['theme_mode'] = theme_mode
+
         return JsonResponse({**request.session})
 
+
+setup_theme_mode = SetupThemeMode.as_view()
 
 def config_index(request):
     page_title = _('Select config to change')

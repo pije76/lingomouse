@@ -80,6 +80,7 @@ TEMPLATES = [
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
 				# 'frontend.context_processors.app_list',
+				# 'frontend.context_processors.app_list',
 			],
 		},
 	},

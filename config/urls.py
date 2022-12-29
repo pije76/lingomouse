@@ -5,7 +5,7 @@ from .views import *
 app_name = 'config'
 
 urlpatterns = [
-	path('setup-theme-mode/', SetupThemeMode.as_view(), name='setup-theme-mode'),
+	path('setup-theme-mode/', setup_theme_mode, name='setup_theme_mode'),
 
     path('', config_index, name="config_index"),
 

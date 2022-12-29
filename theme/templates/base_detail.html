@@ -14,7 +14,7 @@
     <meta name="author" content="Inelevation"/>
     {% endblock stylesheet %}
     {% block dark-mode-vars %}
-    {% comment %} <link rel="stylesheet" href="{% static "admin/css/dark_mode.css" %}"/> {% endcomment %}
+    <link rel="stylesheet" href="{% static "admin/css/dark_mode.css" %}"/>
     {% endblock dark-mode-vars %}
     {% if not is_popup and is_nav_sidebar_enabled %}
     <link rel="stylesheet" href="{% static "admin/css/nav_sidebar.css" %}"/>
@@ -42,7 +42,7 @@
     {% tailwind_css %}
 </head>
 
-<body class="pt-11 app-course model-course change-form {% if theme_mode == 'dark' %}dark-mode{% endif %} {% if is_popup %}popup{% endif %}{% block bodyclass %}{% endblock bodyclass %} {{ user.account.theme }}" data-admin-utc-offset="{% now 'z' %}">
+<body class="pt-11 app-course model-course change-form {% if request.session.theme_mode == 'dark' %}dark-mode{% endif %} {% if is_popup %}popup{% endif %}{% block bodyclass %}{% endblock bodyclass %} {{ user.account.theme }}" data-admin-utc-offset="{% now 'z' %}">
     {% if not is_popup %}
     <nav class="app-sidebar bg-sky-500 md:bg-white md:fixed md:top-0 md:bottom-0 md:overflow-y-auto md:left-0 md:flex-row md:flex-nowrap md:overflow-hidden shadow-xl flex flex-wrap items-center justify-between relative md:w-64 z-10 {% if not is_active %}hidden{% endif %}">
         <div class="md:flex md:flex-col md:items-stretch md:opacity-100 md:relative md:mt-0 h-auto items-center flex-1 rounded">
@@ -86,11 +86,12 @@
         // setup theme mode (dark/light)
         $(document).on('click', '#setup-theme-mode', function(e)
         {
+            console.log('courses', $(this));
             e.preventDefault();
             $.ajax(
             {
                 type: 'POST',
-                url: "{% url 'config:setup-theme-mode' %}",
+                url: "{% url 'config:setup_theme_mode' %}",
                 success: function(xhr)
                 {
                     window.location.reload();
