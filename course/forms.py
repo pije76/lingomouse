@@ -73,10 +73,11 @@ class CourseModelForm(forms.ModelForm):
 		labels = {
             "id": _(""),
             "name": _(""),
-            "description": _(""),
             "native": _(""),
             "foreign": _(""),
+            "description": _(""),
             "img": _(""),
+            # "is_active": _(""),
         }
 
 	def __init__(self, *args, **kwargs):
@@ -89,8 +90,9 @@ class CourseModelForm(forms.ModelForm):
 	'''Account form'''
 	# id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	# name = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
-	# description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
+	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
 	# native = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select)
+	# is_active = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select)
 
 
 # Word Media Form

@@ -58,25 +58,40 @@ def course_detail(request, pk):
     get_word = Word.objects.filter(course=pk)
     word_id = Course.objects.filter(id=pk).values_list("words")
 
+    intial = {
+        'id': course_detail.id,
+        'name': course_detail.name,
+        'native': course_detail.native,
+        'foreign': course_detail.foreign,
+        'description': course_detail.description,
+        'img': course_detail.img,
+        'is_active': course_detail.is_active,
+    }
+
     # form = CourseModelForm(prefix='course')
 
     if request.method == 'POST':
-        form = CourseModelForm(request.POST or None)
+        form = CourseModelForm(request.POST or None, request.FILES)
 
         if form.is_valid():
             save_course = form.save(commit=False)
             save_course.id = form.cleaned_data['id']
             save_course.name = form.cleaned_data['name']
             save_course.native = form.cleaned_data['native']
+            save_course.foreign = form.cleaned_data['foreign']
+            save_course.description = form.cleaned_data['description']
+            save_course.img = form.cleaned_data['img']
+            save_course.is_active = form.cleaned_data['is_active']
             save_course.save()
 
             messages.success(request, _('Your course has been change successfully.'))
-            return redirect('course:course_detail')
+            return redirect('course:course_detail', id=save_course.id)
         else:
             messages.warning(request, form.errors)
 
     else:
-        form = CourseModelForm()
+        # form = CourseModelForm()
+        form = CourseModelForm(instance=course_detail)
 
     context = {
         'title': page_title,
@@ -182,7 +197,7 @@ def course_add(request):
 
 
     if request.method == 'POST':
-        form = CourseModelForm(request.POST or None)
+        form = CourseModelForm(request.POST or None, request.FILES)
         native_id = request.GET.get('get_selected_native', None)
         native_id = request.POST.get('get_selected_native', None)
         # print("native_id2", native_id)
