@@ -429,7 +429,7 @@ def word_export(request):
 
 
 def word_import(request):
-	page_title = _('Select word to upload')
+	page_title = _('Select word to import')
 
 	if request.method == 'POST':
 		word_resource = WordResource()
