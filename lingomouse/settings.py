@@ -48,7 +48,7 @@ INSTALLED_APPS = [
 	'tailwind',
 	'theme',
 	"crispy_forms",
-
+	'import_export',
 	# 'whoosh_index',
     'haystack',
 
@@ -149,12 +149,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-# Tailwind app setup
-TAILWIND_APP_NAME = 'theme'
 INTERNAL_IPS = [
 	"127.0.0.1",
 ]
+
+#############################################################################################
+
+# Tailwind app setup
+TAILWIND_APP_NAME = 'theme'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 REST_FRAMEWORK = {
 	# 'DEFAULT_AUTHENTICATION_CLASSES': [

@@ -8,6 +8,7 @@ from django.views import View
 
 from .models import *
 from .forms import *
+from .exim import *
 
 from itertools import chain
 
@@ -416,5 +417,13 @@ def word_delete(request, pk):
     word_data.delete()
 
     return redirect('course:word_list')
+
+
+def export(request):
+    person_resource = PersonResource()
+    dataset = person_resource.export()
+    response = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="persons.xls"'
+    return response
 
 
