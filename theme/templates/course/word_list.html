@@ -61,9 +61,16 @@
 					<a href="{% url 'course:word_add' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Add word</a>
 				</li>
 				<li>
+					<a href="{% url 'course:word_export' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Export word</a>
+				</li>
+				<li>
+					<a href="{% url 'course:word_import' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Import word</a>
+				</li>
+				<li>
 					<div class="float-right mb-2">
 						<div id="toolbar">
-							<form id="changelist-search" method="get">
+							<form id="changelist-search" method="GET">
+							{% csrf_token %}
 								<div class="relative flex focus:ring rounded shadow bg-white">
 									<span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
 										<img src="{% static "admin/img/search.svg" %}" alt="Search">

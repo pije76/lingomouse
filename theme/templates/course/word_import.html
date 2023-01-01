@@ -1,0 +1,93 @@
+{% extends "base_list.html" %}
+{% load i18n static %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block extrastyle %}
+{{ block.super }}
+{% if cl.formset %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}"/>
+{% endif %}
+{% if cl.formset or action_form %}
+<script src="{% url 'admin:jsi18n' %}"></script>
+{% endif %}
+{{ media.css }}
+{% if not actions_on_top and not actions_on_bottom %}
+<style>
+#changelist table thead th:first-child {width: inherit}
+</style>
+{% endif %}
+{% endblock extrastyle %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+{% endblock extrahead %}
+
+{% block bodyclass %}
+{{ block.super }}
+{% endblock bodyclass %}
+
+{% block object-tools %}
+{% if not is_popup %}
+<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
+	<ul class="object-tools mt-0">
+		{% block object-tools-items %}
+
+		{% endblock object-tools-items %}
+	</ul>
+</div>
+{% endif %}
+{% endblock object-tools %}
+
+{% block content %}
+
+<main class="relative pt-16 bg-slate-100 min-h-screen">
+
+
+	<div class="container w-full mx-auto">
+		<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+			<div class="px-4 lg:px-10 mx-auto w-full">
+				<h1 class="font-normal text-xl md:text-2xl">{{ title }}</h1>
+				<hr class="md:min-w-full" />
+				<a href="/">Home</a> > {{ title }}
+			</div>
+		</div>
+
+		<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
+			<ul class="object-tools mt-0">
+				<li>
+					<a href="{% url 'course:word_add' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Add word</a>
+				</li>
+				<li>
+					<a href="{% url 'course:word_export' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Export word</a>
+				</li>
+				<li>
+					<a href="{% url 'course:word_import' %}" class="bg-green-500 hover:bg-green-600 text-white add-button">Import word</a>
+				</li>
+				<li>
+					<div class="float-right mb-2">
+						<div id="toolbar">
+							<form id="changelist-upload" method="POST">
+							{% csrf_token %}
+								<div class="relative flex focus:ring rounded shadow bg-white">
+									<span class="z-10 h-full absolute items-center justify-center w-8 pl-3 py-3">
+										<input type="file" name="myfile">
+									</span>
+									<input id="searchbar" name="q" value="" type="text" placeholder="Search here..." class="placeholder-slate-300 text-slate-600 bg-white text-sm outline-none focus:outline-none border-0 p-2 pl-10 rounded-l">
+									<input type="submit" value="Upload" class="text-sm h-full p-3 rounded-r">
+								</div>
+							</form>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+
+	</div>
+</main>
+
+{% endblock content %}
+
