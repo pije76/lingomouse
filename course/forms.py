@@ -1,6 +1,7 @@
 from django import forms
 from django.forms.models import BaseInlineFormSet
 from django.utils.translation import gettext_lazy as _
+from django.forms import formset_factory
 
 import pycountry
 
@@ -114,11 +115,37 @@ class WordChangeListForm(forms.ModelForm):
 			self.fields['level'].choices = [(level.id, level.name) for level in _level_queryset]
 
 
-class WordForm(forms.ModelForm):
-	def __init__(self, *args, parent_object, **kwargs):
-		self.parent_object = parent_object
-		super(WordForm, self).__init__(*args, **kwargs)
+class Word_ModelForm(forms.ModelForm):
+	class Meta:
+		model = Word
+		fields = '__all__'
 
+	def __init__(self, *args, **kwargs):
+	# def __init__(self, *args, parent_object, **kwargs):
+	# 	self.parent_object = parent_object
+	# 	super(WordForm, self).__init__(*args, **kwargs)
+		super().__init__(*args, **kwargs)
+
+
+
+class Word_Form(forms.Form):
+	id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	word = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
+
+
+Word_FormSet = formset_factory(
+    Word_Form,
+    extra=0,
+    max_num=5,
+)
+
+
+Word_ModelFormSet = formset_factory(
+    Word_ModelForm,
+    extra=1,
+    max_num=5,
+)
 
 class WordInlineForm(BaseInlineFormSet):
 	""" Filter level by own course """

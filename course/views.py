@@ -13,6 +13,7 @@ from .exim import *
 from itertools import chain
 from tablib import Dataset
 
+
 class BulkLevelSet(View):
 	def get(self, request):
 		return JsonResponse({'message': 'Not implemented yet'})
@@ -133,31 +134,31 @@ def course_add(request):
 
 	# obj = []
 
-	for item in get_language:
-		language = pycountry.languages.lookup(item)
-		# language = pycountry.languages.get(alpha_2=item)
-		language = language.name
-		# print("language", language)
-		if language and language not in obj:
-			obj.append(language)
+	# for item in get_language:
+	# 	language = pycountry.languages.lookup(item)
+	# 	# language = pycountry.languages.get(alpha_2=item)
+	# 	language = language.name
+	# 	# print("language", language)
+	# 	if language and language not in obj:
+	# 		obj.append(language)
 
 	# print("obj", obj)
 
-	language_list = [item.name for item in pycountry.languages]
+	# language_list = [item.name for item in pycountry.languages]
 	# language_tuples = ((item, item) for item in language_list)
 
-	list3 = []
+	# list3 = []
 
-	for item in obj:
-		print("item", item)
-		if item and item in language_list:
-			# print("obj", obj)
-			# print("language_list", language_list)
-			list3.append(item)
-			print("item", item)
+	# for item in obj:
+	# 	print("item", item)
+	# 	if item and item in language_list:
+	# 		# print("obj", obj)
+	# 		# print("language_list", language_list)
+	# 		list3.append(item)
+	# 		print("item", item)
 
 
-	print("list3", list3)
+	# print("list3", list3)
 	# print("language_tuples", language_tuples)
 	# print("obj", type(obj))
 
@@ -170,7 +171,7 @@ def course_add(request):
 	#     obj = pycountry.languages.get(alpha_2=item).name
 	#     print("obj", obj)
 
-	LANG_CHOICES = [(language.alpha_2, language.name) for language in pycountry.languages if hasattr(language, 'alpha_2')]
+	# LANG_CHOICES = [(language.alpha_2, language.name) for language in pycountry.languages if hasattr(language, 'alpha_2')]
 
 
 	# LANG_CHOICES = [(language.name) for language in pycountry.languages]
@@ -200,10 +201,9 @@ def course_add(request):
 
 	if request.method == 'POST':
 		form = CourseModelForm(request.POST or None, request.FILES)
+		word_formset = Word_ModelFormSet(request.POST or None)
 		native_id = request.GET.get('get_selected_native', None)
 		native_id = request.POST.get('get_selected_native', None)
-		# print("native_id2", native_id)
-		# print("native_id3", native_id)
 
 		if form.is_valid():
 			# course = Course()
@@ -218,19 +218,34 @@ def course_add(request):
 			course.save()
 
 			return redirect('course:course_list')
+		else:
+			messages.warning(request, form.errors)
+
+		if word_formset.is_valid():
+			get_admission_date_admission = Admission.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
+
+			for item in admision_formset:
+				admision_formset_profile = Admission()
+				admision_formset_profile.patient = patients
+				admision_formset_profile.date_admission = get_admission_date_admission
+				admision_formset_profile.time_admission = get_admission_time_admission
+				admision_formset_profile.admitted_admission = str(get_admission_admitted_admission)
+			return redirect('course:course_list')
+		else:
+			messages.warning(request, admision_formset.errors)
 
 	else:
 	# if request.method == 'GET':
 		form = CourseModelForm()
 		# form = CourseForm(prefix='course')
+		word_formset = Word_ModelFormSet()
 		# native_id = request.GET.get('get_selected_native', None)
 		# native_id = request.POST.get('get_selected_native', None)
-		# print("native_id4", native_id)
-		# print("native_id5", native_id)
 
 	context = {
 		'title': page_title,
 		'form': form,
+		'word_formset': word_formset,
 		'word': word,
 		'get_level': get_level,
 	}
@@ -263,7 +278,7 @@ def level_add(request):
 	# course = get_object_or_404(Course, id=pk)
 	word = Word.objects.all()
 
-	form = CourseForm(prefix='course')
+	form = CourseForm()
 
 	if request.method == 'POST':
 		form = CourseForm(request.POST or None, instance=request.user)
@@ -294,7 +309,7 @@ def level_add(request):
 
 def level_detail(request, pk):
 	page_title = _('Change Level')
-	form = CourseForm(prefix='level')
+	form = CourseForm()
 	level = get_object_or_404(Level, id=pk)
 
 	if request.method == 'POST':
@@ -349,7 +364,7 @@ def word_list(request):
 
 def word_detail(request, pk):
 	page_title = _('Change Word')
-	form = CourseForm(prefix='word')
+	form = CourseForm()
 	word = get_object_or_404(Word, id=pk)
 
 	if request.method == 'POST':
@@ -384,7 +399,7 @@ def word_add(request):
 	# word = get_object_or_404(Course, id=pk)
 	word = Word.objects.all()
 
-	form = CourseForm(prefix='word')
+	form = CourseForm()
 
 	if request.method == 'POST':
 		form = CourseForm(request.POST or None, instance=request.user)

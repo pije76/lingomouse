@@ -24,6 +24,7 @@
 {% block extrahead %}
 {{ block.super }}
 {{ media.js }}
+{{ word_formset.media }}
 {% endblock extrahead %}
 
 {% block bodyclass %}
@@ -66,6 +67,7 @@
 					</div>
 					<form method="POST" action="" id="course_form" enctype="multipart/form-data">
 					{% csrf_token %}
+					{{ word_formset.management_form }}
 						<div>
 							<div class="submit-row">
 								<input type="submit" value="Save" class="default" name="_save">
@@ -171,10 +173,6 @@
 									</div>
 								</div>
 								<div class="tabular inline-related last-related">
-									<input type="hidden" name="words-TOTAL_FORMS" value="3" id="id_words-TOTAL_FORMS">
-									<input type="hidden" name="words-INITIAL_FORMS" value="0" id="id_words-INITIAL_FORMS">
-									<input type="hidden" name="words-MIN_NUM_FORMS" value="0" id="id_words-MIN_NUM_FORMS">
-									<input type="hidden" name="words-MAX_NUM_FORMS" value="1000" id="id_words-MAX_NUM_FORMS">
 									<fieldset class="module">
 										<h2 class="px-3">Words</h2>
 										<table>
@@ -191,28 +189,22 @@
 											</thead>
 											<tbody>
 												<tr class="form-row" id="words-0">
+													{% for item in word_formset %}
 													<td>
 														<input type="checkbox" name="select-bulk" value="">
 													</td>
 													<td class="original">
-														<input type="hidden" name="words-0-id" id="id_words-0-id">
-														<input type="hidden" name="words-0-course" id="id_words-0-course">
+														{{ item.course|as_crispy_field }}
 													</td>
 													<td class="field-word">
-														<input type="text" name="words-0-word" class="vTextField" maxlength="200" id="id_words-0-word">
+														{{ item.word|as_crispy_field }}
 													</td>
 													<td class="field-description">
-														<input type="text" name="words-0-description" class="vTextField" maxlength="200" id="id_words-0-description">
+														{{ item.description|as_crispy_field }}
 													</td>
 													<td class="field-level">
 														<div class="related-widget-wrapper" data-model-ref="level">
-															<select name="words-0-level" id="id_words-0-level">
-																{% for level in get_level %}
-																<option value="{{ level.id }}">
-																{{ level }}
-																</option>
-																{% endfor %}
-															</select>
+															{{ item.level|as_crispy_field }}
 															<a class="related-widget-wrapper-link change-related" id="change_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
 																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
 															</a>
@@ -228,9 +220,10 @@
 														</div>
 													</td>
 													<td class="field-is_active">
-														<input type="checkbox" name="words-0-is_active" id="id_words-0-is_active" checked>
+														{{ item.is_active|as_crispy_field }}
 													</td>
 													<td class="delete"></td>
+													{% endfor %}
 												</tr>
 											</tbody>
 										</table>
