@@ -52,13 +52,12 @@ def country_list(request):
 
 def country_detail(request, pk):
     page_title = _('Change Country')
-    country = get_object_or_404(Course, id=pk)
-    word = Word.objects.all()
+    country = get_object_or_404(Country, id=pk)
 
-    form = CourseForm(prefix='country')
+    form = CountryForm(prefix='country')
 
     if request.method == 'POST':
-        form = CourseForm(request.POST or None, instance=request.user)
+        form = CountryForm(request.POST or None, instance=request.user)
 
         if form.is_valid():
             country = form.save(commit=False)
@@ -73,27 +72,26 @@ def country_detail(request, pk):
             messages.warning(request, form.errors)
 
     else:
-        form = CourseForm()
+        form = CountryForm()
 
     context = {
         'title': page_title,
         'form': form,
         'country': country,
-        'word': word,
     }
 
     return render(request, 'config/country_detail.html', context)
 
 
 def country_add(request):
-    page_title = _('Change Course')
-    # country = get_object_or_404(Course, id=pk)
+    page_title = _('Change Country')
+    # country = get_object_or_404(Country, id=pk)
     word = Word.objects.all()
 
-    form = CourseForm(prefix='country')
+    form = CountryForm(prefix='country')
 
     if request.method == 'POST':
-        form = CourseForm(request.POST or None, instance=request.user)
+        form = CountryForm(request.POST or None, instance=request.user)
 
         if form.is_valid():
             country = form.save(commit=False)
@@ -108,7 +106,7 @@ def country_add(request):
             messages.warning(request, form.errors)
 
     else:
-        form = CourseForm()
+        form = CountryForm()
 
     context = {
         'title': page_title,
@@ -120,7 +118,7 @@ def country_add(request):
 
 
 def country_delete(request, pk):
-    country_data = get_object_or_404(Course, id=pk)
+    country_data = get_object_or_404(Country, id=pk)
     country_data.delete()
 
     return redirect('country:country_list')

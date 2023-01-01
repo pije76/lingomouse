@@ -2,7 +2,7 @@
 {% load i18n static paginator crispy_forms_tags %}
 
 {% block title %}
-{{ course_detail.name }} | {{ title }}
+{{ config_detail.name }} | {{ title }}
 {% endblock title %}
 
 {# note: content #}
@@ -14,13 +14,13 @@
 		<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
 			<div class="px-4 lg:px-10 mx-auto w-full">
 				<h1 class="font-normal text-xl md:text-2xl">Change course</h1>
-				<h2 class="font-medium">{{ course_detail.name }}</h2>
+				<h2 class="font-medium">{{ config_detail.name }}</h2>
 				<hr class="md:min-w-full" />
 				<div class="breadcrumbs">
 					<a href="/">Home</a>
 					&rsaquo; <a href="/course/">Course</a>
 					&rsaquo; <a href="/course/course/">Courses</a>
-					&rsaquo; {{ course_detail.name }}
+					&rsaquo; {{ config_detail.name }}
 				</div>
 
 			</div>
@@ -51,7 +51,7 @@
 							<div class="submit-row">
 								<input type="submit" value="Save" class="default" name="_save">
 								<p class="deletelink-box">
-									<a href="{% url 'course:course_delete' course_detail.pk %}" class="deletelink">Delete</a>
+									<a href="{% url 'config:country_delete' config_detail.pk %}" class="deletelink">Delete</a>
 								</p>
 								<input type="submit" value="Save and add another" name="_addanother">
 								<input type="submit" value="Save and continue editing" name="_continue">
@@ -119,7 +119,7 @@
 									<div>
 										<label>Image:</label>
 										<div class="readonly">
-											<img style="width:150px;height:100px;" src="/uploads/{{ course_detail.img }}" alt="">
+											<img style="width:150px;height:100px;" src="/uploads/{{ config_detail.img }}" alt="">
 										</div>
 									</div>
 								</div>
@@ -239,7 +239,7 @@
 						<div class="submit-row">
 							<input type="submit" value="Save" class="default" name="_save">
 							<p class="deletelink-box">
-								<a href="{% url 'course:course_delete' course_detail.pk %}" class="deletelink">Delete</a>
+								<a href="{% url 'config:country_delete' config_detail.pk %}" class="deletelink">Delete</a>
 							</p>
 
 							<input type="submit" value="Save and add another" name="_addanother">

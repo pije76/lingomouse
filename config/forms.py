@@ -101,10 +101,10 @@ class CountryModelForm(forms.ModelForm):
 # 	path_to_file = forms.FileField(widget=MediaFileInput)
 
 
-class LanguageChangeListForm(forms.ModelForm):
+class WordChangeListForm(forms.ModelForm):
 	""" Filter level by own course """
 	def __init__(self, *args, **kwargs):
-		super(LanguageChangeListForm, self).__init__(*args, **kwargs)
+		super(WordChangeListForm, self).__init__(*args, **kwargs)
 
 		if self.instance:
 			_level_queryset = Level.objects.filter(course_id=self.instance.course.id)
@@ -113,17 +113,17 @@ class LanguageChangeListForm(forms.ModelForm):
 			self.fields['level'].choices = [(level.id, level.name) for level in _level_queryset]
 
 
-class LanguageForm(forms.Form):
-	def __init__(self, *args, **kwargs):
-	# def __init__(self, *args, parent_object, **kwargs):
-		# self.parent_object = parent_object
-		super(LanguageForm, self).__init__(*args, **kwargs)
+
+class WordForm(forms.ModelForm):
+	def __init__(self, *args, parent_object, **kwargs):
+		self.parent_object = parent_object
+		super(WordForm, self).__init__(*args, **kwargs)
 
 
-class LanguageInlineForm(BaseInlineFormSet):
+class WordInlineForm(BaseInlineFormSet):
 	""" Filter level by own course """
 	def __init__(self, *args, **kwargs) -> None:
-		super(LanguageInlineForm, self).__init__(*args, **kwargs)
+		super(WordInlineForm, self).__init__(*args, **kwargs)
 
 		if self.instance:
 			_level_queryset = Level.objects.filter(course_id=self.instance.id)
