@@ -1,0 +1,312 @@
+{% extends "base_list.html" %}
+{% load i18n static %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block extrastyle %}
+{{ block.super }}
+{% if cl.formset %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}"/>
+{% endif %}
+{% if cl.formset or action_form %}
+<script src="{% url 'admin:jsi18n' %}"></script>
+{% endif %}
+{{ media.css }}
+{% if not actions_on_top and not actions_on_bottom %}
+<style>
+#changelist table thead th:first-child {width: inherit}
+</style>
+{% endif %}
+{% endblock extrastyle %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ media.js }}
+{% endblock extrahead %}
+
+{% block bodyclass %}
+{{ block.super }}
+{% endblock bodyclass %}
+
+{% block object-tools %}
+{% if not is_popup %}
+<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
+	<ul class="object-tools mt-0">
+		{% block object-tools-items %}
+
+		{% endblock object-tools-items %}
+	</ul>
+</div>
+{% endif %}
+{% endblock object-tools %}
+
+{% block content %}
+
+<main class="relative pt-16 bg-slate-100 min-h-screen">
+	<div class="container w-full mx-auto">
+		<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+
+			<div class="px-4 lg:px-10 mx-auto w-full">
+				<h1 class="font-normal text-xl md:text-2xl">Select language to change</h1>
+				<hr class="md:min-w-full" />
+				<a href="/admin/">Home</a> > Select language to change</div>
+			</div>
+			<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
+				<ul class="object-tools mt-0">
+					<li>
+						<a href="/admin/config/language/add/" class="bg-green-500 hover:bg-green-600 text-white add-button">Add language</a>
+					</li>
+					<li></li>
+				</ul>
+			</div>
+
+			<div class="px-4 lg:px-10 mx-auto w-full">
+
+				<div class="w-full pb-12">
+
+					<div class="relative relative-change flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded">
+
+						<div class="module" id="changelist">
+							<div class="changelist-form-container">
+
+								<form id="changelist-form" method="post" novalidate>
+
+									<div class="rounded-t mb-0 px-4 py-3 border-0">
+										<div class="flex flex-wrap justify-between items-center">
+											<div class="relative max-w-full flex-grow text-slate-700 dark:text-slate-200">
+												<div class="actions">
+													<label>Action:
+														<select name="action" required>
+															<option value="" selected>---------</option>
+															<option value="delete_selected">Delete selected languages</option>
+														</select>
+													</label>
+													<input type="hidden" name="select_across" value="0" class="select-across">
+													<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
+													<span class="action-counter" data-actions-icnt="3">0 of 3 selected</span>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="results block w-full overflow-x-auto">
+										<table id="result_list" class="items-center w-full bg-transparent border-collapse">
+											<thead>
+												<tr>
+													<th scope="col"  class="action-checkbox-column">
+														<div class="text">
+															<span>
+																<input type="checkbox" id="action-toggle">
+															</span>
+														</div>
+														<div class="clear"></div>
+													</th>
+													<th scope="col"  class="sortable column-code">
+														<div class="text">
+															<a href="?o=1.5">Language code</a>
+														</div>
+														<div class="clear"></div>
+													</th>
+													<th scope="col"  class="column-code_name" >
+														<div class="text">
+															<span>Code name</span>
+														</div>
+														<div class="clear"></div>
+													</th>
+													<th scope="col"  class="column-image" >
+														<div class="text">
+															<span>Image</span>
+														</div>
+														<div class="clear"></div>
+													</th>
+													<th scope="col" class="sortable column-special_font">
+														<div class="text">
+															<a href="?o=4.5">Special font</a>
+														</div>
+														<div class="clear"></div>
+													</th>
+													<th scope="col" class="sortable column-sequence sorted ascending">
+														<div class="sortoptions">
+															<a class="sortremove" href="?o=" title="Remove from sorting"></a>
+															<a href="?o=-5" class="toggle ascending" title="Toggle sorting"></a>
+														</div>
+														<div class="text">
+															<a href="?o=-5">Sequence</a>
+														</div>
+														<div class="clear"></div>
+													</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												{% for item in language_list %}
+												<tr class="text-slate-700 text-left border-b border-gray-100 whitespace-nowrap">
+													<td class="action-checkbox">
+														<input type="checkbox" name="_selected_action" value="{{ item.id }}" class="action-select">
+													</td>
+													<th class="field-code">
+														<a href="{% url 'config:language_detail' item.id %}">{{ item.code }}</a>
+													</th>
+													<td class="field-code_name">{{ item.code_name }}</td>
+													<td class="field-image">{{ item.img }}</td>
+													<td class="field-special_font">{{ item.special_font }}</td>
+													<td class="field-sequence">{{ item.sequence }}</td>
+												</tr>
+												{% endfor %}
+											</tbody>
+										</table>
+									</div>
+									<p class="paginator">3 languages</p>
+								</form>
+							</div>
+						</div>
+					</div>
+
+				<br class="clear"/>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+
+
+{% endblock content %}
+
+{% block extra_javascript %}
+<script type='text/javascript'>
+$(document).ready(function()
+{
+	var get_selected_config = "{{ item.id }}";
+	selected_configs = []
+
+	$("#action-toggle").change(function()
+	{
+		if (this.checked)
+		{
+			$(".action-select").each(function()
+			{
+				this.checked=true;
+			});
+		}
+		else
+		{
+			$(".action-select").each(function()
+			{
+				this.checked=false;
+			});
+		}
+	});
+
+	$(".action-select").click(function()
+	{
+		if ($(this).is(":checked"))
+		{
+			var get_config_value = $(this).val()
+			// console.log("get_config_value", get_config_value);
+			selected_configs.push(get_config_value);
+			// console.log("selected_configs", selected_configs);
+
+			var urls = "/config/config/" + selected_configs + "/delete/";
+			// console.log("urls", urls);
+
+			$.ajax(
+			{
+				type: "POST",
+				url: urls,
+				data:
+				{
+					get_selected_config: selected_configs,
+				},
+				success: function(data)
+				{
+					console.log("selected_configs", selected_configs);
+					// put more stuff here as per your requirement
+				}
+			})
+
+			var isAllChecked = 0;
+
+			$(".action-select").each(function()
+			{
+				if (!this.checked)
+				{
+					// selected_configs.push($(this).val());
+					// var get_config_id = $('.action-select').val();
+					// console.log("get_config_id", get_config_id);
+					isAllChecked = 1;
+					// $.each($("input[name='selected_action']:checked"), function()
+					// {
+					// 	// selected_configs.push($(this).val());
+					// });
+					// console.log("get_selected_config1", get_selected_config);
+					// console.log("selected_configs", selected_configs);
+				}
+			});
+
+			// All checkec
+			if (isAllChecked == 0)
+			{
+				$("#action-toggle").prop("checked", true);
+				// console.log("get_selected_config2", get_selected_config);
+			}
+			// console.log("get_selected_config3", get_selected_config);
+		}
+		else
+		{
+			$("#action-toggle").prop("checked", false);
+			// console.log("get_selected_config4", get_selected_config);
+		}
+	});
+
+	// $(document).on("click","#GoSubmit",function()
+	// {
+		// var get_selected_config = [];
+		// var get_selected_config = "{{ item.id }}";
+		// console.log("get_selected_config", get_selected_config);
+
+		// $.each($("input[name='selected_action']:checked"), function()
+		// {
+		// 	get_selected_config.push($(this).val());
+		// 	console.log("config selected: ", get_selected_config);
+		// });
+
+		// if(get_selected_config.length == 0)
+		// {
+		// 	alert("Select config to delete");
+		// 	return false;
+		// }
+		// else
+		// {
+		// 	console.log("config selected: " + get_selected_config.join(", "));
+			// $.ajax(
+			// {
+			// 	type: "GET",
+			// 	url: "/config/config/",
+			// 	data:
+			// 	{
+			// 		get_selected_config: get_selected_config,
+			// 	},
+			// 	success: function(data)
+			// 	{
+			// 		console.log("get_selected_config", get_selected_config);
+			// 		// put more stuff here as per your requirement
+			// 	}
+			// })
+		// }
+
+
+	//ajax for deleting the multiple selelcted photos
+	// })
+
+	$(".action-select").each(function(i)
+	{
+		if ($(this).is(":checked"))
+		{
+			console.log('configs');
+		}
+	});
+});
+</script>
+{% endblock %}
