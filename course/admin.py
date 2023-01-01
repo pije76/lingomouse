@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
+from import_export.admin import ImportExportModelAdmin
 
 from .forms import *
 from .models import *
@@ -41,7 +42,7 @@ class LevelAdmin(admin.ModelAdmin):
     ]
 
 
-class WordAdmin(admin.ModelAdmin):
+class WordAdmin(ImportExportModelAdmin):
     list_display = [
         'id',
         'word',
