@@ -5,6 +5,11 @@
 {{ course_detail.name }} | {{ title }}
 {% endblock title %}
 
+
+{% block extrahead %}
+{{ word_formset.media }}
+{% endblock extrahead %}
+
 {# note: content #}
 {% block content %}
 
@@ -46,6 +51,7 @@
 
 					<form enctype="multipart/form-data" method="post" id="course_form" novalidate>
 					{% csrf_token %}
+					{{ word_formset.management_form }}
 
 						<div>
 							<div class="submit-row">
@@ -166,7 +172,7 @@
 										<thead>
 											<tr>
 												<th>Bulk</th>
-												<th class="original"></th>
+												<th class="column-pk">Pk</th>
 												<th class="column-word required">Foreign</th>
 												<th class="column-description required">Native</th>
 												<th class="column-level">Level</th>
@@ -176,16 +182,12 @@
 										</thead>
 										<tbody>
 											{% for item in word_formset.forms %}
-											<tr class="form-row has_original dynamic-words" id="words-0">
+											<tr class="form-row wordFormset dynamic-words" id="words-0">
 												<td>
 													<input type="checkbox" name="select-bulk" value="108">
 												</td>
-												<td class="original">
-													<p>{{ item.word }} - {{ item.word }}
-														<a href="/admin/course/word/108/change/" class="inlinechangelink">Change</a>
-													</p>
-													<input type="hidden" name="words-0-id" value="108" id="id_words-0-id">
-													<input type="hidden" name="words-0-course" value="98764" id="id_words-0-course">
+												<td class="field-pk">
+													{{ item.id|as_crispy_field }}
 												</td>
 												<td class="field-word">
 													{{ item.word|as_crispy_field }}
@@ -211,19 +213,13 @@
 													</div>
 												</td>
 												<td class="field-is_active">
-													<input type="checkbox" name="words-0-is_active" id="id_words-0-is_active" {% if item.is_active == True %}checked{% else %}''{% endif %}>
+													{{ item.is_active|as_crispy_field }}
 												</td>
-												<td class="delete">
-													<input type="checkbox" name="words-0-DELETE" id="id_words-0-DELETE">
-												</td>
+												<td class="delCourse"></td>
 											</tr>
 											{% endfor %}
 
-											<tr class="add-row">
-												<td colspan="8">
-													<a href="#">Add another Word</a>
-												</td>
-											</tr>
+											<tr class="addCourse" style="padding-left: 10px;display: inline-block;"></tr>
 										</tbody>
 									</table>
 								</fieldset>

@@ -96,7 +96,7 @@ def course_detail(request, pk):
 	else:
 		# form = Word_ModelFormSet()
 		form = CourseModelForm(instance=course_detail)
-		word_formset = Word_ModelFormSet()
+		word_formset = Word_ModelFormSet(queryset=get_word)
 
 	context = {
 		'title': page_title,
@@ -204,7 +204,7 @@ def course_add(request):
 
 	if request.method == 'POST':
 		form = CourseModelForm(request.POST or None, request.FILES)
-		word_formset = Word_ModelFormSet(request.POST or None)
+		word_formset = Word_FormSet(request.POST or None)
 		native_id = request.GET.get('get_selected_native', None)
 		native_id = request.POST.get('get_selected_native', None)
 
@@ -241,7 +241,7 @@ def course_add(request):
 	# if request.method == 'GET':
 		form = CourseModelForm()
 		# form = CourseForm(prefix='course')
-		word_formset = Word_ModelFormSet()
+		word_formset = Word_FormSet()
 		# native_id = request.GET.get('get_selected_native', None)
 		# native_id = request.POST.get('get_selected_native', None)
 
