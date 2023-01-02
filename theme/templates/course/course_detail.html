@@ -167,7 +167,6 @@
 											<tr>
 												<th>Bulk</th>
 												<th class="original"></th>
-												<th class="column-pk">Pk</th>
 												<th class="column-word required">Foreign</th>
 												<th class="column-description required">Native</th>
 												<th class="column-level">Level</th>
@@ -176,9 +175,11 @@
 											</tr>
 										</thead>
 										<tbody>
-											{% for item in get_word %}
+											{% for item in word_formset.forms %}
 											<tr class="form-row has_original dynamic-words" id="words-0">
-												<td><input type="checkbox" name="select-bulk" value="108"></td>
+												<td>
+													<input type="checkbox" name="select-bulk" value="108">
+												</td>
 												<td class="original">
 													<p>{{ item.word }} - {{ item.word }}
 														<a href="/admin/course/word/108/change/" class="inlinechangelink">Change</a>
@@ -186,22 +187,15 @@
 													<input type="hidden" name="words-0-id" value="108" id="id_words-0-id">
 													<input type="hidden" name="words-0-course" value="98764" id="id_words-0-course">
 												</td>
-												<td class="field-pk">
-													<p>{{ item.pk }}</p>
-												</td>
 												<td class="field-word">
-													<input type="text" name="words-0-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_words-0-word">
+													{{ item.word|as_crispy_field }}
 												</td>
 												<td class="field-description">
-													<input type="text" name="words-0-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_words-0-description">
+													{{ item.description|as_crispy_field }}
 												</td>
 												<td class="field-level">
 													<div class="related-widget-wrapper" data-model-ref="level">
-														<select name="words-0-level" id="id_words-0-level">
-															{% for level in get_level %}
-															<option value="{{ level.id }}" {% if item.level == level %}selected{% endif %}>{{ level }}</option>
-															{% endfor %}
-														</select>
+														{{ item.level|as_crispy_field }}
 														<a class="related-widget-wrapper-link change-related" id="change_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
 															<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
 														</a>
@@ -255,3 +249,63 @@
 
 </main>
 {% endblock content %}
+
+
+{% block extra_javascript %}
+<script src="{% static 'js/jquery.formset.js' %}" type="text/javascript"></script>
+<script type='text/javascript'>
+$(document).ready(function()
+{
+	var urls = "/course/course/add/";
+
+	$('select[name=native]').on('change', function(e)
+	{
+		e.preventDefault();
+
+		var get_selected_native = $('select[name=native] option').filter(':selected').val();
+		// console.log("course get_selected_native: ", get_selected_native);
+		console.log("get_selected_native1: ", get_selected_native);
+
+		$.ajax(
+        {
+        	type: 'GET',
+        	url: urls,
+        	data:
+        	{
+        		'get_selected_native':get_selected_native,
+        		// 'csrfmiddlewaretoken': csrftoken,
+        	},
+        	success: function(data)
+        	{
+        		if(!data["valid"])
+        		{
+        			console.log("get_selected_native2", get_selected_native);
+        		}
+        	},
+        });
+	})
+
+	$('select[name=foreign]').on('change', function()
+	{
+		var get_selected_foreign = $('select[name=foreign] option').filter(':selected').val();
+		console.log("get_selected_foreign: ", get_selected_foreign);
+	})
+
+	$(function()
+    {
+        // $('.wordFormset').formset();
+        $('.wordFormset').formset({
+            prefix: 'course_formset',
+            addCssClass: 'btn btn-success',
+            addText: '<i class="fas fa-plus"></i>',
+            deleteCssClass: 'btn btn-danger',
+            deleteText: '<i class="fas fa-minus"></i>',
+            // keepFieldValues: '#id_course_formset-0-word, #id_course_formset-0-description',
+            deleteContainerClass: 'delCourse',
+            addContainerClass: 'addCourse',
+        })
+    });
+
+});
+</script>
+{% endblock %}

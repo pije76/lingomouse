@@ -71,10 +71,11 @@ def course_detail(request, pk):
 		'is_active': course_detail.is_active,
 	}
 
-	# form = CourseModelForm(prefix='course')
+	# form = Word_ModelFormSet(prefix='course')
 
 	if request.method == 'POST':
-		form = CourseModelForm(request.POST or None, request.FILES)
+		form = Word_ModelFormSet(request.POST or None, request.FILES)
+		word_formset = Word_ModelFormSet(request.POST or None)
 
 		if form.is_valid():
 			save_course = form.save(commit=False)
@@ -93,12 +94,14 @@ def course_detail(request, pk):
 			messages.warning(request, form.errors)
 
 	else:
-		# form = CourseModelForm()
+		# form = Word_ModelFormSet()
 		form = CourseModelForm(instance=course_detail)
+		word_formset = Word_ModelFormSet()
 
 	context = {
 		'title': page_title,
 		'form': form,
+		'word_formset': word_formset,
 		'course_detail': course_detail,
 		'get_language': get_language,
 		'native_id': native_id,
