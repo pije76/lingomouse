@@ -126,7 +126,7 @@ class Word_ModelForm(forms.ModelForm):
             "native": _(""),
             "foreign": _(""),
             "description": _(""),
-            "img": _(""),
+            "level": _(""),
             "is_active": _(""),
         }
 
@@ -136,7 +136,7 @@ class Word_ModelForm(forms.ModelForm):
 	# 	super(WordForm, self).__init__(*args, **kwargs)
 		super().__init__(*args, **kwargs)
 
-	# id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	# word = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	# description = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	# literal_translation = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
@@ -158,6 +158,7 @@ Word_ModelFormSet = modelformset_factory(
     Word,
     form=Word_ModelForm,
     fields=(
+    	'id',
         'word',
         'description',
         'literal_translation',

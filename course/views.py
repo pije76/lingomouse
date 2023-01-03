@@ -77,7 +77,7 @@ def course_detail(request, pk):
 		form = Word_ModelFormSet(request.POST or None, request.FILES)
 		word_formset = Word_ModelFormSet(request.POST or None)
 
-		if form.is_valid():
+		if form.is_valid() and word_formset.is_valid():
 			save_course = form.save(commit=False)
 			save_course.id = form.cleaned_data['id']
 			save_course.name = form.cleaned_data['name']
@@ -87,6 +87,19 @@ def course_detail(request, pk):
 			save_course.img = form.cleaned_data['img']
 			save_course.is_active = form.cleaned_data['is_active']
 			save_course.save()
+
+			get_admission_date_admission = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
+
+			for item in admision_formset:
+				save_wordformset = form.save(commit=False)
+				save_wordformset.patient = item.cleaned_data['name']
+				save_wordformset.word = item.cleaned_data['word']
+				save_wordformset.description = item.cleaned_data['description']
+				save_wordformset.literal_translation = item.cleaned_data['literal_translation']
+				save_wordformset.course = item.cleaned_data['course']
+				save_wordformset.level = item.cleaned_data['level']
+				save_wordformset.is_active = item.cleaned_data['is_active']
+				save_wordformset.save()
 
 			messages.success(request, _('Your course has been change successfully.'))
 			return redirect('course:course_detail', id=save_course.id)
@@ -116,91 +129,12 @@ def course_detail(request, pk):
 
 def course_add(request):
 	page_title = _('Add Course')
-	# course = get_object_or_404(Course, id=pk)
 	word = Word.objects.all()
 	native_id = request.GET.get('get_selected_native', None)
 	native_id = request.POST.get('get_selected_native', None)
-	# print("native_id0", native_id)
-	# print("native_id1", native_id)
-	# get_language = Language.objects.filter().values("code")
+
 	get_language = Language.objects.all().values_list("code", flat=True)
-	# get_language = Course.objects.all().values_list("native", flat=True)
-	# get_language = Language.objects.filter(book__title__startswith='hello')
 	get_level = Level.objects.all().values_list("name", flat=True)
-
-	# # get_language = len(get_language)
-	# post.attending_set.all()
-
-	# get_language = list(get_language)
-	# # print("get_language", get_language)
-	# print("get_language", get_language)
-
-	# obj = []
-
-	# for item in get_language:
-	# 	language = pycountry.languages.lookup(item)
-	# 	# language = pycountry.languages.get(alpha_2=item)
-	# 	language = language.name
-	# 	# print("language", language)
-	# 	if language and language not in obj:
-	# 		obj.append(language)
-
-	# print("obj", obj)
-
-	# language_list = [item.name for item in pycountry.languages]
-	# language_tuples = ((item, item) for item in language_list)
-
-	# list3 = []
-
-	# for item in obj:
-	# 	print("item", item)
-	# 	if item and item in language_list:
-	# 		# print("obj", obj)
-	# 		# print("language_list", language_list)
-	# 		list3.append(item)
-	# 		print("item", item)
-
-
-	# print("list3", list3)
-	# print("language_tuples", language_tuples)
-	# print("obj", type(obj))
-
-
-	# for item in get_language:
-	#     language = pycountry.languages.get(alpha_2=item).name
-	#     languages.append(language)
-
-	# for item in get_language:
-	#     obj = pycountry.languages.get(alpha_2=item).name
-	#     print("obj", obj)
-
-	# LANG_CHOICES = [(language.alpha_2, language.name) for language in pycountry.languages if hasattr(language, 'alpha_2')]
-
-
-	# LANG_CHOICES = [(language.name) for language in pycountry.languages]
-	# LANG_CHOICES = [(item.alpha_2, item.name) for item in pycountry.languages if hasattr(item, 'alpha_2')]
-
-	# print("LANG_CHOICES", LANG_CHOICES)
-	# print("LANG_CHOICES", type(LANG_CHOICES))
-
-	# # for y in LANG_CHOICES:
-	# #     # print("y", y)
-	# #     if get_language == y:
-	# #         list3.append(y)
-
-	# list3 = set(obj) & set(LANG_CHOICES)
-	# list3 = set(obj).intersection(set(LANG_CHOICES))
-
-	# # # print("obj", obj)
-	# # # print("LANG_CHOICES", LANG_CHOICES)
-
-	# list3 = list(list3)
-	# print("list3", list3)
-	# print("list3", type(list3))
-	# # print("tuple1", tuple1)
-	# print("tuple1", type(tuple1))
-
-
 
 	if request.method == 'POST':
 		form = CourseModelForm(request.POST or None, request.FILES)
@@ -209,12 +143,10 @@ def course_add(request):
 		native_id = request.POST.get('get_selected_native', None)
 
 		if form.is_valid():
-			# course = Course()
 			course = form.save(commit=False)
 			course.id = form.cleaned_data['id']
 			course.name = form.cleaned_data['name']
 			course.native = form.cleaned_data['native']
-			# course.foreign = form.cleaned_data['foreign']
 			course.description = form.cleaned_data['description']
 			course.img = form.cleaned_data['img']
 			course.is_active = form.cleaned_data['is_active']
@@ -225,25 +157,21 @@ def course_add(request):
 			messages.warning(request, form.errors)
 
 		if word_formset.is_valid():
-			get_admission_date_admission = Admission.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
+			get_wordformset = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
 
 			for item in admision_formset:
-				admision_formset_profile = Admission()
-				admision_formset_profile.patient = patients
-				admision_formset_profile.date_admission = get_admission_date_admission
-				admision_formset_profile.time_admission = get_admission_time_admission
-				admision_formset_profile.admitted_admission = str(get_admission_admitted_admission)
+				save_wordformset = Word()
+				save_wordformset.patient = patients
+				save_wordformset.date_admission = get_admission_date_admission
+				save_wordformset.time_admission = get_admission_time_admission
+				save_wordformset.admitted_admission = str(get_admission_admitted_admission)
 			return redirect('course:course_list')
 		else:
 			messages.warning(request, admision_formset.errors)
 
 	else:
-	# if request.method == 'GET':
 		form = CourseModelForm()
-		# form = CourseForm(prefix='course')
 		word_formset = Word_FormSet()
-		# native_id = request.GET.get('get_selected_native', None)
-		# native_id = request.POST.get('get_selected_native', None)
 
 	context = {
 		'title': page_title,

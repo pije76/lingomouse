@@ -201,13 +201,13 @@
 													<td class="field-level">
 														<div class="related-widget-wrapper" data-model-ref="level">
 															<select id="bulk-set-level" name="bulk-set-level">
-												<option value="">Select level</option>
-												{% for level in get_level %}
-												<option value="{{ level.id }}">
-												{{ level }}
-												</option>
-												{% endfor %}
-											</select>
+																<option value="">Select level</option>
+																{% for level in get_level %}
+																<option value="{{ level.id }}">
+																{{ level }}
+																</option>
+																{% endfor %}
+															</select>
 															<a class="related-widget-wrapper-link change-related" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
 																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
 															</a>
