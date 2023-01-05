@@ -33,7 +33,7 @@
 		<div class="flex md:justify-end p-3 md:px-10">
 			<ul class="object-tools mt-0">
 				<li>
-					<a href="/admin/course/course/98764/history/" class="historylink">History</a>
+					<a href="/course/course/98764/history/" class="historylink">History</a>
 				</li>
 			</ul>
 		</div>
@@ -44,14 +44,16 @@
 					<div class="pager flex justify-end">
 						<div class="block">
 							<span class="page">
-								<a href="/admin/course/course/13198/change">< Prev </a>
+								<a href="/course/course/13198/detail">< Prev </a>
 							</span>
 						</div>
 					</div>
 
-					<form enctype="multipart/form-data" method="post" id="course_form" novalidate>
+					<form enctype="multipart/form-data" method="POST" id="course_form">
 					{% csrf_token %}
 					{{ word_formset.management_form }}
+
+					<input type="hidden" name="form_type" value="course_form">
 
 						<div>
 							<div class="submit-row">
@@ -144,86 +146,14 @@
 
 						<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="words-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#words&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;words&quot;, &quot;addText&quot;: &quot;Add another Word&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
 							<div class="p-3">
-								<label for="bulk-set-level" class="block mb-3 text-lg">Bulk set level to selected words</label>
+								<label for="bulk-set-level" class="block mb-3 text-lg">Level list</label>
 								<div class="flex">
-									<div>
-										<select id="bulk-set-level" name="bulk-set-level">
-											<option value="">Select level</option>
-											{% for level in get_level %}
-											<option value="{{ level.id }}">
-											{{ level }}
-											</option>
-											{% endfor %}
-										</select>
-									</div>
-									<div class="pl-6">
-										<button type="button" id="perform-bulk-set-level" data-course-id="98764" class="bg-green-500 text-white py-2 px-4">Set Level</button>
-									</div>
+									{% for level in get_level %}
+									<a href="{% url 'course:level_detail' level.id %}" class="text-black bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{ level }}</a>
+									{% endfor %}
 								</div>
 							</div>
-							<div class="tabular inline-related last-related">
-								<input type="hidden" name="words-TOTAL_FORMS" value="5" id="id_words-TOTAL_FORMS" autocomplete="off">
-								<input type="hidden" name="words-INITIAL_FORMS" value="2" id="id_words-INITIAL_FORMS">
-								<input type="hidden" name="words-MIN_NUM_FORMS" value="0" id="id_words-MIN_NUM_FORMS" autocomplete="off">
-								<input type="hidden" name="words-MAX_NUM_FORMS" value="1000" id="id_words-MAX_NUM_FORMS" autocomplete="off">
-								<fieldset class="module">
-									<h2 class="px-3">Words</h2>
-									<table>
-										<thead>
-											<tr>
-												<th>Bulk</th>
-												<th class="column-pk">Pk</th>
-												<th class="column-word required">Foreign</th>
-												<th class="column-description required">Native</th>
-												<th class="column-level">Level</th>
-												<th class="column-is_active">Is active</th>
-												<th>Delete?</th>
-											</tr>
-										</thead>
-										<tbody>
-											{% for item in word_formset.forms %}
-											<tr class="form-row wordFormset dynamic-words" id="words-0">
-												<td>
-													<input type="checkbox" name="select-bulk" value="108">
-												</td>
-												<td class="field-pk">
-													{{ item.id|as_crispy_field }}
-												</td>
-												<td class="field-word">
-													{{ item.word|as_crispy_field }}
-												</td>
-												<td class="field-description">
-													{{ item.description|as_crispy_field }}
-												</td>
-												<td class="field-level">
-													<div class="related-widget-wrapper" data-model-ref="level">
-														{{ item.level|as_crispy_field }}
-														<a class="related-widget-wrapper-link change-related" id="change_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level" href="/admin/course/level/5/change/?_to_field=id&amp;_popup=1">
-															<img src="{% static "admin/img/icon-changelink.svg" %}" alt="Change">
-														</a>
-														<a class="related-widget-wrapper-link add-related" id="add_id_words-0-level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
-															<img src="{% static "admin/img/icon-addlink.svg" %}" alt="Add">
-														</a>
-														<a class="related-widget-wrapper-link delete-related" id="delete_id_words-0-level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level" href="/admin/course/level/5/delete/?_to_field=id&amp;_popup=1">
-															<img src="{% static "admin/img/icon-deletelink.svg" %}" alt="Delete">
-														</a>
-														<a class="related-widget-wrapper-link view-related" id="view_id_words-0-level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level" href="/admin/course/level/5/change/?_to_field=id">
-															<img src="{% static "admin/img/icon-viewlink.svg" %}" alt="View">
-														</a>
-													</div>
-												</td>
-												<td class="field-is_active">
-													{{ item.is_active|as_crispy_field }}
-												</td>
-												<td class="delCourse"></td>
-											</tr>
-											{% endfor %}
 
-											<tr class="addCourse" style="padding-left: 10px;display: inline-block;"></tr>
-										</tbody>
-									</table>
-								</fieldset>
-							</div>
 						</div>
 
 						<div class="submit-row">
@@ -253,6 +183,10 @@
 $(document).ready(function()
 {
 	var urls = "/course/course/add/";
+
+	var get_level = "{{ level.id }}";
+
+	console.log("get_level: ", get_level);
 
 	$('select[name=native]').on('change', function(e)
 	{
