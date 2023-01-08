@@ -246,7 +246,7 @@ def level_add(request):
 def level_detail(request, pk):
 	page_title = _('Change Level')
 	form = CourseForm()
-	level = get_object_or_404(Level, id=pk)
+	get_level = get_object_or_404(Level, id=pk)
 
 	if request.method == 'POST':
 		form = CourseForm(request.POST or None, instance=request.user)
@@ -269,7 +269,7 @@ def level_detail(request, pk):
 	context = {
 		'title': page_title,
 		'form': form,
-		'level': level,
+		'get_level': get_level,
 	}
 
 	return render(request, 'course/level_detail.html', context)
