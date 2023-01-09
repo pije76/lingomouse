@@ -31,6 +31,16 @@ class Country(models.Model):
         country = is_country.name if is_country else self.code
         return str(country)
 
+    def image(self):
+        from django.utils.html import escape
+        image_file = self.img
+        if(image_file != ""):
+            image_file = '<img src="/uploads/%s" style="min-width:50px; min-height:50px; width:50px; height:50px; border-radius:50px; "/>' % escape(self.img)
+
+        return mark_safe(image_file)
+
+    image.allow_tags = True
+
     class Meta:
         verbose_name = _('Country')
         verbose_name_plural = _('Countries')

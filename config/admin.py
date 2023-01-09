@@ -11,11 +11,14 @@ class CountryAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'code',
-        'img',
+        'image',
     )
     search_fields: str = ['code']
     inlines = [LanguageInline]
-    fields = ['code', 'img', ]
+    fields = [
+        'code',
+        'img',
+    ]
 
 class LanguageAdmin(admin.ModelAdmin):
     list_display = (
