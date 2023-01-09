@@ -74,52 +74,31 @@ def course_detail(request, pk):
 	# form = Word_ModelFormSet(prefix='course')
 
 	if request.method == 'POST':
-		form = Word_ModelFormSet(request.POST or None, request.FILES)
-		word_formset = Word_ModelFormSet(request.POST or None)
+		form = CourseModelForm(request.POST or None, request.FILES or None, instance=course_detail)
 
-		if request.POST.get("form_type") == 'course_form':
+		if form.is_valid():
+			save_course = form.save(commit=False)
+			save_course.id = course_detail.id
+			save_course.name = form.cleaned_data['name']
+			save_course.native = form.cleaned_data['native']
+			save_course.foreign = form.cleaned_data['foreign']
+			save_course.description = form.cleaned_data['description']
+			save_course.img = form.cleaned_data['img']
+			save_course.is_active = form.cleaned_data['is_active']
+			save_course.save()
 
-			if form.is_valid() and word_formset.is_valid():
-				save_course = form.save(commit=False)
-				save_course.id = form.cleaned_data['id']
-				save_course.name = form.cleaned_data['name']
-				save_course.native = form.cleaned_data['native']
-				save_course.foreign = form.cleaned_data['foreign']
-				save_course.description = form.cleaned_data['description']
-				save_course.img = form.cleaned_data['img']
-				save_course.is_active = form.cleaned_data['is_active']
-				save_course.save()
-
-				get_admission_date_admission = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
-
-				for item in admision_formset:
-					save_wordformset = form.save(commit=False)
-					save_wordformset.patient = item.cleaned_data['name']
-					save_wordformset.word = item.cleaned_data['word']
-					save_wordformset.description = item.cleaned_data['description']
-					save_wordformset.literal_translation = item.cleaned_data['literal_translation']
-					save_wordformset.course = item.cleaned_data['course']
-					save_wordformset.level = item.cleaned_data['level']
-					save_wordformset.is_active = item.cleaned_data['is_active']
-					save_wordformset.save()
-
-				messages.success(request, _('Your course has been change successfully.'))
-				return redirect('course:course_list')
-			else:
-				messages.warning(request, form.errors)
-
-		# elif request.POST.get("form_type") == 'level_form':
-		# 	pass
+			messages.success(request, _('Your course has been change successfully.'))
+			return redirect('course:course_list')
+		else:
+			messages.warning(request, form.errors)
 
 	else:
 		# form = Word_ModelFormSet()
 		form = CourseModelForm(instance=course_detail)
-		word_formset = Word_ModelFormSet(queryset=get_word)
 
 	context = {
 		'title': page_title,
 		'form': form,
-		'word_formset': word_formset,
 		'course_detail': course_detail,
 		'get_language': get_language,
 		'native_id': native_id,

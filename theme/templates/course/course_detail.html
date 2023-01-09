@@ -7,7 +7,6 @@
 
 
 {% block extrahead %}
-{{ word_formset.media }}
 {% endblock extrahead %}
 
 {# note: content #}
@@ -49,11 +48,8 @@
 						</div>
 					</div>
 
-					<form enctype="multipart/form-data" method="POST" id="course_form">
+					<form method="POST" action="" id="course_form" enctype="multipart/form-data" >
 					{% csrf_token %}
-					{{ word_formset.management_form }}
-
-					<input type="hidden" name="form_type" value="course_form">
 
 						<div>
 							<div class="submit-row">

@@ -68,17 +68,18 @@ class CourseModelForm(forms.ModelForm):
 		model = Course
 		fields = '__all__'
 		widgets = {
+			# 'id': forms.HiddenInput(),
 			# 'native': forms.HiddenInput(),
 			# "native" : forms.ChoiceField(attrs={"class" : "form-control"}),
 		}
 		labels = {
-            "id": _(""),
-            "name": _(""),
+            # "id": _(""),
+            # "name": _(""),
             "native": _(""),
             "foreign": _(""),
-            "description": _(""),
-            "img": _(""),
-            # "is_active": _(""),
+            # "description": _(""),
+            # "img": _(""),
+            "is_active": _(""),
         }
 
 	def __init__(self, *args, **kwargs):
@@ -89,10 +90,12 @@ class CourseModelForm(forms.ModelForm):
 		# self.fields['native'].widget.attrs.update({'class': 'form-control text-area'})
 
 	'''Account form'''
-	# id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
-	# name = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
-	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
+	id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	name = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	# native = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select)
+	# foreign = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select)
+	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
+	img = forms.ImageField(label=_(u''), required=False)
 	# is_active = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select)
 
 
