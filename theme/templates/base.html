@@ -94,17 +94,13 @@
                 <div class="w-full pb-12">
                     {# block message #}
                     {% block messages %}
-                    {% if messages %}
-                    <ul class="messagelist p-2 bg-green-100 rounded">
-                        {% for message in messages %}
-                        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
+                    {% include 'messages.html' %}
                     {% endblock messages %}
+
                     {% block content %}
                     {{ content }}
                     {% endblock content %}
+
                     <br class="clear"/>
                 </div>
             </div>

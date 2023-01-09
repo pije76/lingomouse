@@ -65,6 +65,10 @@
     {% endif %}
     {% include "app_nav_header.html" with app_list=available_apps show_changelinks=False %}
 
+    {% block messages %}
+    {% include 'messages.html' %}
+    {% endblock messages %}
+
     {% block content %}
     {{ content }}
     {% endblock content %}
