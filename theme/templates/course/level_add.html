@@ -1,6 +1,9 @@
 {% extends "base_detail.html" %}
-{% load i18n static %}
+{% load i18n static crispy_forms_tags %}
 
+{% block title %}
+{{ title }}
+{% endblock title %}
 
 {% block extrastyle %}
 {{ block.super }}
@@ -20,7 +23,7 @@
 
 {% block extrahead %}
 {{ block.super }}
-{{ media.js }}
+{{ form.media }}
 {% endblock extrahead %}
 
 {% block bodyclass %}
@@ -48,9 +51,9 @@
                 <h1 class="font-normal text-xl md:text-2xl">Add level</h1>
                 <hr class="md:min-w-full" />
                 <div class="breadcrumbs">
-                    <a href="/admin/">Home</a>
-                    &rsaquo; <a href="/admin/course/">Course</a>
-                    &rsaquo; <a href="/admin/course/level/">Levels</a>
+                    <a href="/">Home</a>
+                    &rsaquo; <a href="/course/">Course</a>
+                    &rsaquo; <a href="/course/level/">Levels</a>
                     &rsaquo; Add level
                 </div>
             </div>
@@ -58,30 +61,27 @@
         <div class="px-4 lg:px-10 mx-auto w-full">
             <div class="w-full pb-12">
                 <div id="content-main">
-                    <form method="post" id="level_form" novalidate>
+                    <form method="POST" action="" id="level_form">
+                    {% csrf_token %}
                         <div>
                             <fieldset class="module aligned">
                                 <div class="form-row field-sequence">
                                     <div>
                                         <label class="required" for="id_sequence">Sequence:</label>
-                                        <input type="number" name="sequence" value="0" class="vIntegerField" required id="id_sequence">
+                                        {{ form.sequence|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="form-row field-name">
                                     <div>
                                         <label class="required" for="id_name">Name:</label>
-                                        <input type="text" name="name" value="Level" class="vTextField" maxlength="200" required id="id_name">
+                                        {{ form.name|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="form-row field-course">
                                     <div>
                                         <label for="id_course">Course:</label>
                                         <div class="related-widget-wrapper" data-model-ref="course">
-                                            <select name="course" id="id_course">
-                                                <option value="" selected>---------</option>
-                                                <option value="13198">English MasterClass</option>
-                                                <option value="98764">Tagalog MasterClass</option>
-                                            </select>
+                                            {{ form.course|as_crispy_field }}
                                             <a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
                                                 <img src="/static/admin/img/icon-changelink.svg" alt="Change">
                                             </a>

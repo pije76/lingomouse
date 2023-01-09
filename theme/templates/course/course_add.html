@@ -23,7 +23,6 @@
 
 {% block extrahead %}
 {{ block.super }}
-{{ media.js }}
 {{ word_formset.media }}
 {% endblock extrahead %}
 
@@ -68,6 +67,7 @@
 					<form method="POST" action="" id="course_form" enctype="multipart/form-data">
 					{% csrf_token %}
 					{{ word_formset.management_form }}
+
 						<div>
 							<div class="submit-row">
 								<input type="submit" value="Save" class="default" name="_save">
