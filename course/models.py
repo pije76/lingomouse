@@ -4,6 +4,8 @@ from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
+import uuid
+
 from config.models import *
 
 
@@ -27,7 +29,7 @@ class Course (models.Model):
     Course models with fields {`name`, `description`, `native`, `foreign`} and a list of levels
     '''
     lookup_field = "id"
-    id = models.CharField(primary_key=True, max_length=200)
+    id = models.CharField(primary_key=True, editable=True, unique=True, max_length=200)
     name = models.CharField(max_length=200)
     native = models.ForeignKey(Language, related_name='native_courses', verbose_name=_("native"), on_delete=models.RESTRICT)
     foreign = models.ForeignKey(Language, related_name='foreign_courses', verbose_name=_("foreign"), on_delete=models.RESTRICT)
