@@ -108,8 +108,8 @@ def course_detail(request, pk):
 			else:
 				messages.warning(request, form.errors)
 
-		elif request.POST.get("form_type") == 'level_form':
-			pass
+		# elif request.POST.get("form_type") == 'level_form':
+		# 	pass
 
 	else:
 		# form = Word_ModelFormSet()
@@ -247,9 +247,11 @@ def level_detail(request, pk):
 	page_title = _('Change Level')
 	form = CourseForm()
 	get_level = get_object_or_404(Level, id=pk)
+	get_word = Word.objects.filter(level=pk)
 
 	if request.method == 'POST':
 		form = CourseForm(request.POST or None, instance=request.user)
+		word_formset = Word_FormSet(request.POST or None)
 
 		if form.is_valid():
 			level = form.save(commit=False)
@@ -265,11 +267,14 @@ def level_detail(request, pk):
 
 	else:
 		form = CourseForm()
+		word_formset = Word_FormSet()
 
 	context = {
 		'title': page_title,
 		'form': form,
 		'get_level': get_level,
+		'get_word': get_word,
+		'word_formset': word_formset,
 	}
 
 	return render(request, 'course/level_detail.html', context)
