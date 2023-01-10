@@ -43,6 +43,7 @@ for item in get_language:
 list3 = set(obj).intersection(set(LANG_CHOICES))
 list3 = list(list3)
 
+
 class CourseForm(forms.Form):
 	# for item in get_language:
 	# 	obj = pycountry.languages.get(alpha_2=item).name
@@ -79,7 +80,7 @@ class CourseModelForm(forms.ModelForm):
             "foreign": _(""),
             # "description": _(""),
             # "img": _(""),
-            "is_active": _(""),
+            "is_active": _("Is active?"),
         }
 
 	def __init__(self, *args, **kwargs):
@@ -97,6 +98,14 @@ class CourseModelForm(forms.ModelForm):
 	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
 	img = forms.ImageField(label=_(u''), required=False)
 	# is_active = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select)
+	# is_active = forms.BooleanField(label=_(u'Is active?'), required=False, widget=forms.CheckboxInput(attrs={'checked': "checked"}))
+
+
+class LevelForm(forms.Form):
+	sequence = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	name = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	# course = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	course = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select, choices=[(choice.pk, choice) for choice in Course.objects.all()])
 
 
 # Word Media Form

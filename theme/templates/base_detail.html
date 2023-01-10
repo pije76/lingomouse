@@ -28,6 +28,7 @@
     <link rel="stylesheet" href="{% block stylesheet_rtl %}{% static "admin/css/rtl.css" %}{% endblock stylesheet_rtl %}"/>
     {% endif %}
     {% block extrahead %}
+    {{ form.media }}
     {% endblock extrahead %}
     {% block responsive %}
     <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>

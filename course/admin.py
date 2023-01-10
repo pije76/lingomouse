@@ -14,7 +14,7 @@ class CourseAdmin(admin.ModelAdmin):
         'native',
         'foreign',
         'description',
-        'img',
+        'image',
         'is_active',
     ]
     # list_filter=['available','created','updated']
@@ -22,7 +22,7 @@ class CourseAdmin(admin.ModelAdmin):
         'name',
         'native',
         'foreign',
-        'img',
+        # 'img',
         'is_active',
     ]
 
@@ -40,6 +40,8 @@ class LevelAdmin(admin.ModelAdmin):
         'name',
         'course',
     ]
+
+    ordering = ('sequence', 'id',)
 
 
 class WordAdmin(ImportExportModelAdmin):
@@ -61,6 +63,9 @@ class WordAdmin(ImportExportModelAdmin):
         'level',
         'is_active',
     ]
+
+    ordering = ('course', 'id',)
+
 
 # Register model to Admin Panel
 admin.site.register(Course, CourseAdmin)

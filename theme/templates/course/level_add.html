@@ -24,6 +24,7 @@
 {% block extrahead %}
 {{ block.super }}
 {{ form.media }}
+{{ word_formset.media }}
 {% endblock extrahead %}
 
 {% block bodyclass %}
@@ -63,6 +64,8 @@
                 <div id="content-main">
                     <form method="POST" action="" id="level_form">
                     {% csrf_token %}
+                    {{ word_formset.management_form }}
+
                         <div>
                             <fieldset class="module aligned">
                                 <div class="form-row field-sequence">
@@ -114,7 +117,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="form-row " id="level_words-0">
+                                                <tr class="form-row wordFormset" id="level_words-0">
+                                                    {% for item in word_formset.forms %}
                                                     <td class="original">
                                                         <input type="hidden" name="level_words-0-id" id="id_level_words-0-id">
                                                         <input type="hidden" name="level_words-0-level" id="id_level_words-0-level">
@@ -128,23 +132,10 @@
                                                     <td class="field-description">
                                                         <input type="text" name="level_words-0-description" class="vTextField" maxlength="200" id="id_level_words-0-description">
                                                     </td>
-                                                    <td class="delete"></td>
+                                                    <td class="delCourse"></td>
+                                                    {% endfor %}
                                                 </tr>
-                                                <tr class="form-row  empty-form" id="level_words-empty">
-                                                    <td class="original">
-                                                        <input type="hidden" name="level_words-__prefix__-id" id="id_level_words-__prefix__-id">
-                                                        <input type="hidden" name="level_words-__prefix__-level" id="id_level_words-__prefix__-level">
-                                                    </td>
-                                                    <td class="field-id hidden">
-                                                        <p>-</p>
-                                                    </td>
-                                                    <td class="field-word">
-                                                        <input type="text" name="level_words-__prefix__-word" class="vTextField" maxlength="200" id="id_level_words-__prefix__-word">
-                                                    </td>
-                                                    <td class="field-description">
-                                                        <input type="text" name="level_words-__prefix__-description" class="vTextField" maxlength="200" id="id_level_words-__prefix__-description">
-                                                    </td>
-                                                    <td class="delete"></td>
+                                                <tr class="addCourse" style="padding-left: 10px;display: inline-block;"></tr>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -166,3 +157,30 @@
 </main>
 
 {% endblock content %}
+
+
+
+{% block extra_javascript %}
+<script src="{% static 'js/jquery.formset.js' %}" type="text/javascript"></script>
+<script type='text/javascript'>
+$(document).ready(function()
+{
+    $(function()
+    {
+        // $('.wordFormset').formset();
+        $('.wordFormset').formset({
+            prefix: 'course_formset',
+            addCssClass: 'btn btn-success',
+            addText: '<i class="fas fa-plus"></i>',
+            deleteCssClass: 'btn btn-danger',
+            deleteText: '<i class="fas fa-minus"></i>',
+            // keepFieldValues: '#id_course_formset-0-word, #id_course_formset-0-description',
+            deleteContainerClass: 'delCourse',
+            addContainerClass: 'addCourse',
+        })
+    });
+
+});
+</script>
+{% endblock %}
+

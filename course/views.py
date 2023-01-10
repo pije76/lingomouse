@@ -38,7 +38,7 @@ def course_index(request):
 	return render(request,'course/course_index.html', context)
 
 
-########### COURSE VIEW ############
+###################### COURSE VIEW #######################
 def course_list(request):
 	page_title = _('Select course to change')
 	list_course =   Course.objects.all()
@@ -175,7 +175,7 @@ def course_delete(request, pk):
 	return redirect('course:course_list')
 
 
-########### LEVEL VIEW ############
+###################### LEVEL VIEW #######################
 def level_list(request):
 	page_title = _('Select level to change')
 	list_level =   Level.objects.all()
@@ -189,34 +189,39 @@ def level_list(request):
 
 
 def level_add(request):
-	page_title = _('Change Course')
+	page_title = _('Add level')
 	# course = get_object_or_404(Course, id=pk)
 	word = Word.objects.all()
-
-	form = CourseForm()
+	get_course = Course.objects.all().values_list("name", flat=True)
+	# get_level = Level.objects.all().values_list("name", flat=True)
 
 	if request.method == 'POST':
-		form = CourseForm(request.POST or None, instance=request.user)
+		form = LevelForm(request.POST or None)
+		word_formset = Word_FormSet(request.POST or None)
 
 		if form.is_valid():
-			course = form.save(commit=False)
-			course.full_name = form.cleaned_data['full_name']
-			course.email = form.cleaned_data['email']
-			course.ic_number = form.cleaned_data['ic_number']
-			course.save()
+			save_level = Level()
+			save_level.sequence = form.cleaned_data['sequence']
+			save_level.name = form.cleaned_data['name']
+			course_id = Course.objects.get(id=form.cleaned_data['course'])
+			save_level.course = course_id
+			save_level.save()
 
-			messages.success(request, _('Your course has been change successfully.'))
+			messages.success(request, _('Your level has been change successfully.'))
 			return redirect('course:level_list')
 		else:
 			messages.warning(request, form.errors)
 
 	else:
-		form = CourseForm()
+		form = LevelForm()
+		word_formset = Word_FormSet()
 
 	context = {
 		'title': page_title,
 		'form': form,
 		'word': word,
+		'word_formset': word_formset,
+		'get_course': get_course,
 	}
 
 	return render(request, 'course/level_add.html', context)
@@ -266,7 +271,7 @@ def level_delete(request, pk):
 	return redirect('course:level_list')
 
 
-########### WORD VIEW ############
+###################### WORD VIEW #######################
 def word_list(request):
 	page_title = _('Select word to change')
 	course_id = request.POST.get('course')
