@@ -212,6 +212,19 @@ def level_add(request):
 		else:
 			messages.warning(request, form.errors)
 
+		if word_formset.is_valid():
+			get_wordformset = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
+
+			for item in admision_formset:
+				save_wordformset = Word()
+				save_wordformset.patient = patients
+				save_wordformset.date_admission = get_admission_date_admission
+				save_wordformset.time_admission = get_admission_time_admission
+				save_wordformset.admitted_admission = str(get_admission_admitted_admission)
+			return redirect('course:course_list')
+		else:
+			messages.warning(request, admision_formset.errors)
+
 	else:
 		form = LevelForm()
 		word_formset = Word_FormSet()
