@@ -218,6 +218,10 @@ def level_add(request):
 			save_level.course = course_id
 			# save_level.save()
 
+			print("save_level.name", save_level.name)
+
+			cache.set('set_level_name', save_level.name, 30)
+
 		# 	messages.success(request, _('Your level has been change successfully.'))
 		# 	return redirect('course:level_list')
 		# else:
@@ -228,18 +232,22 @@ def level_add(request):
 		# 	print("course_id", course_id)
 
 			for item in word_formset:
-				print("item", item)
+				# print("item", item)
 				save_wordformset = Word()
 				save_wordformset.word = item.cleaned_data['word']
 				save_wordformset.description = item.cleaned_data['description']
 				save_wordformset.literal_translation = item.cleaned_data['literal_translation']
 				save_wordformset.course = course_id
-				save_wordformset.level = item.cleaned_data['name']
+				get_level = cache.get('set_level_name')
+				# save_wordformset.level = item.cleaned_data['level']
+				save_wordformset.level = get_level
 				save_wordformset.is_active = True
 				# save_wordformset.save()
 
 			messages.success(request, _('Your word has been change successfully.'))
 			return redirect('course:course_list')
+
+
 		else:
 			messages.warning(request, form.errors)
 			messages.warning(request, word_formset.errors)

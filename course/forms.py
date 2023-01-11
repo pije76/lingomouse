@@ -154,13 +154,16 @@ class Word_ModelForm(forms.ModelForm):
 	# literal_translation = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	# level = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 
+LEVEL_CHOICE = Level.objects.filter().values_list("name", flat=True)
 
 class Word_Form(forms.Form):
 	# id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	word = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	description = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
-	literal_translation = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
-	level = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.Select())
+	literal_translation = forms.CharField(label=_(u''), required=False, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	level = forms.CharField(label=_(u''), required=False, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
+	# level = forms.ChoiceField(label=_(u''), required=False, choices=(LEVEL_CHOICE), widget=forms.Select)
+	# level = forms.ModelChoiceField(queryset=Level.objects.all().values_list("name", flat=True), label=_(u''), required=False, widget=forms.Select)
 	is_active = forms.BooleanField(label=_(u''), required=False, widget=forms.CheckboxInput(attrs={'checked': "checked"}))
 
 

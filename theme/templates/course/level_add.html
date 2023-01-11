@@ -113,15 +113,8 @@
                                             </thead>
                                             <tbody>
                                                 <tr class="form-row wordFormset" id="level_words-{{ word_formset.id }}">
-                                                    {% for item in word_formset %}
-                                                    <td class="field-word">
-                                                        {{ item.word|as_crispy_field }}
-                                                    </td>
-                                                    <td class="field-description">
-                                                        {{ item.description|as_crispy_field }}
-                                                    </td>
+                                                        {{ word_formset }}
                                                     <td class="delCourse"></td>
-                                                    {% endfor %}
                                                 </tr>
                                                 <tr class="addCourse" style="padding-left: 10px;display: inline-block;"></tr>
                                                 </tr>
