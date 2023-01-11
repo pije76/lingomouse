@@ -100,37 +100,25 @@
                             </fieldset>
                             <div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="level_words-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#level_words&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;level_words&quot;, &quot;addText&quot;: &quot;Add another Word&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
                                 <div class="tabular inline-related last-related">
-                                    <input type="hidden" name="level_words-TOTAL_FORMS" value="1" id="id_level_words-TOTAL_FORMS">
-                                    <input type="hidden" name="level_words-INITIAL_FORMS" value="0" id="id_level_words-INITIAL_FORMS">
-                                    <input type="hidden" name="level_words-MIN_NUM_FORMS" value="0" id="id_level_words-MIN_NUM_FORMS">
-                                    <input type="hidden" name="level_words-MAX_NUM_FORMS" value="20" id="id_level_words-MAX_NUM_FORMS">
+
                                     <fieldset class="module">
                                         <h2 class="px-3">Words</h2>
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th class="original"></th>
-                                                    <th class="column-id hidden">ID</th>
                                                     <th class="column-word required">Foreign</th>
                                                     <th class="column-description required">Native</th>
                                                     <th>Delete?</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="form-row wordFormset" id="level_words-0">
-                                                    {% for item in word_formset.forms %}
-                                                    <td class="original">
-                                                        <input type="hidden" name="level_words-0-id" id="id_level_words-0-id">
-                                                        <input type="hidden" name="level_words-0-level" id="id_level_words-0-level">
-                                                    </td>
-                                                    <td class="field-id hidden">
-                                                        <p>-</p>
-                                                    </td>
+                                                <tr class="form-row wordFormset" id="level_words-{{ word_formset.id }}">
+                                                    {% for item in word_formset %}
                                                     <td class="field-word">
-                                                        <input type="text" name="level_words-0-word" class="vTextField" maxlength="200" id="id_level_words-0-word">
+                                                        {{ item.word|as_crispy_field }}
                                                     </td>
                                                     <td class="field-description">
-                                                        <input type="text" name="level_words-0-description" class="vTextField" maxlength="200" id="id_level_words-0-description">
+                                                        {{ item.description|as_crispy_field }}
                                                     </td>
                                                     <td class="delCourse"></td>
                                                     {% endfor %}

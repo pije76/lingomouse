@@ -41,7 +41,11 @@ class LevelAdmin(admin.ModelAdmin):
         'course',
     ]
 
-    ordering = ('sequence', 'id',)
+    ordering = (
+        'course',
+        'sequence',
+        'id',
+    )
 
 
 class WordAdmin(ImportExportModelAdmin):

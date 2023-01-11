@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, Http
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
 from django.views import View
+from django.core.cache import cache
 
 from .models import *
 from .forms import *
@@ -73,6 +74,8 @@ def course_detail(request, pk):
 
 	# form = Word_ModelFormSet(prefix='course')
 
+	cache.set('set_course_detail', course_detail, 30)
+
 	if request.method == 'POST':
 		form = CourseModelForm(request.POST or None, request.FILES or None, instance=course_detail)
 
@@ -86,6 +89,9 @@ def course_detail(request, pk):
 			save_course.img = form.cleaned_data['img']
 			save_course.is_active = form.cleaned_data['is_active']
 			save_course.save()
+
+			set_course_detail = Course.objects.filter(id=pk)
+			cache.set('set_course_detail', set_course_detail, 30)
 
 			messages.success(request, _('Your course has been change successfully.'))
 			return redirect('course:course_list')
@@ -143,7 +149,7 @@ def course_add(request):
 		if word_formset.is_valid():
 			get_wordformset = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
 
-			for item in admision_formset:
+			for item in word_formset:
 				save_wordformset = Word()
 				save_wordformset.patient = patients
 				save_wordformset.date_admission = get_admission_date_admission
@@ -151,7 +157,7 @@ def course_add(request):
 				save_wordformset.admitted_admission = str(get_admission_admitted_admission)
 			return redirect('course:course_list')
 		else:
-			messages.warning(request, admision_formset.errors)
+			messages.warning(request, word_formset.errors)
 
 	else:
 		form = CourseModelForm()
@@ -195,35 +201,48 @@ def level_add(request):
 	get_course = Course.objects.all().values_list("name", flat=True)
 	# get_level = Level.objects.all().values_list("name", flat=True)
 
+	# cache.get('set_course_detail', set_course_detail)
+	# print("set_course_detail", set_course_detail)
+
+
 	if request.method == 'POST':
 		form = LevelForm(request.POST or None)
 		word_formset = Word_FormSet(request.POST or None)
 
-		if form.is_valid():
+		# if form.is_valid():
+		if form.is_valid() and word_formset.is_valid():
 			save_level = Level()
 			save_level.sequence = form.cleaned_data['sequence']
 			save_level.name = form.cleaned_data['name']
 			course_id = Course.objects.get(id=form.cleaned_data['course'])
 			save_level.course = course_id
-			save_level.save()
+			# save_level.save()
 
-			messages.success(request, _('Your level has been change successfully.'))
-			return redirect('course:level_list')
-		else:
-			messages.warning(request, form.errors)
+		# 	messages.success(request, _('Your level has been change successfully.'))
+		# 	return redirect('course:level_list')
+		# else:
+		# 	messages.warning(request, form.errors)
 
-		if word_formset.is_valid():
-			get_wordformset = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
+		# if word_formset.is_valid():
+		# 	# get_course = Word.objects.filter(course=course_id).values_list("date_admission", flat=True).first()
+		# 	print("course_id", course_id)
 
-			for item in admision_formset:
+			for item in word_formset:
+				print("item", item)
 				save_wordformset = Word()
-				save_wordformset.patient = patients
-				save_wordformset.date_admission = get_admission_date_admission
-				save_wordformset.time_admission = get_admission_time_admission
-				save_wordformset.admitted_admission = str(get_admission_admitted_admission)
+				save_wordformset.word = item.cleaned_data['word']
+				save_wordformset.description = item.cleaned_data['description']
+				save_wordformset.literal_translation = item.cleaned_data['literal_translation']
+				save_wordformset.course = course_id
+				save_wordformset.level = item.cleaned_data['name']
+				save_wordformset.is_active = True
+				# save_wordformset.save()
+
+			messages.success(request, _('Your word has been change successfully.'))
 			return redirect('course:course_list')
 		else:
-			messages.warning(request, admision_formset.errors)
+			messages.warning(request, form.errors)
+			messages.warning(request, word_formset.errors)
 
 	else:
 		form = LevelForm()
