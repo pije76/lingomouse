@@ -79,7 +79,7 @@
 				<div class="module" id="changelist">
 					<div class="changelist-form-container">
 						{% for item in country_list %}
-						<form id="changelist-form" method="post" novalidate>
+						<form id="changelist-form" method="POST" novalidate>
 						{% endfor %}
 						{% csrf_token %}
 							<div class="rounded-t mb-0 px-4 py-3 border-0">

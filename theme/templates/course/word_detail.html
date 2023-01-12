@@ -1,8 +1,8 @@
 {% extends "base_detail.html" %}
-{% load i18n static paginator %}
+{% load i18n static paginator crispy_forms_tags %}
 
 {% block title %}
-{{ word.word }} - {{ word.description }} | {{ title }}
+{{ word_detail.word }} - {{ word_detail.description }} | {{ title }}
 {% endblock title %}
 
 {# note: content #}
@@ -13,20 +13,20 @@
         <div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
             <div class="px-4 lg:px-10 mx-auto w-full">
                 <h1 class="font-normal text-xl md:text-2xl">Change word</h1>
-                <h2 class="font-medium">{{ word.word }} - {{ word.description }}</h2>
+                <h2 class="font-medium">{{ word_detail.word }} - {{ word_detail.description }}</h2>
                 <hr class="md:min-w-full" />
                 <div class="breadcrumbs">
                     <a href="/">Home</a>
                     &rsaquo; <a href="/course/">Course</a>
                     &rsaquo; <a href="/course/word/">Words</a>
-                    &rsaquo; {{ word.word }} - {{ word.description }}
+                    &rsaquo; {{ word_detail.word }} - {{ word_detail.description }}
                 </div>
             </div>
         </div>
         <div class="flex md:justify-end p-3 md:px-10">
             <ul class="object-tools mt-0">
                 <li>
-                    <a href="/admin/course/word/2/history/" class="historylink">History</a>
+                    <a href="/course/word/2/history/" class="historylink">History</a>
                 </li>
             </ul>
         </div>
@@ -36,51 +36,47 @@
                     <div class="pager flex justify-end">
                         <div class="block">
                             <span class="page">
-                                <a href="/admin/course/word/1/change">< Prev </a>
+                                <a href="/course/word/1/change">< Prev </a>
                             </span>
                             <span class="page">
-                                <a href="/admin/course/word/3/change">Next ></a>
+                                <a href="/course/word/3/change">Next ></a>
                             </span>
                         </div>
                     </div>
-                    <form enctype="multipart/form-data" method="post" id="word_form" novalidate>
+                    <form enctype="multipart/form-data" method="POST" id="word_form" novalidate>
                         <div class="block md:grid md:grid-cols-2 gap-2">
                             <div class="col-span-2"></div>
                             <fieldset class="module aligned">
                                 <div class="form-row field-word">
                                     <div>
                                         <label class="required" for="id_word">Foreign:</label>
-                                        <input type="text" name="word" value="{{ word.word }}" class="vTextField" maxlength="200" required id="id_word">
+                                        {{ form.word|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="form-row field-description">
                                     <div>
                                         <label class="required" for="id_description">Native:</label>
-                                        <input type="text" name="description" value="{{ word.description }}" class="vTextField" maxlength="200" required id="id_description">
+                                        {{ form.description|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="form-row field-literal_translation">
                                     <div>
                                         <label for="id_literal_translation">Literal translation:</label>
-                                        <input type="text" name="literal_translation" class="{{ word.literal_translation }}" maxlength="200" id="id_literal_translation">
+                                        {{ form.literal_translation|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="form-row field-course">
                                     <div>
                                         <label class="required" for="id_course">Course:</label>
                                         <div class="related-widget-wrapper" data-model-ref="course">
-                                            <select name="course" required id="id_course">
-                                                <option value="">---------</option>
-                                                <option value="13198" selected>English MasterClass</option>
-                                                <option value="98764">Tagalog MasterClass</option>
-                                            </select>
-                                            <a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
+                                            {{ form.course|as_crispy_field }}
+                                            <a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/course/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
                                                 <img src="/static/admin/img/icon-changelink.svg" alt="Change">
                                             </a>
-                                            <a class="related-widget-wrapper-link add-related" id="add_id_course" data-popup="yes" href="/admin/course/course/add/?_to_field=id&amp;_popup=1" title="Add another course">
+                                            <a class="related-widget-wrapper-link add-related" id="add_id_course" data-popup="yes" href="/course/course/add/?_to_field=id&amp;_popup=1" title="Add another course">
                                                 <img src="/static/admin/img/icon-addlink.svg" alt="Add">
                                             </a>
-                                            <a class="related-widget-wrapper-link view-related" id="view_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id" title="View selected course">
+                                            <a class="related-widget-wrapper-link view-related" id="view_id_course" data-href-template="/course/course/__fk__/change/?_to_field=id" title="View selected course">
                                                 <img src="/static/admin/img/icon-viewlink.svg" alt="View">
                                             </a>
                                         </div>
@@ -90,27 +86,17 @@
                                     <div>
                                         <label for="id_level">Level:</label>
                                         <div class="related-widget-wrapper" data-model-ref="level">
-                                            <select name="level" id="id_level">
-                                                <option value="">---------</option>
-                                                <option value="1" selected>English MasterClass - Level 1</option>
-                                                <option value="5">Tagalog MasterClass - Level 1</option>
-                                                <option value="2">English MasterClass - Level 2</option>
-                                                <option value="6">Tagalog MasterClass - Level 2</option>
-                                                <option value="3">English MasterClass - Level 3</option>
-                                                <option value="7">Tagalog MasterClass - Level 3</option>
-                                                <option value="4">English MasterClass - Level 4</option>
-                                                <option value="8">English MasterClass - Level 5</option>
-                                            </select>
-                                            <a class="related-widget-wrapper-link change-related" id="change_id_level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
+                                            {{ form.level|as_crispy_field }}
+                                            <a class="related-widget-wrapper-link change-related" id="change_id_level" data-href-template="/course/level/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected level">
                                                 <img src="/static/admin/img/icon-changelink.svg" alt="Change">
                                             </a>
-                                            <a class="related-widget-wrapper-link add-related" id="add_id_level" data-popup="yes" href="/admin/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
+                                            <a class="related-widget-wrapper-link add-related" id="add_id_level" data-popup="yes" href="/course/level/add/?_to_field=id&amp;_popup=1" title="Add another level">
                                                 <img src="/static/admin/img/icon-addlink.svg" alt="Add">
                                             </a>
-                                            <a class="related-widget-wrapper-link delete-related" id="delete_id_level" data-href-template="/admin/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
+                                            <a class="related-widget-wrapper-link delete-related" id="delete_id_level" data-href-template="/course/level/__fk__/delete/?_to_field=id&amp;_popup=1" data-popup="yes" title="Delete selected level">
                                                 <img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
                                             </a>
-                                            <a class="related-widget-wrapper-link view-related" id="view_id_level" data-href-template="/admin/course/level/__fk__/change/?_to_field=id" title="View selected level">
+                                            <a class="related-widget-wrapper-link view-related" id="view_id_level" data-href-template="/course/level/__fk__/change/?_to_field=id" title="View selected level">
                                                 <img src="/static/admin/img/icon-viewlink.svg" alt="View">
                                             </a>
                                         </div>
@@ -179,7 +165,7 @@
                                 <div class="submit-row">
                                     <input type="submit" value="Save" class="default" name="_save">
                                     <p class="deletelink-box">
-                                        <a href="/admin/course/word/2/delete/" class="deletelink">Delete</a>
+                                        <a href="{% url 'course:word_delete' word_detail.pk %}" class="deletelink">Delete</a>
                                     </p>
                                     <input type="submit" value="Save and add another" name="_addanother">
                                     <input type="submit" value="Save and continue editing" name="_continue">

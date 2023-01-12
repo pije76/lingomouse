@@ -329,18 +329,22 @@ def word_list(request):
 
 def word_detail(request, pk):
 	page_title = _('Change Word')
-	form = CourseForm()
-	word = get_object_or_404(Word, id=pk)
+	# word_detail = get_object_or_404(Word, id=pk)
+	word_detail = Word.objects.filter(id=pk)
+	get_level = Level.objects.all()
 
 	if request.method == 'POST':
-		form = CourseForm(request.POST or None, instance=request.user)
+		form = Word_ModelForm(request.POST or None, instance=request.user)
 
 		if form.is_valid():
-			word = form.save(commit=False)
-			word.full_name = form.cleaned_data['full_name']
-			word.email = form.cleaned_data['email']
-			word.ic_number = form.cleaned_data['ic_number']
-			word.save()
+			save_word = form.save(commit=False)
+			save_word.word = form.cleaned_data['word']
+			save_word.description = form.cleaned_data['description']
+			save_word.literal_translation = form.cleaned_data['literal_translation']
+			save_word.course = form.cleaned_data['course']
+			save_word.level = form.cleaned_data['level']
+			save_word.is_active = form.cleaned_data['is_active']
+			save_word.save()
 
 			messages.success(request, _('Your word has been change successfully.'))
 			return redirect('course:word_list')
@@ -348,12 +352,13 @@ def word_detail(request, pk):
 			messages.warning(request, form.errors)
 
 	else:
-		form = CourseForm()
+		# form = Word_ModelForm()
+		form = Word_ModelForm(instance=word_detail)
 
 	context = {
 		'title': page_title,
 		'form': form,
-		'word': word,
+		'word_detail': word_detail,
 	}
 
 	return render(request, 'course/word_detail.html', context)
