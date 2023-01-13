@@ -5,6 +5,7 @@ from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, Http
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
 from django.views import View
+from django.core.cache import cache
 
 from .models import *
 from .forms import *
@@ -128,7 +129,10 @@ def course_detail(request, pk):
 		'is_active': course_detail.is_active,
 	}
 
-	if request.method == 'POST':
+	is_ajax = request.headers.get('x-requested-with') == 'XMLHttpRequest'
+
+	# if request.method == 'POST':
+	if is_ajax and request.method == 'POST':
 		form = CourseModelForm(request.POST or None, request.FILES or None, instance=course_detail)
 
 		if form.is_valid():
@@ -150,7 +154,6 @@ def course_detail(request, pk):
 	else:
 		# form = Word_ModelFormSet()
 		form = CourseModelForm(instance=course_detail)
-		request.session['set_course_detail'] = course_detail.id
 		request.session['set_course_detail'] = course_detail.id
 
 	context = {
@@ -247,29 +250,11 @@ def level_add(request):
 
 def level_detail(request, pk):
 	page_title = _('Change Level')
-	# get_course = Course.objects.all().values_list("name", flat=True)
 	set_course_detail = request.session.get('set_course_detail')
 	course_id = Course.objects.get(id=set_course_detail)
 	get_level = get_object_or_404(Level, id=pk)
+	set_level_detail = request.GET.get('set_level_detail')
 	get_word = Word.objects.filter(level=pk)
-	# get_levels = get_object_or_404(Word, level=pk)
-	# get_levels = Level.objects.filter(id=pk)
-	get_levels = request.POST.get('get_level', None)
-	set_level_detail = request.POST.get('set_level_detail', None)
-	# get_levels = request.POST['levelset_id']
-
-	print("get_levels", get_levels)
-	print("set_course_detail", set_course_detail)
-
-	initial_formset = [{
-		'id': item,
-		# 'word': item,
-		'word': item.word,
-		'description': item.description,
-		# 'course': item.course,
-		# 'given_by': request.user,
-	}
-		for item in get_word]
 
 	if request.method == 'POST':
 		form = Level_ModelForm(request.POST or None, instance=get_level)
@@ -300,7 +285,7 @@ def level_detail(request, pk):
 
 	else:
 		form = Level_ModelForm(instance=get_level)
-		word_formset = Word_ModelFormSet(initial=initial_formset)
+		word_formset = Word_ModelFormSet(queryset=get_word)
 
 	context = {
 		'title': page_title,

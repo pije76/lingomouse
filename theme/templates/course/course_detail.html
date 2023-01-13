@@ -5,7 +5,6 @@
 {{ course_detail.name }} | {{ title }}
 {% endblock title %}
 
-
 {% block extrahead %}
 {% endblock extrahead %}
 
@@ -183,10 +182,10 @@ $(document).ready(function()
 
 	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
-	// var get_level = "{{ level.id }}";
-	// var get_level = $('.levelset_id').attr('value');
+	// var set_level_detail = "{{ level.id }}";
+	// var set_level_detail = $('.levelset_id').attr('value');
 
-	// console.log("get_level: ", get_level);
+	// console.log("set_level_detail: ", set_level_detail);
 
 	$('select[name=native]').on('change', function(e)
 	{
@@ -217,21 +216,25 @@ $(document).ready(function()
 
 	$(".levelset_id").click(function()
 	{
-		var get_level = $(this).attr('value');
-		console.log("get_level: ", get_level);
+		var set_level_detail = $(this).attr('value');
+		console.log("set_level_detail0: ", set_level_detail);
 
 		$.ajax(
 		{
-			type: "POST",
+			type: "GET",
 			url: $(this).attr("data-href"),
 			data:
         	{
-        		'get_level':get_level,
+        		'set_level_detail':set_level_detail,
         		'csrfmiddlewaretoken': csrftoken,
+        		// set_level_detail,
         	},
 			success: function(data)
 			{
-				$(this).html(data)
+				if(!data["valid"])
+        		{
+        			console.log("set_level_detail1", set_level_detail);
+        		}
 			}
 		}
 	)})

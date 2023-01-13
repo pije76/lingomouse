@@ -5,6 +5,11 @@
 {{ get_level.name }} | {{ title }}
 {% endblock title %}
 
+{% block extrahead %}
+{{ block.super }}
+{{ word_formset.media }}
+{% endblock extrahead %}
+
 {# note: content #}
 {% block content %}
 
@@ -45,15 +50,10 @@
                     </div>
                     <form method="POST" id="level_form">
                     {% csrf_token %}
+                    {{ word_formset.management_form }}
 
                         <div>
                             <fieldset class="module aligned ">
-                                <div class="form-row field-id">
-                                    <div>
-                                        <label class="required" for="id_sequence">ID:</label>
-                                        {{ form.id|as_crispy_field }}
-                                    </div>
-                                </div>
                                 <div class="form-row field-sequence">
                                     <div>
                                         <label class="required" for="id_sequence">Sequence:</label>

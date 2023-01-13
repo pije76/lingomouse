@@ -208,7 +208,7 @@ Word_ModelFormSet = modelformset_factory(
     #     'level',
     #     'is_active',
     # ),
-    extra=0,
+    extra=1,
     max_num=None,
     #   can_delete=True,
 )
