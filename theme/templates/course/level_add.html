@@ -106,7 +106,6 @@
 										<table>
 											<thead>
 												<tr>
-													<th class="column-id hidden">ID</th>
 													<th class="column-word required">Foreign</th>
 													<th class="column-description required">Native</th>
 													<th>Delete?</th>
@@ -115,9 +114,6 @@
 											<tbody>
 												<tr class="form-row wordFormset" id="level_words-0">
 													{% for item in word_formset.forms %}
-													<td class="field-id hidden">
-														{{ item.id|as_crispy_field }}
-													</td>
 													<td class="field-word">
 														{{ item.word|as_crispy_field }}
 													</td>
@@ -160,7 +156,7 @@ $(document).ready(function()
 	{
 		// $('.wordFormset').formset();
 		$('.wordFormset').formset({
-			prefix: 'course_formset',
+			// prefix: 'course_formset',
 			addCssClass: 'btn btn-success',
 			addText: '<i class="fas fa-plus"></i>',
 			deleteCssClass: 'btn btn-danger',
