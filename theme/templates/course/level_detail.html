@@ -1,5 +1,5 @@
 {% extends "base_detail.html" %}
-{% load i18n static paginator %}
+{% load i18n static paginator crispy_forms_tags %}
 
 {% block title %}
 {{ get_level.name }} | {{ title }}
@@ -43,30 +43,28 @@
                             </span>
                         </div>
                     </div>
-                    <form method="POST" id="level_form" novalidate>
+                    <form method="POST" id="level_form">
+                    {% csrf_token %}
+
                         <div>
                             <fieldset class="module aligned ">
                                 <div class="form-row field-sequence">
                                     <div>
                                         <label class="required" for="id_sequence">Sequence:</label>
-                                        <input type="number" name="sequence" value="0" class="vIntegerField" required id="id_sequence">
+                                        {{ form.sequence|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="form-row field-name">
                                     <div>
                                         <label class="required" for="id_name">Name:</label>
-                                        <input type="text" name="name" value="Level 1" class="vTextField" maxlength="200" required id="id_name">
+                                        {{ form.name|as_crispy_field }}
                                     </div>
                                 </div>
                                 <div class="form-row field-course">
                                     <div>
                                         <label for="id_course">Course:</label>
                                         <div class="related-widget-wrapper" data-model-ref="course">
-                                            <select name="course" id="id_course">
-                                                <option value="">---------</option>
-                                                <option value="13198">English MasterClass</option>
-                                                <option value="98764" selected>Tagalog MasterClass</option>
-                                            </select>
+                                            {{ form.course|as_crispy_field }}
                                             <a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
                                                 <img src="/static/admin/img/icon-changelink.svg" alt="Change">
                                             </a>
@@ -82,10 +80,6 @@
                             </fieldset>
                             <div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="level_words-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#level_words&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;level_words&quot;, &quot;addText&quot;: &quot;Add another Word&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
                                 <div class="tabular inline-related last-related">
-                                    <input type="hidden" name="level_words-TOTAL_FORMS" value="3" id="id_level_words-TOTAL_FORMS">
-                                    <input type="hidden" name="level_words-INITIAL_FORMS" value="2" id="id_level_words-INITIAL_FORMS">
-                                    <input type="hidden" name="level_words-MIN_NUM_FORMS" value="0" id="id_level_words-MIN_NUM_FORMS">
-                                    <input type="hidden" name="level_words-MAX_NUM_FORMS" value="20" id="id_level_words-MAX_NUM_FORMS">
                                     <fieldset class="module">
                                         <h2 class="px-3">Words</h2>
                                         <table>
@@ -142,7 +136,7 @@ $(document).ready(function()
     {
         // $('.wordFormset').formset();
         $('.wordFormset').formset({
-            prefix: 'course_formset',
+            // prefix: 'course_formset',
             addCssClass: 'btn btn-success',
             addText: '<i class="fas fa-plus"></i>',
             deleteCssClass: 'btn btn-danger',

@@ -108,6 +108,18 @@ class LevelForm(forms.Form):
 	course = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select, choices=[(choice.pk, choice) for choice in Course.objects.all()])
 
 
+class Level_ModelForm(forms.ModelForm):
+	class Meta:
+		model = Level
+		fields = '__all__'
+		labels = {
+            "id": _(""),
+            "sequence": _(""),
+            "name": _(""),
+            "course": _(""),
+        }
+
+
 # Word Media Form
 class WordMediaForm(forms.ModelForm):
 	""" If field type is field then add recorder to """

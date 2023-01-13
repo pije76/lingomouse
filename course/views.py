@@ -51,6 +51,63 @@ def course_list(request):
 	return render(request,'course/course_list.html', context)
 
 
+def course_add(request):
+	page_title = _('Add Course')
+	word = Word.objects.all()
+	native_id = request.GET.get('get_selected_native', None)
+	native_id = request.POST.get('get_selected_native', None)
+
+	get_language = Language.objects.all().values_list("code", flat=True)
+	get_level = Level.objects.all().values_list("name", flat=True)
+
+	if request.method == 'POST':
+		form = CourseModelForm(request.POST or None, request.FILES)
+		word_formset = Word_FormSet(request.POST or None)
+		native_id = request.GET.get('get_selected_native', None)
+		native_id = request.POST.get('get_selected_native', None)
+
+		if form.is_valid():
+			course = form.save(commit=False)
+			course.id = form.cleaned_data['id']
+			course.name = form.cleaned_data['name']
+			course.native = form.cleaned_data['native']
+			course.description = form.cleaned_data['description']
+			course.img = form.cleaned_data['img']
+			course.is_active = form.cleaned_data['is_active']
+			course.save()
+
+			return redirect('course:course_list')
+		else:
+			messages.warning(request, form.errors)
+
+		if word_formset.is_valid():
+			get_wordformset = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
+
+			for item in word_formset:
+				save_wordformset = Word()
+				save_wordformset.patient = patients
+				save_wordformset.date_admission = get_admission_date_admission
+				save_wordformset.time_admission = get_admission_time_admission
+				save_wordformset.admitted_admission = str(get_admission_admitted_admission)
+			return redirect('course:course_list')
+		else:
+			messages.warning(request, word_formset.errors)
+
+	else:
+		form = CourseModelForm()
+		word_formset = Word_FormSet()
+
+	context = {
+		'title': page_title,
+		'form': form,
+		'word_formset': word_formset,
+		'word': word,
+		'get_level': get_level,
+	}
+
+	return render(request, 'course/course_add.html', context)
+
+
 def course_detail(request, pk):
 	page_title = _('Change Course')
 	course_detail = get_object_or_404(Course, id=pk)
@@ -108,63 +165,6 @@ def course_detail(request, pk):
 	}
 
 	return render(request, 'course/course_detail.html', context)
-
-
-def course_add(request):
-	page_title = _('Add Course')
-	word = Word.objects.all()
-	native_id = request.GET.get('get_selected_native', None)
-	native_id = request.POST.get('get_selected_native', None)
-
-	get_language = Language.objects.all().values_list("code", flat=True)
-	get_level = Level.objects.all().values_list("name", flat=True)
-
-	if request.method == 'POST':
-		form = CourseModelForm(request.POST or None, request.FILES)
-		word_formset = Word_FormSet(request.POST or None)
-		native_id = request.GET.get('get_selected_native', None)
-		native_id = request.POST.get('get_selected_native', None)
-
-		if form.is_valid():
-			course = form.save(commit=False)
-			course.id = form.cleaned_data['id']
-			course.name = form.cleaned_data['name']
-			course.native = form.cleaned_data['native']
-			course.description = form.cleaned_data['description']
-			course.img = form.cleaned_data['img']
-			course.is_active = form.cleaned_data['is_active']
-			course.save()
-
-			return redirect('course:course_list')
-		else:
-			messages.warning(request, form.errors)
-
-		if word_formset.is_valid():
-			get_wordformset = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
-
-			for item in word_formset:
-				save_wordformset = Word()
-				save_wordformset.patient = patients
-				save_wordformset.date_admission = get_admission_date_admission
-				save_wordformset.time_admission = get_admission_time_admission
-				save_wordformset.admitted_admission = str(get_admission_admitted_admission)
-			return redirect('course:course_list')
-		else:
-			messages.warning(request, word_formset.errors)
-
-	else:
-		form = CourseModelForm()
-		word_formset = Word_FormSet()
-
-	context = {
-		'title': page_title,
-		'form': form,
-		'word_formset': word_formset,
-		'word': word,
-		'get_level': get_level,
-	}
-
-	return render(request, 'course/course_add.html', context)
 
 
 def course_delete(request, pk):
@@ -246,12 +246,12 @@ def level_add(request):
 
 def level_detail(request, pk):
 	page_title = _('Change Level')
-	form = CourseForm()
 	get_level = get_object_or_404(Level, id=pk)
+	level_detail = Level.objects.filter(id=pk)
 	get_word = Word.objects.filter(level=pk)
 
 	if request.method == 'POST':
-		form = CourseForm(request.POST or None, instance=request.user)
+		form = Level_ModelForm(request.POST or None)
 		word_formset = Word_FormSet(request.POST or None)
 
 		if form.is_valid():
@@ -267,7 +267,7 @@ def level_detail(request, pk):
 			messages.warning(request, form.errors)
 
 	else:
-		form = CourseForm()
+		form = Level_ModelForm(instance=get_level)
 		word_formset = Word_FormSet()
 
 	context = {
@@ -311,7 +311,7 @@ def word_detail(request, pk):
 	get_level = Level.objects.all()
 
 	if request.method == 'POST':
-		form = Word_ModelForm(request.POST or None, instance=request.user)
+		form = Word_ModelForm(request.POST or None)
 
 		if form.is_valid():
 			save_word = form.save(commit=False)
@@ -349,7 +349,7 @@ def word_add(request):
 	form = CourseForm()
 
 	if request.method == 'POST':
-		form = CourseForm(request.POST or None, instance=request.user)
+		form = CourseForm(request.POST or None)
 
 		if form.is_valid():
 			word = form.save(commit=False)
