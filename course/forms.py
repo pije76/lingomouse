@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.models import BaseInlineFormSet
 from django.utils.translation import gettext_lazy as _
-from django.forms import formset_factory, modelformset_factory
+from django.forms import formset_factory, modelformset_factory, modelform_factory, inlineformset_factory
 
 import pycountry
 
@@ -183,10 +183,9 @@ class Word_Form(forms.Form):
 
 Word_FormSet = formset_factory(Word_Form)
 
-Word_ModelFormSet = modelformset_factory(
-    Word,
-    form=Word_ModelForm,
-    fields=(
+Word_ModelFormFactory = modelform_factory(
+	Word,
+	fields=(
     	'id',
         'word',
         'description',
@@ -194,7 +193,21 @@ Word_ModelFormSet = modelformset_factory(
         'course',
         'level',
         'is_active',
-    ),
+	)
+)
+
+Word_ModelFormSet = modelformset_factory(
+    Word,
+    form=Word_ModelForm,
+    # fields=(
+    # 	'id',
+    #     'word',
+    #     'description',
+    #     'literal_translation',
+    #     'course',
+    #     'level',
+    #     'is_active',
+    # ),
     extra=0,
     max_num=None,
     #   can_delete=True,

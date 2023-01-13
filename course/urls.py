@@ -8,8 +8,8 @@ app_name = "course"
 urlpatterns = [
 	path('bulk-set-level/', BulkLevelSet.as_view(), name='bulk-set-level'),
 
-    path('', course_index, name="course_index"),
-    path('course/', course_list, name="course_list"),
+    path('', course_list, name="course_list"),
+    # path('course/', course_list, name="course_list"),
     path('course/add/', course_add, name='course_add'),
     path('course/<int:pk>/detail/', course_detail, name='course_detail'),
     path('course/<int:pk>/delete/', course_delete, name='course_delete'),

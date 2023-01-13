@@ -246,13 +246,28 @@ def level_add(request):
 
 def level_detail(request, pk):
 	page_title = _('Change Level')
+	# get_course = Course.objects.all().values_list("name", flat=True)
+	course_id = Course.objects.get(id=set_course_detail)
 	get_level = get_object_or_404(Level, id=pk)
 	get_word = Word.objects.filter(level=pk)
-	# get_word = get_object_or_404(Word, level=pk)
+	# get_levels = get_object_or_404(Word, level=pk)
+	get_levels = Level.objects.filter(id=pk)
+
+	print("set_course_detail", set_course_detail)
+
+	initial_formset = [{
+		'id': item,
+		# 'word': item,
+		'word': item.word,
+		'description': item.description,
+		# 'course': item.course,
+		# 'given_by': request.user,
+	}
+		for item in get_word]
 
 	if request.method == 'POST':
 		form = Level_ModelForm(request.POST or None, instance=get_level)
-		word_formset = Word_ModelFormSet(request.POST or None, instance=get_word)
+		word_formset = Word_ModelFormSet(request.POST or None)
 
 		if form.is_valid() and word_formset.is_valid():
 			save_level = form.save(commit=False)
@@ -279,7 +294,7 @@ def level_detail(request, pk):
 
 	else:
 		form = Level_ModelForm(instance=get_level)
-		word_formset = Word_ModelFormSet(instance=get_word)
+		word_formset = Word_ModelFormSet(initial=initial_formset)
 
 	context = {
 		'title': page_title,
