@@ -247,19 +247,30 @@ def level_add(request):
 def level_detail(request, pk):
 	page_title = _('Change Level')
 	get_level = get_object_or_404(Level, id=pk)
-	level_detail = Level.objects.filter(id=pk)
 	get_word = Word.objects.filter(level=pk)
+	# get_word = get_object_or_404(Word, level=pk)
 
 	if request.method == 'POST':
-		form = Level_ModelForm(request.POST or None)
-		word_formset = Word_FormSet(request.POST or None)
+		form = Level_ModelForm(request.POST or None, instance=get_level)
+		word_formset = Word_ModelFormSet(request.POST or None, instance=get_word)
 
-		if form.is_valid():
-			level = form.save(commit=False)
-			level.full_name = form.cleaned_data['full_name']
-			level.email = form.cleaned_data['email']
-			level.ic_number = form.cleaned_data['ic_number']
-			level.save()
+		if form.is_valid() and word_formset.is_valid():
+			save_level = form.save(commit=False)
+			save_level.sequence = form.cleaned_data['sequence']
+			save_level.name = form.cleaned_data['name']
+			save_level.course = form.cleaned_data['course']
+			save_level.save()
+
+			for item in word_formset:
+				save_wordformset = item.save(commit=False)
+				save_wordformset.word = item.cleaned_data['word']
+				save_wordformset.description = item.cleaned_data['description']
+				save_wordformset.literal_translation = item.cleaned_data['literal_translation']
+				save_wordformset.course = course_id
+				get_level = get_object_or_404(Level, name=save_level.name)
+				save_wordformset.level = get_level
+				save_wordformset.is_active = True
+				save_wordformset.save()
 
 			messages.success(request, _('Your level has been change successfully.'))
 			return redirect('course:level_list')
@@ -268,7 +279,7 @@ def level_detail(request, pk):
 
 	else:
 		form = Level_ModelForm(instance=get_level)
-		word_formset = Word_FormSet()
+		word_formset = Word_ModelFormSet(instance=get_word)
 
 	context = {
 		'title': page_title,

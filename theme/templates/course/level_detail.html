@@ -48,6 +48,12 @@
 
                         <div>
                             <fieldset class="module aligned ">
+                                <div class="form-row field-id">
+                                    <div>
+                                        <label class="required" for="id_sequence">ID:</label>
+                                        {{ form.id|as_crispy_field }}
+                                    </div>
+                                </div>
                                 <div class="form-row field-sequence">
                                     <div>
                                         <label class="required" for="id_sequence">Sequence:</label>
@@ -91,13 +97,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {% for item in get_word %}
+                                                {% for item in word_formset.forms %}
                                                 <tr class="form-row wordFormset" id="level_words-0">
                                                     <td class="field-word">
-                                                        <input type="text" name="level_words-0-word" value="{{ item.word }}" class="vTextField" maxlength="200" id="id_level_words-0-word">
+                                                        {{ item.word|as_crispy_field }}
                                                     </td>
                                                     <td class="field-description">
-                                                        <input type="text" name="level_words-0-description" value="{{ item.description }}" class="vTextField" maxlength="200" id="id_level_words-0-description">
+                                                        {{ item.description|as_crispy_field }}
                                                     </td>
                                                     <td class="delCourse"></td>
                                                 </tr>

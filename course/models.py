@@ -129,7 +129,8 @@ class Word (TimestampedModel):
     class Meta:
         verbose_name = _("word")
         verbose_name_plural = _("words")
-        ordering = ["level__sequence", "created_at"]
+        # ordering = ["level__sequence", "created_at"]
+        ordering = ["level__sequence"]
 
 
     def app_url(self):

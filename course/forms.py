@@ -109,6 +109,9 @@ class LevelForm(forms.Form):
 
 
 class Level_ModelForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+
 	class Meta:
 		model = Level
 		fields = '__all__'
@@ -154,11 +157,10 @@ class Word_ModelForm(forms.ModelForm):
         }
 
 
-	# def __init__(self, *args, **kwargs):
+	def __init__(self, *args, **kwargs):
 	# def __init__(self, *args, parent_object, **kwargs):
 	# 	self.parent_object = parent_object
-	# 	super().__init__(*args, **kwargs)
-		# super().__init__(*args, **kwargs)
+		super().__init__(*args, **kwargs)
 
 	# id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
 	# word = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
