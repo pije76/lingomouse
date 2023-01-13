@@ -151,6 +151,7 @@ def course_detail(request, pk):
 		# form = Word_ModelFormSet()
 		form = CourseModelForm(instance=course_detail)
 		request.session['set_course_detail'] = course_detail.id
+		request.session['set_course_detail'] = course_detail.id
 
 	context = {
 		'title': page_title,
@@ -247,12 +248,17 @@ def level_add(request):
 def level_detail(request, pk):
 	page_title = _('Change Level')
 	# get_course = Course.objects.all().values_list("name", flat=True)
+	set_course_detail = request.session.get('set_course_detail')
 	course_id = Course.objects.get(id=set_course_detail)
 	get_level = get_object_or_404(Level, id=pk)
 	get_word = Word.objects.filter(level=pk)
 	# get_levels = get_object_or_404(Word, level=pk)
-	get_levels = Level.objects.filter(id=pk)
+	# get_levels = Level.objects.filter(id=pk)
+	get_levels = request.POST.get('get_level', None)
+	set_level_detail = request.POST.get('set_level_detail', None)
+	# get_levels = request.POST['levelset_id']
 
+	print("get_levels", get_levels)
 	print("set_course_detail", set_course_detail)
 
 	initial_formset = [{

@@ -145,7 +145,7 @@
 								<label for="bulk-set-level" class="block mb-3 text-lg">Level list</label>
 								<div class="flex">
 									{% for level in get_level %}
-									<a href="{% url 'course:level_detail' level.id %}" class="text-black bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{ level }}</a>
+									<a href="{% url 'course:level_detail' level.id %}" data-href="{% url 'course:level_detail' level.id %}" value="{{ level.id}}" class="levelset_id text-black bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">{{ level }}</a>
 									{% endfor %}
 									<a href="{% url 'course:level_add' %}" class="text-black bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 add-button"><i class="fas fa-plus"></i> Add level</a>
 								</div>
@@ -181,9 +181,12 @@ $(document).ready(function()
 {
 	var urls = "/course/course/add/";
 
-	var get_level = "{{ level.id }}";
+	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
-	console.log("get_level: ", get_level);
+	// var get_level = "{{ level.id }}";
+	// var get_level = $('.levelset_id').attr('value');
+
+	// console.log("get_level: ", get_level);
 
 	$('select[name=native]').on('change', function(e)
 	{
@@ -195,12 +198,12 @@ $(document).ready(function()
 
 		$.ajax(
         {
-        	type: 'GET',
+        	type: 'POST',
         	url: urls,
         	data:
         	{
         		'get_selected_native':get_selected_native,
-        		// 'csrfmiddlewaretoken': csrftoken,
+        		'csrfmiddlewaretoken': csrftoken,
         	},
         	success: function(data)
         	{
@@ -211,6 +214,27 @@ $(document).ready(function()
         	},
         });
 	})
+
+	$(".levelset_id").click(function()
+	{
+		var get_level = $(this).attr('value');
+		console.log("get_level: ", get_level);
+
+		$.ajax(
+		{
+			type: "POST",
+			url: $(this).attr("data-href"),
+			data:
+        	{
+        		'get_level':get_level,
+        		'csrfmiddlewaretoken': csrftoken,
+        	},
+			success: function(data)
+			{
+				$(this).html(data)
+			}
+		}
+	)})
 
 	$('select[name=foreign]').on('change', function()
 	{
