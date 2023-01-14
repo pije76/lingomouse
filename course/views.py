@@ -273,7 +273,11 @@ def level_detail(request, pk):
 				save_wordformset.word = item.cleaned_data['word']
 				save_wordformset.description = item.cleaned_data['description']
 				save_wordformset.literal_translation = item.cleaned_data['literal_translation']
-				save_wordformset.course = item.cleaned_data['course']
+				# save_wordformset.course = item.cleaned_data['course']
+				# get_course = get_object_or_404(Course, name=save_level.course)
+				save_wordformset.course = course_id
+				# save_wordformset.level = item.cleaned_data['level']
+				# get_level = get_object_or_404(Level, name=save_level.name)
 				save_wordformset.level = get_level
 				save_wordformset.is_active = True
 				save_wordformset.save()
