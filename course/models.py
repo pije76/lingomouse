@@ -118,8 +118,8 @@ class Word (TimestampedModel):
 
     word = models.CharField(max_length=200, verbose_name=_("foreign"))
     description = models.CharField(max_length=200, verbose_name=_("native"), default="")
-    literal_translation = models.CharField(max_length=200, verbose_name=_("literal translation"), default="", blank=True)
-    course = models.ForeignKey('Course', related_name='words', on_delete=models.CASCADE)
+    literal_translation = models.CharField(max_length=200, verbose_name=_("literal translation"), default="", blank=True, null=True)
+    course = models.ForeignKey('Course', related_name='words', on_delete=models.CASCADE, blank=True, null=True)
     level = models.ForeignKey("Level", related_name="level_words", on_delete=models.SET_NULL, blank=True, null=True)
     is_active = models.BooleanField(_("Is active"), default=True)
 

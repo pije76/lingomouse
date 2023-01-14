@@ -147,7 +147,7 @@ class Word_ModelForm(forms.ModelForm):
 		model = Word
 		fields = '__all__'
 		labels = {
-            "id": _(""),
+            # "id": _(""),
             "word": _(""),
             "description": _(""),
             "literal_translation": _(""),
@@ -186,7 +186,7 @@ Word_FormSet = formset_factory(Word_Form)
 Word_ModelFormFactory = modelform_factory(
 	Word,
 	fields=(
-    	'id',
+    	# 'id',
         'word',
         'description',
         'literal_translation',
@@ -210,7 +210,8 @@ Word_ModelFormSet = modelformset_factory(
     # ),
     extra=1,
     max_num=None,
-    #   can_delete=True,
+    # can_order=True,
+    can_delete=True,
 )
 
 class WordInlineForm(BaseInlineFormSet):

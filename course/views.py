@@ -255,6 +255,7 @@ def level_detail(request, pk):
 	get_level = get_object_or_404(Level, id=pk)
 	set_level_detail = request.GET.get('set_level_detail')
 	get_word = Word.objects.filter(level=pk)
+	get_course = Course.objects.filter(id=set_course_detail)
 
 	if request.method == 'POST':
 		form = Level_ModelForm(request.POST or None, instance=get_level)
@@ -272,20 +273,19 @@ def level_detail(request, pk):
 				save_wordformset.word = item.cleaned_data['word']
 				save_wordformset.description = item.cleaned_data['description']
 				save_wordformset.literal_translation = item.cleaned_data['literal_translation']
-				save_wordformset.course = course_id
-				get_level = get_object_or_404(Level, name=save_level.name)
+				save_wordformset.course = item.cleaned_data['course']
 				save_wordformset.level = get_level
 				save_wordformset.is_active = True
 				save_wordformset.save()
 
 			messages.success(request, _('Your level has been change successfully.'))
-			return redirect('course:level_list')
+			return redirect('course:course_list')
 		else:
 			messages.warning(request, form.errors)
 
 	else:
 		form = Level_ModelForm(instance=get_level)
-		word_formset = Word_ModelFormSet(queryset=get_word)
+		word_formset = Word_ModelFormSet(queryset=get_word, initial=[{'course': item.course, 'level': item.level} for item in get_word])
 
 	context = {
 		'title': page_title,
