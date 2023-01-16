@@ -132,7 +132,7 @@
                             <div class="submit-row">
                                 <input type="submit" value="Save" class="default" name="_save">
                                 <p class="deletelink-box">
-                                    <a href="/admin/course/level/5/delete/" class="deletelink">Delete</a>
+                                    <a href="{% url 'course:level_delete' get_level.pk %}" class="deletelink">Delete</a>
                                 </p>
                             </div>
                         </div>
