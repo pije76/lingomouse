@@ -213,6 +213,7 @@ def level_add(request):
 			course_id = Course.objects.get(id=set_course_detail)
 			save_level.course = course_id
 			save_level.save()
+			get_level = get_object_or_404(Level, name=save_level.name)
 
 			for item in word_formset:
 				save_wordformset = Word()
@@ -220,7 +221,6 @@ def level_add(request):
 				save_wordformset.description = item.cleaned_data['description']
 				save_wordformset.literal_translation = item.cleaned_data['literal_translation']
 				save_wordformset.course = course_id
-				get_level = get_object_or_404(Level, name=save_level.name)
 				save_wordformset.level = get_level
 				save_wordformset.is_active = True
 				save_wordformset.save()
@@ -283,7 +283,7 @@ def level_detail(request, pk):
 				save_wordformset.save()
 
 			messages.success(request, _('Your level has been change successfully.'))
-			return redirect('course:course_list')
+			return redirect('course:level_detail', pk=pk)
 		else:
 			messages.warning(request, form.errors)
 
@@ -293,6 +293,7 @@ def level_detail(request, pk):
 
 	context = {
 		'title': page_title,
+		'course_id': course_id.name,
 		'form': form,
 		'get_level': get_level,
 		'get_word': get_word,

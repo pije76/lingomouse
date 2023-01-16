@@ -18,13 +18,12 @@
         <div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
             <div class="px-4 lg:px-10 mx-auto w-full">
                 <h1 class="font-normal text-xl md:text-2xl">Change level</h1>
-                <h2 class="font-medium">Tagalog MasterClass - Level 1</h2>
+                <h2 class="font-medium">{{ course_id }} - {{ get_level.name }}</h2>
                 <hr class="md:min-w-full" />
                 <div class="breadcrumbs">
                     <a href="/">Home</a>
-                    &rsaquo; <a href="/course/">Course</a>
                     &rsaquo; <a href="/course/level/">Levels</a>
-                    &rsaquo; Tagalog MasterClass - Level 1
+                    &rsaquo; {{ course_id }} - {{ get_level.name }}
                 </div>
             </div>
         </div>
@@ -71,13 +70,13 @@
                                         <label for="id_course">Course:</label>
                                         <div class="related-widget-wrapper" data-model-ref="course">
                                             {{ form.course|as_crispy_field }}
-                                            <a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
+                                            <a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/admin/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
                                                 <img src="/static/admin/img/icon-changelink.svg" alt="Change">
                                             </a>
-                                            <a class="related-widget-wrapper-link add-related" id="add_id_course" data-popup="yes" href="/admin/course/course/add/?_to_field=id&amp;_popup=1" title="Add another course">
+                                            <a class="related-widget-wrapper-link add-related" id="add_id_course" data-popup="yes" href="/admin/course/add/?_to_field=id&amp;_popup=1" title="Add another course">
                                                 <img src="/static/admin/img/icon-addlink.svg" alt="Add">
                                             </a>
-                                            <a class="related-widget-wrapper-link view-related" id="view_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id" title="View selected course">
+                                            <a class="related-widget-wrapper-link view-related" id="view_id_course" data-href-template="/admin/course/__fk__/change/?_to_field=id" title="View selected course">
                                                 <img src="/static/admin/img/icon-viewlink.svg" alt="View">
                                             </a>
                                         </div>
@@ -135,8 +134,6 @@
                                 <p class="deletelink-box">
                                     <a href="/admin/course/level/5/delete/" class="deletelink">Delete</a>
                                 </p>
-                                <input type="submit" value="Save and add another" name="_addanother">
-                                <input type="submit" value="Save and continue editing" name="_continue">
                             </div>
                         </div>
                     </form>

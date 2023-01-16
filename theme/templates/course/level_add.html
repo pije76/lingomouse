@@ -85,13 +85,13 @@
 										<label for="id_course">Course:</label>
 										<div class="related-widget-wrapper" data-model-ref="course">
 											{{ form.course|as_crispy_field }}
-											<a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
+											<a class="related-widget-wrapper-link change-related" id="change_id_course" data-href-template="/admin/course/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected course">
 												<img src="/static/admin/img/icon-changelink.svg" alt="Change">
 											</a>
-											<a class="related-widget-wrapper-link add-related" id="add_id_course" data-popup="yes" href="/admin/course/course/add/?_to_field=id&amp;_popup=1" title="Add another course">
+											<a class="related-widget-wrapper-link add-related" id="add_id_course" data-popup="yes" href="/admin/course/add/?_to_field=id&amp;_popup=1" title="Add another course">
 												<img src="/static/admin/img/icon-addlink.svg" alt="Add">
 											</a>
-											<a class="related-widget-wrapper-link view-related" id="view_id_course" data-href-template="/admin/course/course/__fk__/change/?_to_field=id" title="View selected course">
+											<a class="related-widget-wrapper-link view-related" id="view_id_course" data-href-template="/admin/course/__fk__/change/?_to_field=id" title="View selected course">
 												<img src="/static/admin/img/icon-viewlink.svg" alt="View">
 											</a>
 										</div>
@@ -131,8 +131,6 @@
 							</div>
 							<div class="submit-row">
 								<input type="submit" value="Save" class="default" name="_save">
-								<input type="submit" value="Save and add another" name="_addanother">
-								<input type="submit" value="Save and continue editing" name="_continue">
 							</div>
 						</div>
 					</form>

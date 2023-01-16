@@ -22,7 +22,6 @@
 				<div class="breadcrumbs">
 					<a href="/">Home</a>
 					&rsaquo; <a href="/course/">Course</a>
-					&rsaquo; <a href="/course/course/">Courses</a>
 					&rsaquo; {{ course_detail.name }}
 				</div>
 
@@ -31,7 +30,7 @@
 		<div class="flex md:justify-end p-3 md:px-10">
 			<ul class="object-tools mt-0">
 				<li>
-					<a href="/course/course/98764/history/" class="historylink">History</a>
+					<a href="/course/98764/history/" class="historylink">History</a>
 				</li>
 			</ul>
 		</div>
@@ -42,7 +41,7 @@
 					<div class="pager flex justify-end">
 						<div class="block">
 							<span class="page">
-								<a href="/course/course/13198/detail">< Prev </a>
+								<a href="/course/13198/detail">< Prev </a>
 							</span>
 						</div>
 					</div>
@@ -56,8 +55,6 @@
 								<p class="deletelink-box">
 									<a href="{% url 'course:course_delete' course_detail.pk %}" class="deletelink">Delete</a>
 								</p>
-								<input type="submit" value="Save and add another" name="_addanother">
-								<input type="submit" value="Save and continue editing" name="_continue">
 							</div>
 
 							<fieldset class="module aligned shadow-lg rounded">
@@ -157,9 +154,6 @@
 							<p class="deletelink-box">
 								<a href="{% url 'course:course_delete' course_detail.pk %}" class="deletelink">Delete</a>
 							</p>
-
-							<input type="submit" value="Save and add another" name="_addanother">
-							<input type="submit" value="Save and continue editing" name="_continue">
 						</div>
 						</div>
 					</form>
@@ -178,7 +172,7 @@
 <script type='text/javascript'>
 $(document).ready(function()
 {
-	var urls = "/course/course/add/";
+	var urls = "/course/add/";
 
 	var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 

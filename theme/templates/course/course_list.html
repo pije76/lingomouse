@@ -255,7 +255,7 @@ $(document).ready(function()
 			selected_courses.push(get_course_value);
 			// console.log("selected_courses", selected_courses);
 
-			var urls = "/course/course/" + selected_courses + "/delete/";
+			var urls = "/course/" + selected_courses + "/delete/";
 			// console.log("urls", urls);
 
 			$.ajax(
@@ -330,7 +330,7 @@ $(document).ready(function()
 			// $.ajax(
 			// {
 			// 	type: "GET",
-			// 	url: "/course/course/",
+			// 	url: "/course/",
 			// 	data:
 			// 	{
 			// 		get_selected_course: get_selected_course,
