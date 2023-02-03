@@ -147,7 +147,7 @@ class Word_ModelForm(forms.ModelForm):
 		model = Word
 		fields = '__all__'
 		labels = {
-            # "id": _(""),
+            "id": _(""),
             "word": _(""),
             "description": _(""),
             "literal_translation": _(""),

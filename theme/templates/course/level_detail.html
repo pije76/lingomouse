@@ -90,7 +90,7 @@
                                         <table>
                                             <thead>
                                                 <tr>
-                                                    <th class="column-word hidden">ID</th>
+                                                    <th class="column-word">ID</th>
                                                     <th class="column-word required">Foreign</th>
                                                     <th class="column-description required">Native</th>
                                                     <th class="column-literal_translation hidden">Literal Translation</th>
@@ -102,8 +102,9 @@
                                            <tbody>
                                                 {% for item in word_formset.forms %}
                                                 <tr class="form-row wordFormset">
-                                                    <td class="field-id hidden">
-                                                        {{ item.id|as_crispy_field }}
+                                                    <td class="field-id">
+                                                        <a href="" class="deletelink">
+                                                        {{ item.id|as_crispy_field }}</a>
                                                     </td>
                                                     <td class="field-word">
                                                         {{ item.word|as_crispy_field }}
