@@ -94,6 +94,7 @@
                                                     <th class="column-word required">Foreign</th>
                                                     <th class="column-description required">Native</th>
                                                     <th class="column-literal_translation hidden">Literal Translation</th>
+                                                    <th class="column-level">Media</th>
                                                     <th class="column-course hidden">Course</th>
                                                     <th class="column-level hidden">Level</th>
                                                     <th>Delete?</th>
@@ -117,6 +118,9 @@
                                                     </td>
                                                     <td class="field-course hidden">
                                                         {{ item.course|as_crispy_field }}
+                                                    </td>
+                                                    <td class="field-literal_translation">
+                                                        {{ item.literal_translation|as_crispy_field }}
                                                     </td>
                                                     <td class="field-level hidden">
                                                         {{ item.level|as_crispy_field }}
