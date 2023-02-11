@@ -142,8 +142,7 @@ class WordMedia(TimestampedModel):
     Word media models
     """
     media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
-    word = models.ForeignKey(
-        Word, related_name="medias", on_delete=models.CASCADE)
+    word = models.ForeignKey(Word, related_name="medias", on_delete=models.CASCADE)
     path_to_file = models.FileField(upload_to='word/', blank=True)
 
     def __str__(self):

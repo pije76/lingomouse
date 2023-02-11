@@ -17,11 +17,11 @@ get_language = list(get_language)
 obj = []
 
 for item in get_language:
-    # language = pycountry.languages.lookup(item)
-    language = pycountry.languages.get(alpha_2=item)
-    language = language.name
-    if language and language not in obj:
-        obj.append(language)
+	# language = pycountry.languages.lookup(item)
+	language = pycountry.languages.get(alpha_2=item)
+	language = language.name
+	if language and language not in obj:
+		obj.append(language)
 
 LANG_CHOICES = [(item.alpha_2, item.name) for item in pycountry.languages if hasattr(item, 'alpha_2')]
 
@@ -74,14 +74,14 @@ class CourseModelForm(forms.ModelForm):
 			# "native" : forms.ChoiceField(attrs={"class" : "form-control"}),
 		}
 		labels = {
-            # "id": _(""),
-            # "name": _(""),
-            "native": _(""),
-            "foreign": _(""),
-            # "description": _(""),
-            # "img": _(""),
-            "is_active": _("Is active?"),
-        }
+			# "id": _(""),
+			# "name": _(""),
+			"native": _(""),
+			"foreign": _(""),
+			# "description": _(""),
+			# "img": _(""),
+			"is_active": _("Is active?"),
+		}
 
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
@@ -116,11 +116,11 @@ class Level_ModelForm(forms.ModelForm):
 		model = Level
 		fields = '__all__'
 		labels = {
-            "id": _(""),
-            "sequence": _(""),
-            "name": _(""),
-            "course": _(""),
-        }
+			"id": _(""),
+			"sequence": _(""),
+			"name": _(""),
+			"course": _(""),
+		}
 
 
 # Word Media Form
@@ -147,14 +147,19 @@ class Word_ModelForm(forms.ModelForm):
 		model = Word
 		fields = '__all__'
 		labels = {
-            "id": _(""),
-            "word": _(""),
-            "description": _(""),
-            "literal_translation": _(""),
-            "course": _(""),
-            "level": _(""),
-            "is_active": _(""),
-        }
+			"id": _(""),
+			"word": _(""),
+			"description": _(""),
+			"literal_translation": _(""),
+			"course": _(""),
+			"level": _(""),
+			"is_active": _(""),
+		}
+		widgets = {
+			# 'id': forms.TextInput(),
+			# 'native': forms.HiddenInput(),
+			# "native" : forms.ChoiceField(attrs={"class" : "form-control"}),
+		}
 
 
 	def __init__(self, *args, **kwargs):
@@ -186,32 +191,32 @@ Word_FormSet = formset_factory(Word_Form)
 Word_ModelFormFactory = modelform_factory(
 	Word,
 	fields=(
-    	# 'id',
-        'word',
-        'description',
-        'literal_translation',
-        'course',
-        'level',
-        'is_active',
+		# 'id',
+		'word',
+		'description',
+		'literal_translation',
+		'course',
+		'level',
+		'is_active',
 	)
 )
 
 Word_ModelFormSet = modelformset_factory(
-    Word,
-    form=Word_ModelForm,
-    # fields=(
-    # 	'id',
-    #     'word',
-    #     'description',
-    #     'literal_translation',
-    #     'course',
-    #     'level',
-    #     'is_active',
-    # ),
-    extra=1,
-    max_num=None,
-    # can_order=True,
-    can_delete=True,
+	Word,
+	form=Word_ModelForm,
+	# fields=(
+	# 	'id',
+	#     'word',
+	#     'description',
+	#     'literal_translation',
+	#     'course',
+	#     'level',
+	#     'is_active',
+	# ),
+	extra=1,
+	max_num=None,
+	# can_order=True,
+	can_delete=True,
 )
 
 class WordInlineForm(BaseInlineFormSet):

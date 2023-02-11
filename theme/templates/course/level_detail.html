@@ -94,18 +94,17 @@
                                                     <th class="column-word required">Foreign</th>
                                                     <th class="column-description required">Native</th>
                                                     <th class="column-literal_translation hidden">Literal Translation</th>
-                                                    <th class="column-level">Media</th>
+                                                    <th class="column-media">Media</th>
                                                     <th class="column-course hidden">Course</th>
                                                     <th class="column-level hidden">Level</th>
                                                     <th>Delete?</th>
                                                 </tr>
                                             </thead>
                                            <tbody>
-                                                {% for item in word_formset.forms %}
+                                                {% for item in word_formset %}
                                                 <tr class="form-row wordFormset">
-                                                    <td class="field-id">
-                                                        <a href="" class="deletelink">
-                                                        {{ item.id|as_crispy_field }}</a>
+                                                    <td class="">
+                                                        <a href="" class="">{{ item.id }}</a>
                                                     </td>
                                                     <td class="field-word">
                                                         {{ item.word|as_crispy_field }}
@@ -119,7 +118,7 @@
                                                     <td class="field-course hidden">
                                                         {{ item.course|as_crispy_field }}
                                                     </td>
-                                                    <td class="field-literal_translation">
+                                                    <td class="field-media">
                                                         {{ item.literal_translation|as_crispy_field }}
                                                     </td>
                                                     <td class="field-level hidden">

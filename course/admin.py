@@ -75,4 +75,5 @@ class WordAdmin(ImportExportModelAdmin):
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Level, LevelAdmin)
 admin.site.register(Word, WordAdmin)
+admin.site.register(WordMedia)
 
