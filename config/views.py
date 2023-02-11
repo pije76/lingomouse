@@ -11,6 +11,8 @@ from django.views.decorators.csrf import csrf_exempt
 from .models import *
 from .forms import *
 
+from course.models import *
+
 @method_decorator(csrf_exempt, name='dispatch')
 class SetupThemeMode(View):
     def post(self, request, *args, **kwargs):

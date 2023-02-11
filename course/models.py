@@ -122,6 +122,8 @@ class Word (TimestampedModel):
     course = models.ForeignKey('Course', related_name='words', on_delete=models.CASCADE, blank=True, null=True)
     level = models.ForeignKey("Level", related_name="level_words", on_delete=models.SET_NULL, blank=True, null=True)
     is_active = models.BooleanField(_("Is active"), default=True)
+    media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
+    path_to_file = models.FileField(upload_to='word/', blank=True)
 
     def __str__(self):
         return str(self.word + ' - ' + self.description)
@@ -136,6 +138,13 @@ class Word (TimestampedModel):
     def app_url(self):
         return reverse('course:course_list', args=[self.id])
 
+    def get_path(self):
+        '''Get path to file'''
+        return format_html(
+            '<a href="{}">{}</a>',
+            self.path_to_file,
+            self.media_type
+        )
 
 class WordMedia(TimestampedModel):
     """
