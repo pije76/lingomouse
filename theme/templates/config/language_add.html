@@ -1,0 +1,212 @@
+{% extends "base_detail.html" %}
+{% load i18n static crispy_forms_tags %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block extrastyle %}
+{{ block.super }}
+{% if cl.formset %}
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}"/>
+{% endif %}
+{% if cl.formset or action_form %}
+<script src="{% url 'admin:jsi18n' %}"></script>
+{% endif %}
+{{ media.css }}
+{% if not actions_on_top and not actions_on_bottom %}
+<style>
+#changelist table thead th:first-child {width: inherit}
+</style>
+{% endif %}
+{% endblock extrastyle %}
+
+{% block extrahead %}
+{{ block.super }}
+{{ word_formset.media }}
+{% endblock extrahead %}
+
+{% block bodyclass %}
+{{ block.super }}
+{% endblock bodyclass %}
+
+{% block object-tools %}
+{% if not is_popup %}
+<div class="flex items-center md:justify-end p-3 md:px-10 gap-2">
+<ul class="object-tools mt-0">
+{% block object-tools-items %}
+
+{% endblock object-tools-items %}
+</ul>
+</div>
+{% endif %}
+{% endblock object-tools %}
+
+{% block content %}
+
+<main class="relative pt-16 bg-slate-100 min-h-screen ">
+<div class="container w-full mx-auto">
+<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+<div class="px-4 lg:px-10 mx-auto w-full">
+<h1 class="font-normal text-xl md:text-2xl">Add language</h1>
+<hr class="md:min-w-full" />
+<div class="breadcrumbs">
+<a href="/admin/">Home</a>
+&rsaquo; <a href="/admin/config/">Config</a>
+&rsaquo; <a href="/admin/config/language/">Languages</a>
+&rsaquo; Add language
+</div>
+</div>
+</div>
+<div class="px-4 lg:px-10 mx-auto w-full">
+<div class="w-full pb-12">
+<div id="content-main">
+<form enctype="multipart/form-data"
+
+method="post"
+id="language_form"
+novalidate>
+<input type="hidden" name="csrfmiddlewaretoken" value="N3BOVcMk5dIz2tOjgCsxTuFoX7cbYUJOHFTZhyyrc1BktFqMd7oRbEVT8JQtQkMa">
+<div>
+<fieldset class="module aligned ">
+<div class="form-row field-code">
+<div>
+<label class="required" for="id_code">Language code:</label>
+<select name="code" id="id_code">
+<option value="ab">Abkhazian</option>
+<option value="aa">Afar</option>
+<option value="af">Afrikaans</option>
+<option value="ak">Akan</option>
+<option value="sq">Albanian</option>
+<option value="am">Amharic</option>
+<option value="ar">Arabic</option>
+<option value="an">Aragonese</option>
+<option value="hy">Armenian</option>
+<option value="as">Assamese</option>
+<option value="av">Avaric</option>
+<option value="ae">Avestan</option>
+<option value="ay">Aymara</option>
+<option value="az">Azerbaijani</option>
+<option value="bm">Bambara</option>
+<option value="zu">Zulu</option>
+</select>
+</div>
+</div>
+<div class="form-row field-img">
+<div>
+<label for="id_img">Img:</label>
+<input type="file" name="img" accept="image/*" id="id_img">
+</div>
+</div>
+<div class="form-row field-country">
+<div>
+<label for="id_country">Country:</label>
+<div class="related-widget-wrapper" data-model-ref="Country">
+<select name="country" id="id_country" multiple>
+<option value="1">Philippines</option>
+</select>
+<a class="related-widget-wrapper-link add-related" id="add_id_country"
+data-popup="yes"
+href="/admin/config/country/add/?_to_field=id&amp;_popup=1"
+title="Add another Country"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a>
+
+</div>
+<div class="help" id="id_country_helptext">
+Hold down “Control”, or “Command” on a Mac, to select more than one.
+</div>
+</div>
+</div>
+<div class="form-row field-special_font">
+<div>
+<label for="id_special_font">Special font:</label>
+<input type="text" name="special_font" class="vTextField" maxlength="255" id="id_special_font">
+</div>
+</div>
+<div class="form-row field-sequence">
+<div>
+<label class="required" for="id_sequence">Sequence:</label>
+<input type="text" name="sequence" value="0" class="vTextField" maxlength="2" required id="id_sequence">
+</div>
+</div>
+</fieldset>
+<div class="submit-row">
+<input type="submit" value="Save" class="default" name="_save">
+<input type="submit" value="Save and add another" name="_addanother">
+<input type="submit" value="Save and continue editing" name="_continue">
+</div>
+<script id="django-admin-form-add-constants" src="/static/admin/js/change_form.js"  data-model-name="language" async>
+</script>
+<script id="django-admin-prepopulated-fields-constants"
+src="/static/admin/js/prepopulate_init.js"
+data-prepopulated-fields="[]">
+</script>
+</div>
+</form>
+</div>
+<br class="clear"/>
+</div>
+</div>
+</div>
+</main>
+
+{% endblock content %}
+
+
+{% block extra_javascript %}
+<script src="{% static 'js/jquery.formset.js' %}" type="text/javascript"></script>
+<script type='text/javascript'>
+$(document).ready(function()
+{
+	var urls = "/course/add/";
+
+	$('select[name=native]').on('change', function(e)
+	{
+		e.preventDefault();
+
+		var get_selected_native = $('select[name=native] option').filter(':selected').val();
+		// console.log("course get_selected_native: ", get_selected_native);
+		console.log("get_selected_native1: ", get_selected_native);
+
+		$.ajax(
+        {
+        	type: 'GET',
+        	url: urls,
+        	data:
+        	{
+        		'get_selected_native':get_selected_native,
+        		// 'csrfmiddlewaretoken': csrftoken,
+        	},
+        	success: function(data)
+        	{
+        		if(!data["valid"])
+        		{
+        			console.log("get_selected_native2", get_selected_native);
+        		}
+        	},
+        });
+	})
+
+	$('select[name=foreign]').on('change', function()
+	{
+		var get_selected_foreign = $('select[name=foreign] option').filter(':selected').val();
+		console.log("get_selected_foreign: ", get_selected_foreign);
+	})
+
+	$(function()
+    {
+        // $('.wordFormset').formset();
+        $('.wordFormset').formset({
+            // prefix: 'course_formset',
+            addCssClass: 'btn btn-success',
+            addText: '<i class="fas fa-plus"></i>',
+            deleteCssClass: 'btn btn-danger',
+            deleteText: '<i class="fas fa-minus"></i>',
+            // keepFieldValues: '#id_course_formset-0-word, #id_course_formset-0-description',
+            deleteContainerClass: 'delCourse',
+            addContainerClass: 'addCourse',
+        })
+    });
+
+});
+</script>
+{% endblock %}
