@@ -9,22 +9,22 @@ from config.models import *
 from .models import *
 
 
-# get_language = Language.objects.all().values_list("code", flat=True)
-# get_language = list(get_language)
+get_language = Language.objects.all().values_list("code", flat=True)
+get_language = list(get_language)
 
-# obj = []
+obj = []
 
-# for item in get_language:
-#     # language = pycountry.languages.lookup(item)
-#     language = pycountry.languages.get(alpha_2=item)
-#     language = language.name
-#     if language and language not in obj:
-#         obj.append(language)
+for item in get_language:
+    # language = pycountry.languages.lookup(item)
+    language = pycountry.languages.get(alpha_2=item)
+    language = language.name
+    if language and language not in obj:
+        obj.append(language)
 
-# LANG_CHOICES = [(item.alpha_2, item.name) for item in pycountry.languages if hasattr(item, 'alpha_2')]
+LANG_CHOICES = [(item.alpha_2, item.name) for item in pycountry.languages if hasattr(item, 'alpha_2')]
 
-# for item in get_language:
-# 	LANG_CHOICES.append(item)
+for item in get_language:
+	LANG_CHOICES.append(item)
 # LANG_CHOICES = [(language.alpha_2) for language in pycountry.languages]
 
 # LANG_CHOICES = [(language.name)
@@ -38,8 +38,8 @@ from .models import *
 	# LANGUAGE_CHOICES = Language.objects.filter(code=item)
 
 # list3 = set(obj) & set(LANG_CHOICES)
-# list3 = set(obj).intersection(set(LANG_CHOICES))
-# list3 = list(list3)
+list3 = set(obj).intersection(set(LANG_CHOICES))
+list3 = list(list3)
 
 class CountryForm(forms.Form):
 	# for item in get_language:
@@ -56,7 +56,7 @@ class CountryForm(forms.Form):
 	# native = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select, choices=[(k, v) for k, v in COUNTRIES.items()])
 	# native = forms.ChoiceField(choices=[(k, v) for k, v in get_language()],widget=Select2MultipleWidget)
 	native = forms.ChoiceField(label=_(u''), required=False, choices=(LANG_CHOICES), widget=forms.Select)
-	# foreign = forms.ChoiceField(label=_(u''), required=False, choices=(get_language), widget=forms.Select)
+	foreign = forms.ChoiceField(label=_(u''), required=False, choices=(get_language), widget=forms.Select)
 	img = forms.ImageField(label=_(u''), required=False)
 	is_active = forms.BooleanField(label=_(u'Is active?'), required=False, widget=forms.CheckboxInput(attrs={'checked': "checked"}))
 
