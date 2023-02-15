@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 from import_export.admin import ImportExportModelAdmin
 
-from .forms import *
+# from .forms import *
 from .models import *
 
 
@@ -57,8 +57,8 @@ class WordAdmin(ImportExportModelAdmin):
         'course',
         'level',
         'is_active',
-        'media_type',
-        'path_to_file',
+        # 'media_type',
+        # 'path_to_file',
     ]
     # list_filter=['available','created','updated']
     list_editable = [
@@ -77,5 +77,5 @@ class WordAdmin(ImportExportModelAdmin):
 admin.site.register(Course, CourseAdmin)
 admin.site.register(Level, LevelAdmin)
 admin.site.register(Word, WordAdmin)
-admin.site.register(WordMedia)
+# admin.site.register(WordMedia)
 

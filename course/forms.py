@@ -154,6 +154,8 @@ class Word_ModelForm(forms.ModelForm):
 			"course": _(""),
 			"level": _(""),
 			"is_active": _(""),
+			"media_type": _(""),
+			"path_to_file": _(""),
 		}
 		widgets = {
 			# 'id': forms.TextInput(),

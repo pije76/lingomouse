@@ -138,33 +138,33 @@ class Word (TimestampedModel):
     def app_url(self):
         return reverse('course:course_list', args=[self.id])
 
-    def get_path(self):
-        '''Get path to file'''
-        return format_html(
-            '<a href="{}">{}</a>',
-            self.path_to_file,
-            self.media_type
-        )
+    # def get_path(self):
+    #     '''Get path to file'''
+    #     return format_html(
+    #         '<a href="{}">{}</a>',
+    #         self.path_to_file,
+    #         self.media_type
+    #     )
 
-class WordMedia(TimestampedModel):
-    """
-    Word media models
-    """
-    media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
-    word = models.ForeignKey(Word, related_name="medias", on_delete=models.CASCADE)
-    path_to_file = models.FileField(upload_to='word/', blank=True)
+# class WordMedia(TimestampedModel):
+#     """
+#     Word media models
+#     """
+#     media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
+#     word = models.ForeignKey(Word, related_name="medias", on_delete=models.CASCADE)
+#     path_to_file = models.FileField(upload_to='word/', blank=True)
 
-    def __str__(self):
-        return str(self.media_type)
+#     def __str__(self):
+#         return str(self.media_type)
 
-    class Meta:
-        verbose_name = _("word media")
-        verbose_name_plural = _("word medias")
+#     class Meta:
+#         verbose_name = _("word media")
+#         verbose_name_plural = _("word medias")
 
-    def get_path(self):
-        '''Get path to file'''
-        return format_html(
-            '<a href="{}">{}</a>',
-            self.path_to_file,
-            self.media_type
-        )
+#     def get_path(self):
+#         '''Get path to file'''
+#         return format_html(
+#             '<a href="{}">{}</a>',
+#             self.path_to_file,
+#             self.media_type
+#         )
