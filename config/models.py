@@ -21,8 +21,7 @@ class TimestampedModel(models.Model):
 
 class Country(models.Model):
     '''Country'''
-    code = models.CharField(
-        max_length=2, verbose_name=_('Country code'), choices=sorted(COUNTRY_CHOICES, key=lambda e: e[1]), default='PL')
+    code = models.CharField(max_length=2, verbose_name=_('Country code'), choices=sorted(COUNTRY_CHOICES, key=lambda e: e[1]), default='PL')
     img = models.ImageField(upload_to='static/image/flags/', blank=True)
 
     def __str__(self):

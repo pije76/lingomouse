@@ -2,6 +2,9 @@ from django import forms
 from django.forms.models import BaseInlineFormSet
 from django.utils.translation import gettext_lazy as _
 
+from crispy_forms.helper import FormHelper, Layout
+from crispy_forms.layout import Field
+
 import pycountry
 
 from config.models import *
@@ -50,15 +53,8 @@ class CountryForm(forms.Form):
 
 
 	id = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
-	name = forms.CharField(label=_(u''), required=True, max_length=200, widget=forms.TextInput(attrs={'class': "vTextField"}))
-	description = forms.CharField(label=_(u''), required=False, max_length=1000, widget=forms.Textarea(attrs={'class': "vLargeTextField", 'cols': 40, 'rows': 10}))
-	# native = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select, choices=((x.id, x.name) for x in get_language))
-	# native = forms.ChoiceField(label=_(u''), required=False, widget=forms.Select, choices=[(k, v) for k, v in COUNTRIES.items()])
-	# native = forms.ChoiceField(choices=[(k, v) for k, v in get_language()],widget=Select2MultipleWidget)
-	native = forms.ChoiceField(label=_(u''), required=False, choices=(LANG_CHOICES), widget=forms.Select)
-	foreign = forms.ChoiceField(label=_(u''), required=False, choices=(get_language), widget=forms.Select)
+	code = forms.ChoiceField(label=_(u'Country code:'), required=False, choices=(LANG_CHOICES), widget=forms.Select)
 	img = forms.ImageField(label=_(u''), required=False)
-	is_active = forms.BooleanField(label=_(u'Is active?'), required=False, widget=forms.CheckboxInput(attrs={'checked': "checked"}))
 
 
 class CountryModelForm(forms.ModelForm):

@@ -23,7 +23,7 @@
 
 {% block extrahead %}
 {{ block.super }}
-{{ word_formset.media }}
+{{ language_formset.media }}
 {% endblock extrahead %}
 
 {% block bodyclass %}
@@ -44,209 +44,183 @@
 
 {% block content %}
 
-<main class="relative pt-16 bg-slate-100 min-h-screen ">
-<div class="container w-full mx-auto">
-<div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
-<div class="px-4 lg:px-10 mx-auto w-full">
-<h1 class="font-normal text-xl md:text-2xl">Add Country</h1>
-<hr class="md:min-w-full" />
-<div class="breadcrumbs">
-<a href="/admin/">Home</a>
-&rsaquo; <a href="/admin/config/">Config</a>
-&rsaquo; <a href="/admin/config/country/">Countries</a>
-&rsaquo; Add Country
-</div>
-</div>
-</div>
-<div class="px-4 lg:px-10 mx-auto w-full">
-<div class="w-full pb-12">
-<div id="content-main">
-<form enctype="multipart/form-data" method="post" id="country_form" novalidate>
-<input type="hidden" name="csrfmiddlewaretoken" value="7Ne6IWeHMagou8Z3PmfFoEYUsUHd9cWaCFBaYkjfwa8CAqTDKxXpkzP5R2rBLMFS">
-<div>
-<fieldset class="module aligned ">
-<div class="form-row field-code">
-<div>
-<label class="required" for="id_code">Country code:</label>
-<select name="code" id="id_code">
-<option value="AF">Afghanistan</option>
-<option value="AL">Albania</option>
-<option value="DZ">Algeria</option>
-<option value="AS">American Samoa</option>
-<option value="AD">Andorra</option>
-<option value="AO">Angola</option>
-<option value="AI">Anguilla</option>
-<option value="AQ">Antarctica</option>
-<option value="AG">Antigua and Barbuda</option>
-<option value="AR">Argentina</option>
-<option value="AM">Armenia</option>
-<option value="AW">Aruba</option>
-<option value="AU">Australia</option>
-<option value="AT">Austria</option>
-<option value="AZ">Azerbaijan</option>
-<option value="BS">Bahamas</option>
-<option value="BH">Bahrain</option>
-<option value="BD">Bangladesh</option>
-<option value="BB">Barbados</option>
-<option value="BY">Belarus</option>
-<option value="BE">Belgium</option>
-<option value="BZ">Belize</option>
-<option value="BJ">Benin</option>
-<option value="BM">Bermuda</option>
-<option value="BT">Bhutan</option>
-<option value="BO">Bolivia, Plurinational State of</option>
-<option value="BQ">Bonaire, Sint Eustatius and Saba</option>
-<option value="BA">Bosnia and Herzegovina</option>
-<option value="BW">Botswana</option>
-<option value="BV">Bouvet Island</option>
-<option value="BR">Brazil</option>
-<option value="AX">Åland Islands</option>
-</select>
-</div>
-</div>
-<div class="form-row field-img">
-<div>
-<label for="id_img">Img:</label>
-<input type="file" name="img" accept="image/*" id="id_img">
-</div>
-</div>
-</fieldset>
-<div class="js-inline-admin-formset inline-group" id="Language_country-group" data-inline-type="stacked" data-inline-formset="{&quot;name&quot;: &quot;#Language_country&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;Language_country&quot;, &quot;addText&quot;: &quot;Add another Language-country relationship&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
-<fieldset class="module ">
-<h2>Language-country relationships</h2>
-<input type="hidden" name="Language_country-TOTAL_FORMS" value="3" id="id_Language_country-TOTAL_FORMS"><input type="hidden" name="Language_country-INITIAL_FORMS" value="0" id="id_Language_country-INITIAL_FORMS"><input type="hidden" name="Language_country-MIN_NUM_FORMS" value="0" id="id_Language_country-MIN_NUM_FORMS"><input type="hidden" name="Language_country-MAX_NUM_FORMS" value="1000" id="id_Language_country-MAX_NUM_FORMS">
-<div class="inline-related" id="Language_country-0">
-<h3><b>Language-country relationship:</b> <span class="inline_label">#1</span>
-</h3>
-<fieldset class="module aligned ">
-<div class="form-row field-language">
-<div>
-<label class="required" for="id_Language_country-0-language">Language:</label>
-<div class="related-widget-wrapper" data-model-ref="language">
-<select name="Language_country-0-language" id="id_Language_country-0-language">
-<option value="" selected>---------</option>
-<option value="1">Polish</option>
-<option value="3">Tagalog</option>
-<option value="2">English</option>
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_Language_country-0-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_Language_country-0-language" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link view-related" id="view_id_Language_country-0-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</div>
-</div>
-</fieldset>
-<input type="hidden" name="Language_country-0-id" id="id_Language_country-0-id">
-<input type="hidden" name="Language_country-0-country" id="id_Language_country-0-country">
-</div><div class="inline-related" id="Language_country-1">
-<h3><b>Language-country relationship:</b> <span class="inline_label">#2</span>
-</h3>
-<fieldset class="module aligned ">
-<div class="form-row field-language">
-<div>
-<label class="required" for="id_Language_country-1-language">Language:</label>
-<div class="related-widget-wrapper" data-model-ref="language">
-<select name="Language_country-1-language" id="id_Language_country-1-language">
-<option value="" selected>---------</option>
-<option value="1">Polish</option>
-<option value="3">Tagalog</option>
-<option value="2">English</option>
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_Language_country-1-language"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected language"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_Language_country-1-language"
-data-popup="yes"
-href="/admin/config/language/add/?_to_field=id&amp;_popup=1"
-title="Add another language"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link view-related" id="view_id_Language_country-1-language"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id"
-title="View selected language"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</div>
-</div>
-</fieldset>
-<input type="hidden" name="Language_country-1-id" id="id_Language_country-1-id">
-<input type="hidden" name="Language_country-1-country" id="id_Language_country-1-country">
-</div><div class="inline-related" id="Language_country-2">
-<h3><b>Language-country relationship:</b> <span class="inline_label">#3</span>
-</h3>
-<fieldset class="module aligned ">
-<div class="form-row field-language">
-<div>
-<label class="required" for="id_Language_country-2-language">Language:</label>
-<div class="related-widget-wrapper" data-model-ref="language">
-<select name="Language_country-2-language" id="id_Language_country-2-language">
-<option value="" selected>---------</option>
-<option value="1">Polish</option>
-<option value="3">Tagalog</option>
-<option value="2">English</option>
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_Language_country-2-language"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected language"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_Language_country-2-language"
-data-popup="yes"
-href="/admin/config/language/add/?_to_field=id&amp;_popup=1"
-title="Add another language"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link view-related" id="view_id_Language_country-2-language"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id"
-title="View selected language"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</div>
-</div>
-</fieldset>
-<input type="hidden" name="Language_country-2-id" id="id_Language_country-2-id">
-<input type="hidden" name="Language_country-2-country" id="id_Language_country-2-country">
-</div><div class="inline-related empty-form last-related" id="Language_country-empty">
-<h3><b>Language-country relationship:</b> <span class="inline_label">#4</span>
-</h3>
-<fieldset class="module aligned ">
-<div class="form-row field-language">
-<div>
-<label class="required" for="id_Language_country-__prefix__-language">Language:</label>
-<div class="related-widget-wrapper" data-model-ref="language">
-<select name="Language_country-__prefix__-language" id="id_Language_country-__prefix__-language">
-<option value="" selected>---------</option>
-<option value="1">Polish</option>
-<option value="3">Tagalog</option>
-<option value="2">English</option>
-</select>
-<a class="related-widget-wrapper-link change-related" id="change_id_Language_country-__prefix__-language"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1"
-data-popup="yes"
-title="Change selected language"><img src="/static/admin/img/icon-changelink.svg" alt="Change"></a><a class="related-widget-wrapper-link add-related" id="add_id_Language_country-__prefix__-language"
-data-popup="yes"
-href="/admin/config/language/add/?_to_field=id&amp;_popup=1"
-title="Add another language"><img src="/static/admin/img/icon-addlink.svg" alt="Add"></a><a class="related-widget-wrapper-link view-related" id="view_id_Language_country-__prefix__-language"
-data-href-template="/admin/config/language/__fk__/change/?_to_field=id"
-title="View selected language"><img src="/static/admin/img/icon-viewlink.svg" alt="View"></a>
-</div>
-</div>
-</div>
-</fieldset>
-<input type="hidden" name="Language_country-__prefix__-id" id="id_Language_country-__prefix__-id">
-<input type="hidden" name="Language_country-__prefix__-country" id="id_Language_country-__prefix__-country">
-</div>
-</fieldset>
-</div>
-<div class="submit-row">
-<input type="submit" value="Save" class="default" name="_save">
-<input type="submit" value="Save and add another" name="_addanother">
-<input type="submit" value="Save and continue editing" name="_continue">
-</div>
-<script id="django-admin-form-add-constants" src="/static/admin/js/change_form.js"  data-model-name="country" async>
-</script>
+<main class="relative pt-16 bg-slate-100 min-h-screen">
+    <div class="container w-full mx-auto">
+        <div class="relative lg:pt-5 pb-6 pt-12 flex title-block">
+            <div class="px-4 lg:px-10 mx-auto w-full">
+                <h1 class="font-normal text-xl md:text-2xl">Add Country</h1>
+                <hr class="md:min-w-full" />
+                <div class="breadcrumbs">
+                    <a href="/admin/">Home</a>
+                    &rsaquo; <a href="/admin/config/">Config</a>
+                    &rsaquo; <a href="/admin/config/country/">Countries</a>
+                    &rsaquo; Add Country
+                </div>
+            </div>
+        </div>
+        <div class="px-4 lg:px-10 mx-auto w-full">
+            <div class="w-full pb-12">
+                <div id="content-main">
+                    <form enctype="multipart/form-data" method="post" id="country_form" novalidate>
+                    {% csrf_token %}
 
-<script id="django-admin-prepopulated-fields-constants"
-src="/static/admin/js/prepopulate_init.js"
-data-prepopulated-fields="[]">
-</script>
+                        <div>
+                            <fieldset class="module aligned">
+                                <div class="form-row field-code">
+                                    <div>
+                                        <label class="required" for="id_code">Country code:</label>
+                                        {{ form.code|as_crispy_field }}
+                                    </div>
+                                </div>
+                                <div class="form-row field-img">
+                                    <div>
+                                        <label for="id_img">Img:</label>
+                                        <input type="file" name="img" accept="image/*" id="id_img">
+                                    </div>
+                                </div>
+                            </fieldset>
 
-</div>
-</form>
-</div>
+                            <div class="js-inline-admin-formset inline-group" id="Language_country-group" data-inline-type="stacked" data-inline-formset="{&quot;name&quot;: &quot;#Language_country&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;Language_country&quot;, &quot;addText&quot;: &quot;Add another Language-country relationship&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
+                                <fieldset class="module">
+                                    <h2>Language-country relationships</h2>
+                                    <input type="hidden" name="Language_country-TOTAL_FORMS" value="3" id="id_Language_country-TOTAL_FORMS">
+                                    <input type="hidden" name="Language_country-INITIAL_FORMS" value="0" id="id_Language_country-INITIAL_FORMS">
+                                    <input type="hidden" name="Language_country-MIN_NUM_FORMS" value="0" id="id_Language_country-MIN_NUM_FORMS">
+                                    <input type="hidden" name="Language_country-MAX_NUM_FORMS" value="1000" id="id_Language_country-MAX_NUM_FORMS">
 
-<br class="clear"/>
-</div>
-</div>
-</div>
+                                    <div class="inline-related" id="Language_country-0">
+                                        <h3><b>Language-country relationship:</b> <span class="inline_label">#1</span></h3>
+                                        <fieldset class="module aligned">
+                                            <div class="form-row field-language">
+                                                <div>
+                                                    <label class="required" for="id_Language_country-0-language">Language:</label>
+                                                    <div class="related-widget-wrapper" data-model-ref="language">
+                                                        <select name="Language_country-0-language" id="id_Language_country-0-language">
+                                                            <option value="" selected>---------</option>
+                                                            <option value="1">Polish</option>
+                                                            <option value="3">Tagalog</option>
+                                                            <option value="2">English</option>
+                                                        </select>
+                                                        <a class="related-widget-wrapper-link change-related" id="change_id_Language_country-0-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language">
+                                                            <img src="/static/admin/img/icon-changelink.svg" alt="Change">
+                                                        </a>
+                                                        <a class="related-widget-wrapper-link add-related" id="add_id_Language_country-0-language" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
+                                                            <img src="/static/admin/img/icon-addlink.svg" alt="Add">
+                                                        </a>
+                                                        <a class="related-widget-wrapper-link view-related" id="view_id_Language_country-0-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language">
+                                                            <img src="/static/admin/img/icon-viewlink.svg" alt="View">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <input type="hidden" name="Language_country-0-id" id="id_Language_country-0-id">
+                                        <input type="hidden" name="Language_country-0-country" id="id_Language_country-0-country">
+                                    </div>
+
+                                    <div class="inline-related" id="Language_country-1">
+                                        <h3><b>Language-country relationship:</b> <span class="inline_label">#2</span></h3>
+                                        <fieldset class="module aligned">
+                                            <div class="form-row field-language">
+                                                <div>
+                                                    <label class="required" for="id_Language_country-1-language">Language:</label>
+                                                    <div class="related-widget-wrapper" data-model-ref="language">
+                                                        <select name="Language_country-1-language" id="id_Language_country-1-language">
+                                                            <option value="" selected>---------</option>
+                                                            <option value="1">Polish</option>
+                                                            <option value="3">Tagalog</option>
+                                                            <option value="2">English</option>
+                                                        </select>
+                                                        <a class="related-widget-wrapper-link change-related" id="change_id_Language_country-1-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language"
+                                                            ><img src="/static/admin/img/icon-changelink.svg" alt="Change">
+                                                        </a>
+                                                        <a class="related-widget-wrapper-link add-related" id="add_id_Language_country-1-language" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
+                                                            <img src="/static/admin/img/icon-addlink.svg" alt="Add">
+                                                        </a>
+                                                        <a class="related-widget-wrapper-link view-related" id="view_id_Language_country-1-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language">
+                                                            <img src="/static/admin/img/icon-viewlink.svg" alt="View">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <input type="hidden" name="Language_country-1-id" id="id_Language_country-1-id">
+                                        <input type="hidden" name="Language_country-1-country" id="id_Language_country-1-country">
+                                    </div>
+
+                                    <div class="inline-related" id="Language_country-2">
+                                        <h3><b>Language-country relationship:</b> <span class="inline_label">#3</span></h3>
+                                        <fieldset class="module aligned">
+                                            <div class="form-row field-language">
+                                                <div>
+                                                    <label class="required" for="id_Language_country-2-language">Language:</label>
+                                                    <div class="related-widget-wrapper" data-model-ref="language">
+                                                        <select name="Language_country-2-language" id="id_Language_country-2-language">
+                                                            <option value="" selected>---------</option>
+                                                            <option value="1">Polish</option>
+                                                            <option value="3">Tagalog</option>
+                                                            <option value="2">English</option>
+                                                        </select>
+                                                        <a class="related-widget-wrapper-link change-related" id="change_id_Language_country-2-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language">
+                                                            <img src="/static/admin/img/icon-changelink.svg" alt="Change">
+                                                        </a>
+                                                        <a class="related-widget-wrapper-link add-related" id="add_id_Language_country-2-language" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
+                                                            <img src="/static/admin/img/icon-addlink.svg" alt="Add">
+                                                        </a>
+                                                        <a class="related-widget-wrapper-link view-related" id="view_id_Language_country-2-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language">
+                                                            <img src="/static/admin/img/icon-viewlink.svg" alt="View">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <input type="hidden" name="Language_country-2-id" id="id_Language_country-2-id">
+                                        <input type="hidden" name="Language_country-2-country" id="id_Language_country-2-country">
+                                    </div><div class="inline-related empty-form last-related" id="Language_country-empty">
+                                        <h3><b>Language-country relationship:</b> <span class="inline_label">#4</span></h3>
+                                        <fieldset class="module aligned">
+                                            <div class="form-row field-language">
+                                                <div>
+                                                    <label class="required" for="id_Language_country-__prefix__-language">Language:</label>
+                                                    <div class="related-widget-wrapper" data-model-ref="language">
+                                                        <select name="Language_country-__prefix__-language" id="id_Language_country-__prefix__-language">
+                                                            <option value="" selected>---------</option>
+                                                            <option value="1">Polish</option>
+                                                            <option value="3">Tagalog</option>
+                                                            <option value="2">English</option>
+                                                        </select>
+                                                        <a class="related-widget-wrapper-link change-related" id="change_id_Language_country-__prefix__-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id&amp;_popup=1" data-popup="yes" title="Change selected language">
+                                                            <img src="/static/admin/img/icon-changelink.svg" alt="Change">
+                                                        </a>
+                                                        <a class="related-widget-wrapper-link add-related" id="add_id_Language_country-__prefix__-language" data-popup="yes" href="/admin/config/language/add/?_to_field=id&amp;_popup=1" title="Add another language">
+                                                            <img src="/static/admin/img/icon-addlink.svg" alt="Add">
+                                                        </a>
+                                                        <a class="related-widget-wrapper-link view-related" id="view_id_Language_country-__prefix__-language" data-href-template="/admin/config/language/__fk__/change/?_to_field=id" title="View selected language">
+                                                            <img src="/static/admin/img/icon-viewlink.svg" alt="View">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                        <input type="hidden" name="Language_country-__prefix__-id" id="id_Language_country-__prefix__-id">
+                                        <input type="hidden" name="Language_country-__prefix__-country" id="id_Language_country-__prefix__-country">
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="submit-row">
+                                <input type="submit" value="Save" class="default" name="_save">
+                                <input type="submit" value="Save and add another" name="_addanother">
+                                <input type="submit" value="Save and continue editing" name="_continue">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+
+                <br class="clear"/>
+            </div>
+        </div>
+    </div>
 </main>
 
 {% endblock content %}
