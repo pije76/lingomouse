@@ -42,10 +42,12 @@ def config_index(request):
 def country_list(request):
     page_title = _('Select country to change')
     country_list =   Country.objects.all()
+    total_country = len(country_list)
 
     context = {
         'title': page_title,
         'country_list': country_list,
+        'total_country': total_country,
     }
 
     return render(request,'config/country_list.html', context)
@@ -129,10 +131,12 @@ def country_delete(request, pk):
 def language_list(request):
     page_title = _('Languages')
     language_list =   Language.objects.all()
+    total_language = len(language_list)
 
     context = {
         'title': page_title,
         'language_list': language_list,
+        'total_language': total_language,
     }
 
     return render(request,'config/language_list.html', context)
@@ -176,10 +180,10 @@ def language_add(request):
     # language = get_object_or_404(Language, id=pk)
     word = Word.objects.all()
 
-    form = LanguageForm(prefix='language')
+    form = LanguageModelForm(prefix='language')
 
     if request.method == 'POST':
-        form = LanguageForm(request.POST or None, instance=request.user)
+        form = LanguageModelForm(request.POST or None, instance=request.user)
 
         if form.is_valid():
             language = form.save(commit=False)
@@ -194,7 +198,7 @@ def language_add(request):
             messages.warning(request, form.errors)
 
     else:
-        form = LanguageForm()
+        form = LanguageModelForm()
 
     context = {
         'title': page_title,

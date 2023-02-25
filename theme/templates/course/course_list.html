@@ -106,7 +106,7 @@
 												</label>
 												<input type="hidden" name="select_across" value="0" class="select-across">
 												<button type="submit" class="button" title="Run the selected action" id="GoSubmit" value="0">Go</button>
-												<span class="action-counter" data-actions-icnt="2">0 of 2 selected</span>
+												<span class="action-counter" data-actions-icnt="2">0 of {{ total_course }} selected</span>
 											</div>
 										</div>
 									</div>
@@ -208,7 +208,7 @@
 									</table>
 								</div>
 
-								<p class="paginator">2 courses</p>
+								<p class="paginator">{{ total_course }} courses</p>
 							</form>
 						</div>
 					</div>

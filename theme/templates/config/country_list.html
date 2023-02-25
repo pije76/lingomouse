@@ -91,7 +91,7 @@
 												<option value="delete_selected">Delete selected Countries</option>
 											</select></label><input type="hidden" name="select_across" value="0" class="select-across">
 											<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
-											<span class="action-counter" data-actions-icnt="1">0 of 1 selected</span>
+											<span class="action-counter" data-actions-icnt="1">0 of {{ total_country }} selected</span>
 										</div>
 									</div>
 								</div>
@@ -126,7 +126,7 @@
 									</tbody>
 								</table>
 							</div>
-							<p class="paginator">1 Country</p>
+							<p class="paginator">{{ total_country }} Country</p>
 						</form>
 					</div>
 				</div>

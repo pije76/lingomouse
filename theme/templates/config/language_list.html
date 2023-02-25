@@ -84,7 +84,7 @@
 													</label>
 													<input type="hidden" name="select_across" value="0" class="select-across">
 													<button type="submit" class="button" title="Run the selected action" name="index" value="0">Go</button>
-													<span class="action-counter" data-actions-icnt="3">0 of 3 selected</span>
+													<span class="action-counter" data-actions-icnt="3">0 of {{ total_language }} selected</span>
 												</div>
 											</div>
 										</div>
@@ -157,7 +157,7 @@
 											</tbody>
 										</table>
 									</div>
-									<p class="paginator">3 languages</p>
+									<p class="paginator">{{ total_language }} languages</p>
 								</form>
 							</div>
 						</div>

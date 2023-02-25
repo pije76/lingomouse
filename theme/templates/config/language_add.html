@@ -51,9 +51,9 @@
                 <h1 class="font-normal text-xl md:text-2xl">Add language</h1>
                 <hr class="md:min-w-full" />
                 <div class="breadcrumbs">
-                    <a href="/admin/">Home</a>
-                    &rsaquo; <a href="/admin/config/">Config</a>
-                    &rsaquo; <a href="/admin/config/language/">Languages</a>
+                    <a href="/">Home</a>
+                    &rsaquo; <a href="/config/">Config</a>
+                    &rsaquo; <a href="/config/language/">Languages</a>
                     &rsaquo; Add language
                 </div>
             </div>
@@ -63,57 +63,12 @@
             <div class="w-full pb-12">
                 <div id="content-main">
                     <form enctype="multipart/form-data" method="post" id="language_form" novalidate>
-                        <input type="hidden" name="csrfmiddlewaretoken" value="N3BOVcMk5dIz2tOjgCsxTuFoX7cbYUJOHFTZhyyrc1BktFqMd7oRbEVT8JQtQkMa">
+                    {% csrf_token %}
                         <div>
-                            <fieldset class="module aligned">
-                                <div class="form-row field-code">
-                                    <div>
-                                        <label class="required" for="id_code">Language code:</label>
-                                        <select name="code" id="id_code">
-                                            <option value="ab">Abkhazian</option>
-                                            <option value="aa">Afar</option>
-                                            <option value="af">Afrikaans</option>
-                                            <option value="ak">Akan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-row field-img">
-                                    <div>
-                                        <label for="id_img">Img:</label>
-                                        <input type="file" name="img" accept="image/*" id="id_img">
-                                    </div>
-                                </div>
-                                <div class="form-row field-country">
-                                    <div>
-                                        <label for="id_country">Country:</label>
-                                        <div class="related-widget-wrapper" data-model-ref="Country">
-                                            <select name="country" id="id_country" multiple>
-                                                <option value="1">Philippines</option>
-                                            </select>
-                                            <a class="related-widget-wrapper-link add-related" id="add_id_country" data-popup="yes" href="/admin/config/country/add/?_to_field=id&amp;_popup=1" title="Add another Country">
-                                                <img src="/static/admin/img/icon-addlink.svg" alt="Add">
-                                            </a>
-                                        </div>
-                                        <div class="help" id="id_country_helptext">Hold down “Control”, or “Command” on a Mac, to select more than one.</div>
-                                    </div>
-                                </div>
-                                <div class="form-row field-special_font"><div>
-                                    <label for="id_special_font">Special font:</label>
-                                    <input type="text" name="special_font" class="vTextField" maxlength="255" id="id_special_font">
-                                </div>
-                            </div>
-                            <div class="form-row field-sequence">
-                                <div>
-                                    <label class="required" for="id_sequence">Sequence:</label>
-                                    <input type="text" name="sequence" value="0" class="vTextField" maxlength="2" required id="id_sequence">
-                                </div>
-                            </div>
-                        </fieldset>
+                            {{ form.as_p }}
 
                         <div class="submit-row">
                             <input type="submit" value="Save" class="default" name="_save">
-                            <input type="submit" value="Save and add another" name="_addanother">
-                            <input type="submit" value="Save and continue editing" name="_continue">
                         </div>
                     </div>
 

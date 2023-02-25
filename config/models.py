@@ -9,16 +9,6 @@ LANG_CHOICES = [(language.alpha_2, language.name)
                 for language in pycountry.languages if hasattr(language, 'alpha_2')]
 
 
-class TimestampedModel(models.Model):
-    '''Timestamped abstract model'''
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        '''Set as abstract class'''
-        abstract = True
-
-
 class Country(models.Model):
     '''Country'''
     code = models.CharField(max_length=2, verbose_name=_('Country code'), choices=sorted(COUNTRY_CHOICES, key=lambda e: e[1]), default='PL')

@@ -74,13 +74,15 @@ class Course (models.Model):
     #     return reverse('course:course_list', args=[self.id])
 
 
-class Level (TimestampedModel):
+class Level (models.Model):
     """
     Level models each level has a name and a list of words
     """
     sequence = models.IntegerField(default=0, verbose_name=_("sequence"))
     name = models.CharField(max_length=200, verbose_name=_("name"), default=_("Level"))
     course = models.ForeignKey(Course, related_name='levels', verbose_name=_("course"), on_delete=models.CASCADE, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         '''String representation'''
@@ -109,7 +111,7 @@ class Level (TimestampedModel):
         return reverse('course:course_list', args=[self.id])
 
 
-class Word (TimestampedModel):
+class Word (models.Model):
     """
     Word models inherited from timestamped model
     """
@@ -122,8 +124,10 @@ class Word (TimestampedModel):
     course = models.ForeignKey('Course', related_name='words', on_delete=models.CASCADE, blank=True, null=True)
     level = models.ForeignKey("Level", related_name="level_words", on_delete=models.SET_NULL, blank=True, null=True)
     is_active = models.BooleanField(_("Is active"), default=True)
-    media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
-    path_to_file = models.FileField(upload_to='word/', blank=True)
+    # media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
+    # path_to_file = models.FileField(upload_to='word/', blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return str(self.word + ' - ' + self.description)
@@ -146,25 +150,25 @@ class Word (TimestampedModel):
     #         self.media_type
     #     )
 
-# class WordMedia(TimestampedModel):
-#     """
-#     Word media models
-#     """
-#     media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
-#     word = models.ForeignKey(Word, related_name="medias", on_delete=models.CASCADE)
-#     path_to_file = models.FileField(upload_to='word/', blank=True)
+class WordMedia(models.Model):
+    """
+    Word media models
+    """
+    media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
+    word = models.ForeignKey(Word, related_name="medias", on_delete=models.CASCADE)
+    path_to_file = models.FileField(upload_to='word/', blank=True)
 
-#     def __str__(self):
-#         return str(self.media_type)
+    def __str__(self):
+        return str(self.media_type)
 
-#     class Meta:
-#         verbose_name = _("word media")
-#         verbose_name_plural = _("word medias")
+    class Meta:
+        verbose_name = _("word media")
+        verbose_name_plural = _("word medias")
 
-#     def get_path(self):
-#         '''Get path to file'''
-#         return format_html(
-#             '<a href="{}">{}</a>',
-#             self.path_to_file,
-#             self.media_type
-#         )
+    def get_path(self):
+        '''Get path to file'''
+        return format_html(
+            '<a href="{}">{}</a>',
+            self.path_to_file,
+            self.media_type
+        )

@@ -1,11 +1,11 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.forms.models import model_to_dict
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.translation import gettext_lazy as _
 from django.views import View
-from django.core.cache import cache
 
 from .models import *
 from .forms import *
@@ -43,10 +43,13 @@ def course_index(request):
 def course_list(request):
 	page_title = _('Select course to change')
 	list_course =   Course.objects.all()
+	total_course = len(list_course)
+
 
 	context = {
 		'title': page_title,
 		'list_course': list_course,
+		'total_course': total_course,
 	}
 
 	return render(request,'course/course_list.html', context)
