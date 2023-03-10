@@ -154,6 +154,13 @@
 								<div class="p-3">
 									<label for="bulk-set-level" class="block mb-3 text-lg">Bulk set level to selected words</label>
 									<div class="flex">
+										{% if total_level == 0 %}
+										<div class="pl-6">
+											<a class="related-widget-wrapper-link add-related" data-popup="yes" href="/course/level/add/" title="Add another level">
+												<button type="button" id="perform-set-level" class="bg-green-500 text-white py-2 px-4">Create Level</button>
+											</a>
+										</div>
+										{% else %}
 										<div>
 											<select id="bulk-set-level" name="bulk-set-level">
 												<option value="">Select level</option>
@@ -167,6 +174,7 @@
 										<div class="pl-6">
 											<button type="button" id="perform-bulk-set-level" data-course-id="" class="bg-green-500 text-white py-2 px-4">Set Level</button>
 										</div>
+										{% endif %}
 									</div>
 								</div>
 								<div class="tabular inline-related last-related">
@@ -184,6 +192,7 @@
 												</tr>
 											</thead>
 											<tbody>
+												{% if total_level == 0 %}
 												<tr class="form-row wordFormset">
 													{% for item in word_formset.forms %}
 													<td>
@@ -226,6 +235,50 @@
 													{% endfor %}
 												</tr>
 												<tr class="addCourse" style="padding-left: 10px;display: inline-block;"></tr>
+												{% else %}
+												<tr class="form-row wordFormset">
+													{% for item in word_formset.forms %}
+													<td>
+														<input type="checkbox" name="select-bulk" value="">
+													</td>
+													<td class="field-word">
+														{{ item.word|as_crispy_field }}
+													</td>
+													<td class="field-description">
+														{{ item.description|as_crispy_field }}
+													</td>
+													<td class="field-level">
+														<div class="related-widget-wrapper" data-model-ref="level">
+															<select id="bulk-set-level" name="bulk-set-level">
+																<option value="">Select level</option>
+																{% for level in get_level %}
+																<option value="{{ level.id }}">
+																{{ level }}
+																</option>
+																{% endfor %}
+															</select>
+															<a class="related-widget-wrapper-link change-related" data-href-template="/course/level/__fk__/change/" data-popup="yes" title="Change selected level">
+																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
+															</a>
+															<a class="related-widget-wrapper-link add-related" data-popup="yes" href="/course/level/add/" title="Add another level">
+																<img src="/static/admin/img/icon-addlink.svg" alt="Add">
+															</a>
+															<a class="related-widget-wrapper-link delete-related" data-href-template="/course/level/__fk__/delete/" data-popup="yes" title="Delete selected level">
+																<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
+															</a>
+															<a class="related-widget-wrapper-link view-related" data-href-template="/course/level/__fk__/change/?_to_field=id" title="View selected level">
+																<img src="/static/admin/img/icon-viewlink.svg" alt="View">
+															</a>
+														</div>
+													</td>
+													<td class="field-is_active">
+														{{ item.is_active|as_crispy_field }}
+													</td>
+													<td class="delCourse"></td>
+													{% endfor %}
+												</tr>
+												<tr class="addCourse" style="padding-left: 10px;display: inline-block;"></tr>
+												{% endif %}
 											</tbody>
 										</table>
 									</fieldset>

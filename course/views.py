@@ -63,6 +63,8 @@ def course_add(request):
 
 	get_language = Language.objects.all().values_list("code", flat=True)
 	get_level = Level.objects.all().values_list("name", flat=True)
+	level_list =   Level.objects.all()
+	total_level = len(level_list)
 
 	if request.method == 'POST':
 		form = CourseModelForm(request.POST or None, request.FILES)
@@ -107,7 +109,9 @@ def course_add(request):
 		'word_formset': word_formset,
 		'word': word,
 		'get_level': get_level,
+		'total_level': total_level,
 	}
+	print("total_level", total_level)
 
 	return render(request, 'course/course_add.html', context)
 
