@@ -57,8 +57,8 @@ class WordAdmin(ImportExportModelAdmin):
         'course',
         'level',
         'is_active',
-        # 'media_type',
-        # 'path_to_file',
+        'media_type',
+        'path_to_file',
     ]
     # list_filter=['available','created','updated']
     list_editable = [

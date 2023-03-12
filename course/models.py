@@ -124,8 +124,8 @@ class Word (models.Model):
     course = models.ForeignKey('Course', related_name='words', on_delete=models.CASCADE, blank=True, null=True)
     level = models.ForeignKey("Level", related_name="level_words", on_delete=models.SET_NULL, blank=True, null=True)
     is_active = models.BooleanField(_("Is active"), default=True)
-    media_type = models.CharField(choices=MEDIA_TYPE, default=IMAGE, max_length=200)
-    path_to_file = models.FileField(upload_to='word/', blank=True)
+    media_type = models.CharField(choices=MEDIA_TYPE, default=None, max_length=200, blank=True, null=True)
+    path_to_file = models.FileField(upload_to='word/', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

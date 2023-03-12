@@ -293,7 +293,7 @@ def level_detail(request, pk):
 
 	if request.method == 'POST':
 		form = Level_ModelForm(request.POST or None, instance=get_level)
-		word_formset = Word_ModelFormSet(request.POST or None)
+		word_formset = Word_ModelFormSet(request.POST or None, request.FILES or None)
 
 		if form.is_valid() and word_formset.is_valid():
 			save_level = form.save(commit=False)
@@ -314,6 +314,8 @@ def level_detail(request, pk):
 				# get_level = get_object_or_404(Level, name=save_level.name)
 				save_wordformset.level = get_level
 				save_wordformset.is_active = True
+				save_wordformset.media_type = item.cleaned_data['media_type']
+				save_wordformset.path_to_file = item.cleaned_data['path_to_file']
 				save_wordformset.save()
 
 			messages.success(request, _('Your level has been change successfully.'))

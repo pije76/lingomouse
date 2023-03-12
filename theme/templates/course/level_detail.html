@@ -47,7 +47,7 @@
                             </span>
                         </div>
                     </div>
-                    <form method="POST" id="level_form">
+                    <form method="POST" id="level_form" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ word_formset.management_form }}
 
