@@ -67,24 +67,49 @@ def course_add(request):
 	total_level = len(level_list)
 
 	if request.method == 'POST':
-		form = CourseModelForm(request.POST or None, request.FILES)
+		formA = CourseModelForm(request.POST or None, request.FILES, prefix='course')
+		formB = LevelForm(request.POST or None, prefix='level')
 		word_formset = Word_FormSet(request.POST or None)
 		native_id = request.GET.get('get_selected_native', None)
 		native_id = request.POST.get('get_selected_native', None)
 
-		if form.is_valid():
-			course = form.save(commit=False)
-			course.id = form.cleaned_data['id']
-			course.name = form.cleaned_data['name']
-			course.native = form.cleaned_data['native']
-			course.description = form.cleaned_data['description']
-			course.img = form.cleaned_data['img']
-			course.is_active = form.cleaned_data['is_active']
+		# if formA.is_valid():
+		if formA.is_valid() and formB.is_valid():
+
+			course = formA.save(commit=False)
+			course.id = formA.cleaned_data['id']
+			course.name = formA.cleaned_data['name']
+			course.native = formA.cleaned_data['native']
+			course.description = formA.cleaned_data['description']
+			course.img = formA.cleaned_data['img']
+			course.is_active = formA.cleaned_data['is_active']
 			course.save()
+
+			print("level_id0", course.id)
+		# 	return redirect('course:course_list')
+
+		# else:
+		# 	messages.warning(request, formA.errors)
+
+		# if formB.is_valid():
+			# level = Level()
+			# level_id = Course.objects.filter(id=course.id).values_list("id", flat=True)
+			level_id = get_object_or_404(Course, id=course.id)
+			print("level_id1", level_id)
+			# level = formB.save(commit=False)
+			level = Level()
+			level.sequence = formB.cleaned_data['sequence']
+			level.name = formB.cleaned_data['name']
+			level.course = level_id
+			# level.description = formB.cleaned_data['description']
+			# level.img = formB.cleaned_data['img']
+			# level.is_active = formB.cleaned_data['is_active']
+			level.save()
 
 			return redirect('course:course_list')
 		else:
-			messages.warning(request, form.errors)
+			messages.warning(request, formA.errors)
+			messages.warning(request, formB.errors)
 
 		if word_formset.is_valid():
 			get_wordformset = Word.objects.filter(patient=patients).values_list("date_admission", flat=True).first()
@@ -100,12 +125,14 @@ def course_add(request):
 			messages.warning(request, word_formset.errors)
 
 	else:
-		form = CourseModelForm()
+		formA = CourseModelForm(prefix='course')
+		formB = LevelForm(prefix='level')
 		word_formset = Word_FormSet()
 
 	context = {
 		'title': page_title,
-		'form': form,
+		'formA': formA,
+		'formB': formB,
 		'word_formset': word_formset,
 		'word': word,
 		'get_level': get_level,

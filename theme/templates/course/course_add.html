@@ -68,27 +68,30 @@
 					{{ word_formset.management_form }}
 
 						<div>
+
 							<div class="submit-row">
 								<input type="submit" value="Save" class="default" name="_save">
 							</div>
+
 							<fieldset class="module aligned shadow-lg rounded">
+								<h2 class="px-3">Course</h2>
 								<div class="form-row field-id">
 									<div>
 										<label class="required" for="id_id">Id:</label>
-										{{ form.id|as_crispy_field }}
+										{{ formA.id|as_crispy_field }}
 									</div>
 								</div>
 								<div class="form-row field-name">
 									<div>
 										<label class="required" for="id_name">Name:</label>
-										{{ form.name|as_crispy_field }}
+										{{ formA.name|as_crispy_field }}
 									</div>
 								</div>
 								<div class="form-row field-native">
 									<div>
 										<label class="required" for="id_native">Native:</label>
 										<div class="related-widget-wrapper" data-model-ref="language">
-											{{ form.native|as_crispy_field }}
+											{{ formA.native|as_crispy_field }}
 											<a class="related-widget-wrapper-link change-related" id="change_id_native" data-href-template="/config/language/__fk__/change/" data-popup="yes" title="Change selected language">
 												<img src="/static/admin/img/icon-changelink.svg" alt="Change">
 											</a>
@@ -108,7 +111,7 @@
 									<div>
 										<label class="required" for="id_foreign">Foreign:</label>
 										<div class="related-widget-wrapper" data-model-ref="language">
-											{{ form.foreign|as_crispy_field }}
+											{{ formA.foreign|as_crispy_field }}
 											<a class="related-widget-wrapper-link change-related" id="change_id_foreign" data-href-template="/config/language/__fk__/change/" data-popup="yes" title="Change selected language">
 												<img src="/static/admin/img/icon-changelink.svg" alt="Change">
 											</a>
@@ -127,7 +130,7 @@
 								<div class="form-row field-description">
 									<div>
 										<label for="id_description">Description:</label>
-										{{ form.description|as_crispy_field }}
+										{{ formA.description|as_crispy_field }}
 									</div>
 								</div>
 								<div class="form-row field-image">
@@ -139,154 +142,37 @@
 								<div class="form-row field-img">
 									<div>
 										<label for="id_img">Img:</label>
-										{{ form.img|as_crispy_field }}
+										{{ formA.img|as_crispy_field }}
 									</div>
 								</div>
 								<div class="form-row field-is_active">
 									<div class="checkbox-row">
-										{{ form.is_active|as_crispy_field }}
+										{{ formA.is_active|as_crispy_field }}
 										<label class="vCheckboxLabel" for="id_is_active"></label>
 									</div>
 								</div>
 							</fieldset>
 
-							<div class="js-inline-admin-formset inline-group relative flex flex-col min-w-0 break-words w-full my-6 shadow-lg rounded bg-white dark:bg-sky-900 overflow-scroll" id="words-group" data-inline-type="tabular" data-inline-formset="{&quot;name&quot;: &quot;#words&quot;, &quot;options&quot;: {&quot;prefix&quot;: &quot;words&quot;, &quot;addText&quot;: &quot;Add another Word&quot;, &quot;deleteText&quot;: &quot;Remove&quot;}}">
-								<div class="p-3">
-									<label for="bulk-set-level" class="block mb-3 text-lg">Bulk set level to selected words</label>
-									<div class="flex">
-										{% if total_level == 0 %}
-										<div class="pl-6">
-											<a class="related-widget-wrapper-link add-related" data-popup="yes" href="/course/level/add/" title="Add another level">
-												<button type="button" id="perform-set-level" class="bg-green-500 text-white py-2 px-4">Create Level</button>
-											</a>
-										</div>
-										{% else %}
-										<div>
-											<select id="bulk-set-level" name="bulk-set-level">
-												<option value="">Select level</option>
-												{% for level in get_level %}
-												<option value="{{ level.id }}">
-												{{ level }}
-												</option>
-												{% endfor %}
-											</select>
-										</div>
-										<div class="pl-6">
-											<button type="button" id="perform-bulk-set-level" data-course-id="" class="bg-green-500 text-white py-2 px-4">Set Level</button>
-										</div>
-										{% endif %}
+							<fieldset class="module aligned">
+								<h2 class="px-3">Level</h2>
+								<div class="form-row field-sequence">
+									<div>
+										<label class="required" for="id_sequence">Sequence:</label>
+										{{ formB.sequence|as_crispy_field }}
 									</div>
 								</div>
-								<div class="tabular inline-related last-related">
-									<fieldset class="module">
-										<h2 class="px-3">Words</h2>
-										<table>
-											<thead>
-												<tr>
-													<th>Bulk</th>
-													<th class="column-word required">Foreign</th>
-													<th class="column-description required">Native</th>
-													<th class="column-level">Level</th>
-													<th class="column-is_active">Is active</th>
-													<th>Delete?</th>
-												</tr>
-											</thead>
-											<tbody>
-												{% if total_level == 0 %}
-												<tr class="form-row wordFormset">
-													{% for item in word_formset.forms %}
-													<td>
-														<input type="checkbox" name="select-bulk" value="">
-													</td>
-													<td class="field-word">
-														{{ item.word|as_crispy_field }}
-													</td>
-													<td class="field-description">
-														{{ item.description|as_crispy_field }}
-													</td>
-													<td class="field-level">
-														<div class="related-widget-wrapper" data-model-ref="level">
-															<select id="bulk-set-level" name="bulk-set-level">
-																<option value="">Select level</option>
-																{% for level in get_level %}
-																<option value="{{ level.id }}">
-																{{ level }}
-																</option>
-																{% endfor %}
-															</select>
-															<a class="related-widget-wrapper-link change-related" data-href-template="/course/level/__fk__/change/" data-popup="yes" title="Change selected level">
-																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
-															</a>
-															<a class="related-widget-wrapper-link add-related" data-popup="yes" href="/course/level/add/" title="Add another level">
-																<img src="/static/admin/img/icon-addlink.svg" alt="Add">
-															</a>
-															<a class="related-widget-wrapper-link delete-related" data-href-template="/course/level/__fk__/delete/" data-popup="yes" title="Delete selected level">
-																<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
-															</a>
-															<a class="related-widget-wrapper-link view-related" data-href-template="/course/level/__fk__/change/?_to_field=id" title="View selected level">
-																<img src="/static/admin/img/icon-viewlink.svg" alt="View">
-															</a>
-														</div>
-													</td>
-													<td class="field-is_active">
-														{{ item.is_active|as_crispy_field }}
-													</td>
-													<td class="delCourse"></td>
-													{% endfor %}
-												</tr>
-												<tr class="addCourse" style="padding-left: 10px;display: inline-block;"></tr>
-												{% else %}
-												<tr class="form-row wordFormset">
-													{% for item in word_formset.forms %}
-													<td>
-														<input type="checkbox" name="select-bulk" value="">
-													</td>
-													<td class="field-word">
-														{{ item.word|as_crispy_field }}
-													</td>
-													<td class="field-description">
-														{{ item.description|as_crispy_field }}
-													</td>
-													<td class="field-level">
-														<div class="related-widget-wrapper" data-model-ref="level">
-															<select id="bulk-set-level" name="bulk-set-level">
-																<option value="">Select level</option>
-																{% for level in get_level %}
-																<option value="{{ level.id }}">
-																{{ level }}
-																</option>
-																{% endfor %}
-															</select>
-															<a class="related-widget-wrapper-link change-related" data-href-template="/course/level/__fk__/change/" data-popup="yes" title="Change selected level">
-																<img src="/static/admin/img/icon-changelink.svg" alt="Change">
-															</a>
-															<a class="related-widget-wrapper-link add-related" data-popup="yes" href="/course/level/add/" title="Add another level">
-																<img src="/static/admin/img/icon-addlink.svg" alt="Add">
-															</a>
-															<a class="related-widget-wrapper-link delete-related" data-href-template="/course/level/__fk__/delete/" data-popup="yes" title="Delete selected level">
-																<img src="/static/admin/img/icon-deletelink.svg" alt="Delete">
-															</a>
-															<a class="related-widget-wrapper-link view-related" data-href-template="/course/level/__fk__/change/?_to_field=id" title="View selected level">
-																<img src="/static/admin/img/icon-viewlink.svg" alt="View">
-															</a>
-														</div>
-													</td>
-													<td class="field-is_active">
-														{{ item.is_active|as_crispy_field }}
-													</td>
-													<td class="delCourse"></td>
-													{% endfor %}
-												</tr>
-												<tr class="addCourse" style="padding-left: 10px;display: inline-block;"></tr>
-												{% endif %}
-											</tbody>
-										</table>
-									</fieldset>
+								<div class="form-row field-name">
+									<div>
+										<label class="required" for="id_name">Name:</label>
+										{{ formB.name|as_crispy_field }}
+									</div>
 								</div>
-							</div>
+							</fieldset>
+
 							<div class="submit-row">
 								<input type="submit" value="Save" class="default" name="_save">
 							</div>
+
 						</div>
 					</form>
 				</div>
