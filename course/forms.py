@@ -200,6 +200,8 @@ Word_ModelFormFactory = modelform_factory(
 		'course',
 		'level',
 		'is_active',
+		'media_type',
+		'path_to_file',
 	)
 )
 
