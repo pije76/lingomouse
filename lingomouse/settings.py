@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 	'api',
 
 	'rest_framework',
+    'drf_auth_service',
 	'tailwind',
 	'theme',
 	"crispy_forms",
