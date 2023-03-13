@@ -46,7 +46,9 @@ INSTALLED_APPS = [
 	'api',
 
 	'rest_framework',
-    'drf_auth_service',
+    'oauth2_provider',
+    'social_django',
+    'rest_framework_social_oauth2',
 	'tailwind',
 	'theme',
 	"crispy_forms",
@@ -81,6 +83,8 @@ TEMPLATES = [
 				'django.contrib.messages.context_processors.messages',
 				# 'frontend.context_processors.app_list',
 				# 'frontend.context_processors.app_list',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
 			],
 		},
 	},
@@ -153,6 +157,11 @@ INTERNAL_IPS = [
 	"127.0.0.1",
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'rest_framework_social_oauth2.backends.DjangoOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 #############################################################################################
 
 # Tailwind app setup
@@ -168,7 +177,12 @@ REST_FRAMEWORK = {
 		'rest_framework.permissions.AllowAny',
 	],
 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-	'PAGE_SIZE': 5
+	'PAGE_SIZE': 5,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'oauth2_provider.ext.rest_framework.OAuth2Authentication',  # django-oauth-toolkit < 1.0.0
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
+        'rest_framework_social_oauth2.authentication.SocialAuthentication',
+    ),
 }
 
 WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh_index/')

@@ -35,7 +35,7 @@ urlpatterns = [
     path('search/', include('haystack.urls')),
     # path('auth/', include('rest_framework.urls')),
     path('api/', include(api_routers)),
-    path('api/sso/', include('drf_auth_service.urls'))
+    path('api/auth/', include('rest_framework_social_oauth2.urls')),
 ]
 
 
