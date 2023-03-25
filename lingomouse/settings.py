@@ -47,6 +47,7 @@ INSTALLED_APPS = [
 	'api',
 
 	'rest_framework',
+    'rest_framework.authtoken',
     'rest_framework_simplejwt',
 
 	'tailwind',
@@ -173,9 +174,9 @@ REST_FRAMEWORK = {
 	],
 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 	'PAGE_SIZE': 5,
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
+    # 'DEFAULT_AUTHENTICATION_CLASSES': (
+    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
+    # ),
 }
 
 
