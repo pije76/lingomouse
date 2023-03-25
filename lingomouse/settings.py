@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -46,9 +47,8 @@ INSTALLED_APPS = [
 	'api',
 
 	'rest_framework',
-    'oauth2_provider',
-    'social_django',
-    'rest_framework_social_oauth2',
+    'rest_framework_simplejwt',
+
 	'tailwind',
 	'theme',
 	"crispy_forms",
@@ -82,9 +82,6 @@ TEMPLATES = [
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
 				# 'frontend.context_processors.app_list',
-				# 'frontend.context_processors.app_list',
-                'social_django.context_processors.backends',
-                'social_django.context_processors.login_redirect',
 			],
 		},
 	},
@@ -158,9 +155,10 @@ INTERNAL_IPS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'rest_framework_social_oauth2.backends.DjangoOAuth2',
     'django.contrib.auth.backends.ModelBackend',
+
 )
+
 
 #############################################################################################
 
@@ -170,19 +168,20 @@ TAILWIND_APP_NAME = 'theme'
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 REST_FRAMEWORK = {
-	# 'DEFAULT_AUTHENTICATION_CLASSES': [
-	#     'rest_framework_simplejwt.authentication.JWTAuthentication',
-	# ],
 	'DEFAULT_PERMISSION_CLASSES': [
-		'rest_framework.permissions.AllowAny',
+		'rest_framework.permissions.IsAuthenticated',
 	],
 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 	'PAGE_SIZE': 5,
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'oauth2_provider.ext.rest_framework.OAuth2Authentication',  # django-oauth-toolkit < 1.0.0
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
-        'rest_framework_social_oauth2.authentication.SocialAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+}
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
 WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh_index/')
