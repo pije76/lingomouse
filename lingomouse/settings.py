@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.apple',
+    'allauth.socialaccount.providers.apple',
 
 	'rest_framework',
     'rest_framework.authtoken',
@@ -172,12 +172,37 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 
+
 #############################################################################################
 
-# Tailwind app setup
-TAILWIND_APP_NAME = 'theme'
+# AUTH_USER_MODEL = 'two_app.CustomUser'
 
-IMPORT_EXPORT_USE_TRANSACTIONS = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "mandatory"
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_AUTO_SIGNUP = False
+ACCOUNT_USERNAME_REQUIRED = False
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_SESSION_REMEMBER = False
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        # 'APP': {
+        #     'client_id': '336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com',
+        #     'secret': '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',
+        #     'key': ''
+        # }
+    }
+}
+
+
+#############################################################################################
 
 REST_FRAMEWORK = {
 	'DEFAULT_PERMISSION_CLASSES': [
@@ -191,22 +216,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+        # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
 }
 
-SOCIALACCOUNT_PROVIDERS = {
-    'google': {
-        # For each OAuth based provider, either add a ``SocialApp``
-        # (``socialaccount`` app) containing the required client
-        # credentials, or list them here:
-        'APP': {
-            'client_id': '123',
-            'secret': '456',
-            'key': ''
-        }
-    }
-}
 
 # REST_AUTH = {
 #     'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.LoginSerializer',
@@ -247,6 +260,14 @@ SOCIALACCOUNT_PROVIDERS = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
 #     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 # }
+
+
+#############################################################################################
+
+# Tailwind app setup
+TAILWIND_APP_NAME = 'theme'
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh_index/')
 
@@ -316,10 +337,6 @@ if DEBUG:
                 "string_if_invalid": '<< MISSING VARIABLE "%s" >>' if DEBUG else "",
             },
         },
-        #    {
-        #        'BACKEND': 'accounts.pdf.PdftkEngine',
-        #        'APP_DIRS': True,
-        #    },
     ]
     LOGGING = {
         'version': 1,

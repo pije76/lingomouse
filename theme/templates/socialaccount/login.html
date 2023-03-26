@@ -16,6 +16,6 @@
 
 <form method="post">
   {% csrf_token %}
-  <button type="submit">{% trans "Continue" %}</button>
+  <input type="submit" value="Continue" class="default" name="Continue">
 </form>
 {% endblock %}
