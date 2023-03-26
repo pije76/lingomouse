@@ -186,18 +186,32 @@ ACCOUNT_SESSION_REMEMBER = False
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
-        "SCOPE": [
-            "profile",
-            "email",
-        ],
-        "AUTH_PARAMS": {
-            "access_type": "online",
-        },
-        # 'APP': {
-        #     'client_id': '336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com',
-        #     'secret': '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',
-        #     'key': ''
-        # }
+        # "SCOPE": [
+        #     "profile",
+        #     "email",
+        # ],
+        # "AUTH_PARAMS": {
+        #     "access_type": "online",
+        # },
+        # 'OAUTH_PKCE_ENABLED': True,
+        'APP': {
+            'client_id': '336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com',
+            'secret': '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',
+            'key': ''
+        }
+    },
+    "apple": {
+        "APP": {
+            "client_id": "your.service.id",
+            "secret": "KEYID",
+            "key": "MEMAPPIDPREFIX",
+            "certificate_key": """-----BEGIN PRIVATE KEY-----
+            s3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr
+            3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3
+            c3ts3cr3t
+            -----END PRIVATE KEY-----
+            """
+        }
     }
 }
 
