@@ -4,8 +4,8 @@
 <html lang="{{ LANGUAGE_CODE|default:"en-us" }}" dir="{{ LANGUAGE_BIDI|yesno:'rtl,ltr,auto' }}">
 <head>
     <title>
-        {% block title %}
-        {% endblock title %}
+        {% block head_title %}
+        {% endblock head_title %}
     </title>
     <link rel="icon" href="{% static 'img/logo-dark.png' %}" />
     <link rel="stylesheet" href="{% block stylesheet %}"/>

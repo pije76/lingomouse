@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load i18n static %}
 
-{% block title %}
+{% block head_title %}
 {% if subtitle %}{{ subtitle }} |{% endif %}
 {{ title }} | {{ site_title|default:_('IL Admin') }}
-{% endblock title %}
+{% endblock head_title %}
 
 {% block usertools %}
 {% if has_permission %}
