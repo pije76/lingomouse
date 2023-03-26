@@ -81,6 +81,7 @@
                     {% endblock content_subtitle %}
                     <hr class="md:min-w-full" />
                     {% block breadcrumbs %}
+                    <a href="{% url 'frontend:index' %}">{% translate 'Home' %}</a>
                     {% if site_title %}> {{ site_title }}{% endif %}
                     {% endblock breadcrumbs %}
                 </div>

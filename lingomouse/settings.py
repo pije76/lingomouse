@@ -45,6 +45,7 @@ INSTALLED_APPS = [
 
     'allauth',
     'allauth.account',
+
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.apple',
@@ -177,15 +178,24 @@ SITE_ID = 1
 
 # AUTH_USER_MODEL = 'two_app.CustomUser'
 
-SOCIALACCOUNT_EMAIL_VERIFICATION = "mandatory"
-SOCIALACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_AUTO_SIGNUP = False
-ACCOUNT_USERNAME_REQUIRED = False
-SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 ACCOUNT_SESSION_REMEMBER = False
+ACCOUNT_USERNAME_REQUIRED = False
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_URL = "/accounts/logout/"
+SOCIALACCOUNT_AUTO_SIGNUP = False
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "mandatory"
+SOCIALACCOUNT_QUERY_EMAIL = True
 
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
+        'APP': {
+            'client_id': '336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com',
+            'secret': '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',
+            'key': '',
+        },
         # "SCOPE": [
         #     "profile",
         #     "email",
@@ -194,11 +204,6 @@ SOCIALACCOUNT_PROVIDERS = {
         #     "access_type": "online",
         # },
         # 'OAUTH_PKCE_ENABLED': True,
-        'APP': {
-            'client_id': '336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com',
-            'secret': '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',
-            'key': ''
-        }
     },
     "apple": {
         "APP": {
