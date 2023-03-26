@@ -26,7 +26,7 @@ def index(request):
 	# 	print("current_url", current_url)
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		# 'course_path': course_path,
 	}
 

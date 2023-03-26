@@ -32,7 +32,7 @@ def config_index(request):
     page_title = _('Select config to change')
 
     context = {
-        'title': page_title,
+        'site_title': page_title,
     }
 
     return render(request,'config/config_index.html', context)
@@ -45,7 +45,7 @@ def country_list(request):
     total_country = len(country_list)
 
     context = {
-        'title': page_title,
+        'site_title': page_title,
         'country_list': country_list,
         'total_country': total_country,
     }
@@ -79,7 +79,7 @@ def country_detail(request, pk):
         form = CountryForm()
 
     context = {
-        'title': page_title,
+        'site_title': page_title,
         'form': form,
         'country': country,
     }
@@ -113,7 +113,7 @@ def country_add(request):
         form = CountryForm()
 
     context = {
-        'title': page_title,
+        'site_title': page_title,
         'form': form,
         'word': word,
     }
@@ -134,7 +134,7 @@ def language_list(request):
     total_language = len(language_list)
 
     context = {
-        'title': page_title,
+        'site_title': page_title,
         'language_list': language_list,
         'total_language': total_language,
     }
@@ -167,7 +167,7 @@ def language_detail(request, pk):
         form = LanguageForm()
 
     context = {
-        'title': page_title,
+        'site_title': page_title,
         'form': form,
         'language': language,
     }
@@ -201,7 +201,7 @@ def language_add(request):
         form = LanguageModelForm()
 
     context = {
-        'title': page_title,
+        'site_title': page_title,
         'form': form,
         'word': word,
     }

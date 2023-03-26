@@ -33,7 +33,7 @@ def course_index(request):
 	page_title = _('Course')
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 	}
 
 	return render(request,'course/course_index.html', context)
@@ -47,7 +47,7 @@ def course_list(request):
 
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'list_course': list_course,
 		'total_course': total_course,
 	}
@@ -130,7 +130,7 @@ def course_add(request):
 		word_formset = Word_FormSet()
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'formA': formA,
 		'formB': formB,
 		'word_formset': word_formset,
@@ -191,7 +191,7 @@ def course_detail(request, pk):
 		request.session['set_course_detail'] = course_detail.id
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'form': form,
 		'course_detail': course_detail,
 		'get_language': get_language,
@@ -218,7 +218,7 @@ def level_list(request):
 	list_level =   Level.objects.all()
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'list_level': list_level,
 	}
 
@@ -272,7 +272,7 @@ def level_add(request):
 		word_formset = Word_FormSet()
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'form': form,
 		'word': word,
 		'word_formset': word_formset,
@@ -328,7 +328,7 @@ def level_detail(request, pk):
 		word_formset = Word_ModelFormSet(queryset=get_word, initial=[{'course': item.course, 'level': item.level} for item in get_word])
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'course_id': course_id.name,
 		'form': form,
 		'get_level': get_level,
@@ -354,7 +354,7 @@ def word_list(request):
 	get_level = Level.objects.all()
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'list_word': list_word,
 		'get_level': get_level,
 	}
@@ -391,7 +391,7 @@ def word_detail(request, pk):
 		form = Word_ModelForm(instance=word_detail)
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'form': form,
 		'word_detail': word_detail,
 	}
@@ -425,7 +425,7 @@ def word_add(request):
 		form = CourseForm()
 
 	context = {
-		'title': page_title,
+		'site_title': page_title,
 		'form': form,
 		'word': word,
 	}
@@ -463,7 +463,7 @@ def word_import(request):
 			word_resource.import_data(dataset, dry_run=False)  # Actually import now
 
 			context = {
-				'title': page_title,
+				'site_title': page_title,
 			}
 
 		return render(request, 'course/word_import.html', context)
@@ -472,7 +472,7 @@ def word_import(request):
 
 	else:
 		context = {
-			'title': page_title,
+			'site_title': page_title,
 		}
 
 		return render(request, 'course/word_import.html', context)
