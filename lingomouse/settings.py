@@ -41,14 +41,24 @@ INSTALLED_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 
-	'frontend',
-	'config',
-	'course',
-	'api',
+    'django.contrib.sites',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.apple',
 
 	'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_simplejwt',
+    'dj_rest_auth',
+    # 'dj_rest_auth.registration',
+    # 'rest_framework_simplejwt',
+
+    'frontend',
+    'config',
+    'course',
+    'api',
 
 	'tailwind',
 	'theme',
@@ -156,10 +166,11 @@ INTERNAL_IPS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+SITE_ID = 1
 
 #############################################################################################
 
@@ -171,19 +182,71 @@ IMPORT_EXPORT_USE_TRANSACTIONS = True
 REST_FRAMEWORK = {
 	'DEFAULT_PERMISSION_CLASSES': [
 		'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
 	],
 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 	'PAGE_SIZE': 5,
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_simplejwt.authentication.JWTAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
+    ),
 }
 
-
-SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id': '123',
+            'secret': '456',
+            'key': ''
+        }
+    }
 }
+
+# REST_AUTH = {
+#     'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.LoginSerializer',
+#     'TOKEN_SERIALIZER': 'dj_rest_auth.serializers.TokenSerializer',
+#     'JWT_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
+#     'JWT_SERIALIZER_WITH_EXPIRATION': 'dj_rest_auth.serializers.JWTSerializerWithExpiration',
+#     'JWT_TOKEN_CLAIMS_SERIALIZER': 'rest_framework_simplejwt.serializers.TokenObtainPairSerializer',
+#     'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer',
+#     'PASSWORD_RESET_SERIALIZER': 'dj_rest_auth.serializers.PasswordResetSerializer',
+#     'PASSWORD_RESET_CONFIRM_SERIALIZER': 'dj_rest_auth.serializers.PasswordResetConfirmSerializer',
+#     'PASSWORD_CHANGE_SERIALIZER': 'dj_rest_auth.serializers.PasswordChangeSerializer',
+
+#     'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
+
+#     'REGISTER_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+
+#     'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
+#     'TOKEN_CREATOR': 'dj_rest_auth.utils.default_create_token',
+
+#     'PASSWORD_RESET_USE_SITES_DOMAIN': False,
+#     'OLD_PASSWORD_FIELD_ENABLED': False,
+#     'LOGOUT_ON_PASSWORD_CHANGE': False,
+#     'SESSION_LOGIN': True,
+#     'USE_JWT': True,
+
+#     'JWT_AUTH_COOKIE': None,
+#     'JWT_AUTH_REFRESH_COOKIE': None,
+#     'JWT_AUTH_REFRESH_COOKIE_PATH': '/',
+#     'JWT_AUTH_SECURE': False,
+#     'JWT_AUTH_HTTPONLY': True,
+#     'JWT_AUTH_SAMESITE': 'Lax',
+#     'JWT_AUTH_RETURN_EXPIRATION': False,
+#     'JWT_AUTH_COOKIE_USE_CSRF': False,
+#     'JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED': False,
+# }
+
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+# }
 
 WHOOSH_INDEX = os.path.join(BASE_DIR, 'whoosh_index/')
 
@@ -236,7 +299,7 @@ if DEBUG:
     TEMPLATES = [
         {
             'BACKEND': 'django.template.backends.django.DjangoTemplates',
-            'DIRS': [os.path.join(BASE_DIR, 'templates')],
+            'DIRS': [os.path.join(BASE_DIR, 'theme/templates')],
             'APP_DIRS': True,
             'OPTIONS': {
                 "debug": DEBUG,

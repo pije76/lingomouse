@@ -31,11 +31,16 @@ urlpatterns = [
 
     path('search/', include('haystack.urls')),
     path('api/', include(api_routers)),
+    # path('auth/', include('dj_rest_auth.urls')),
+    # path('auth/registration/', include('dj_rest_auth.registration.urls'))
+    path('accounts/', include('allauth.urls')),
 ]
 
-urlpatterns += [
-    path('auth/', include('rest_framework.urls')),
-]
+# urlpatterns += [
+    # path('auth/', include('rest_framework.urls')),
+    # path('auth/', include('dj_rest_auth.urls')),
+    # path('auth/registration/', include('dj_rest_auth.registration.urls'))
+# ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
