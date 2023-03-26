@@ -74,7 +74,7 @@
                     {% block pretitle %}
                     {% endblock pretitle %}
                     {% block content_title %}
-                    {% if title %}<h1 class="font-normal text-xl md:text-2xl">{{ title }}</h1>{% endif %}
+                    {% if title %}<h1 class="font-normal text-xl md:text-2xl">{{ site_title }}</h1>{% endif %}
                     {% endblock content_title %}
                     {% block content_subtitle %}
                     {% if subtitle %}<h2 class="font-medium">{{ subtitle }}</h2>{% endif %}
@@ -82,7 +82,7 @@
                     <hr class="md:min-w-full" />
                     {% block breadcrumbs %}
                     <a href="{% url 'frontend:index' %}">{% translate 'Home' %}</a>
-                    {% if title %}> {{ title }}{% endif %}
+                    {% if title %}> {{ site_title }}{% endif %}
                     {% endblock breadcrumbs %}
                 </div>
             </div>

@@ -3,7 +3,7 @@
 
 {% block head_title %}
 {% if subtitle %}{{ subtitle }} |{% endif %}
-{{ title }} | {{ site_title|default:_('IL Admin') }}
+{{ site_title }} | {{ site_title|default:_('IL Admin') }}
 {% endblock head_title %}
 
 {% block usertools %}
