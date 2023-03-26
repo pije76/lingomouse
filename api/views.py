@@ -18,8 +18,11 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
+from allauth.socialaccount.providers.apple.client import AppleOAuth2Client
+from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+
 from dj_rest_auth.registration.views import SocialLoginView
 
 from course.models import *
@@ -48,6 +51,12 @@ class LevelViewSet(ModelViewSet):
 
 class GoogleLogin(SocialLoginView): # if you want to use Authorization Code Grant, use this
     adapter_class = GoogleOAuth2Adapter
-    callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
+    callback_url = "http://127.0.0.1:8000/auth/google/callback/"
     client_class = OAuth2Client
 
+
+class AppleLogin(SocialLoginView):
+    adapter_class = AppleOAuth2Adapter
+    client_class = AppleOAuth2Client
+    # callback_url = f"{settings.BACKEND_URL}api/v1/user/auth/apple/callback/"
+    callback_url = "http://127.0.0.1:8000/auth/apple/callback/"
