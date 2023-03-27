@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-)i=66s*wr!fm992%$o=av+*i7@ili4_dy8_ft31i)%68(=c#6=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
@@ -40,12 +40,10 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-
     'django.contrib.sites',
 
     'allauth',
     'allauth.account',
-
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.apple',
@@ -54,7 +52,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt',
 
     'frontend',
     'config',
@@ -167,8 +165,8 @@ INTERNAL_IPS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    "allauth.account.auth_backends.AuthenticationBackend",
     "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 SITE_ID = 1
@@ -178,17 +176,18 @@ SITE_ID = 1
 
 # AUTH_USER_MODEL = 'two_app.CustomUser'
 
+ACCOUNT_AUTHENTICATION_METHOD = "username"
 # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
-# ACCOUNT_SESSION_REMEMBER = False
-# ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SESSION_REMEMBER = None
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "optional"
 LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_URL = "/accounts/logout/"
-SOCIALACCOUNT_AUTO_SIGNUP = False
-# SOCIALACCOUNT_AUTO_SIGNUP=True
+SOCIALACCOUNT_AUTO_SIGNUP=True
 SOCIALACCOUNT_EMAIL_REQUIRED = True
-SOCIALACCOUNT_EMAIL_VERIFICATION = "mandatory"
-# SOCIALACCOUNT_EMAIL_VERIFICATION=False
+SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_STORE_TOKENS=True
 
@@ -196,8 +195,8 @@ SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
             'client_id': '336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com',
-            'secret': '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',
-            # 'key': '',
+            'secret': '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',
+            'key': '',
         },
         "SCOPE": [
             "profile",
@@ -228,16 +227,15 @@ SOCIALACCOUNT_PROVIDERS = {
 
 REST_FRAMEWORK = {
 	'DEFAULT_PERMISSION_CLASSES': [
-		'rest_framework.permissions.AllowAny',
-        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+		'rest_framework.permissions.IsAuthenticated',
 	],
 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 	'PAGE_SIZE': 5,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
 }
