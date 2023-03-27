@@ -23,6 +23,9 @@ from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
+# from .googleviews import GoogleOAuth2AdapterIdToken
+
+
 from dj_rest_auth.registration.views import SocialLoginView
 
 from course.models import *
@@ -49,14 +52,20 @@ class LevelViewSet(ModelViewSet):
         serializer = LevelSerializer(queryset, many=True)
         return Response(serializer.data)
 
-class GoogleLogin(SocialLoginView): # if you want to use Authorization Code Grant, use this
+
+class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-    callback_url = "http://127.0.0.1:8000/auth/google/callback/"
+    # adapter_class = GoogleOAuth2AdapterIdToken
     client_class = OAuth2Client
+    # # callback_url = "http://127.0.0.1:8000/auth/google/callback/"
+    callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
+    # callback_url = getattr(settings, 'SOCIAL_LOGIN_GOOGLE_CALLBACK_URL', '127.0.0.1:8000')
+    # authentication_classes = ([])
 
 
 class AppleLogin(SocialLoginView):
     adapter_class = AppleOAuth2Adapter
     client_class = AppleOAuth2Client
+    # callback_url = "http://127.0.0.1:8000/auth/apple/callback/"
+    callback_url = 'http://127.0.0.1:8000/accounts/apple/login/callback/'
     # callback_url = f"{settings.BACKEND_URL}api/v1/user/auth/apple/callback/"
-    callback_url = "http://127.0.0.1:8000/auth/apple/callback/"
