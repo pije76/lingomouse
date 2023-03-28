@@ -42,24 +42,18 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
     'django.contrib.sites',
 
-    # 'allauth',
-    # 'allauth.account',
-    # 'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.google',
-    # 'allauth.socialaccount.providers.apple',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.apple',
 
 	'rest_framework',
     'rest_framework.authtoken',
-
-    # 'dj_rest_auth',
-    # 'dj_rest_auth.registration',
+    'dj_rest_auth',
+    'dj_rest_auth.registration',
     # 'rest_framework_simplejwt',
-    'oauth2_provider',
-    # 'social_django',
-    # 'drf_social_oauth2',
-    'corsheaders',
 
-    'users',
     'frontend',
     'config',
     'course',
@@ -77,7 +71,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
 	'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 	'django.middleware.common.CommonMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -99,8 +92,6 @@ TEMPLATES = [
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
 				# 'frontend.context_processors.app_list',
-                # 'social_django.context_processors.backends',
-                # 'social_django.context_processors.login_redirect',
 			],
 		},
 	},
@@ -174,130 +165,80 @@ INTERNAL_IPS = [
 ]
 
 AUTHENTICATION_BACKENDS = (
-    # "django.contrib.auth.backends.ModelBackend",
-    # "allauth.account.auth_backends.AuthenticationBackend",
-    # 'social_core.backends.google.GoogleOpenId',
-    # 'social_core.backends.google.GoogleOAuth2',
-    # 'social_core.backends.google.GoogleOAuth',
-    # 'drf_social_oauth2.backends.DjangoOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
 )
 
 SITE_ID = 1
 
-AUTH_USER_MODEL='users.User'
+
+#############################################################################################
+
+# AUTH_USER_MODEL = 'two_app.CustomUser'
+
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+# ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
+ACCOUNT_SESSION_REMEMBER = None
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_URL = "/accounts/logout/"
+SOCIALACCOUNT_AUTO_SIGNUP=True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_STORE_TOKENS=True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com',
+            'secret': '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',
+            'key': '',
+        },
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "offline",
+        },
+        # 'OAUTH_PKCE_ENABLED': True,
+    },
+    "apple": {
+        "APP": {
+            "client_id": "your.service.id",
+            "secret": "KEYID",
+            "key": "MEMAPPIDPREFIX",
+            "certificate_key": """-----BEGIN PRIVATE KEY-----
+            s3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr
+            3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3
+            c3ts3cr3t
+            -----END PRIVATE KEY-----
+            """
+        }
+    }
+}
+
 
 #############################################################################################
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAuthenticated',
-    ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5,
+	'DEFAULT_PERMISSION_CLASSES': [
+		'rest_framework.permissions.IsAuthenticated',
+	],
+	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+	'PAGE_SIZE': 5,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
         # 'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
-        # 'drf_social_oauth2.authentication.SocialAuthentication',
     ),
 }
-
-CORS_ORIGIN_ALLOW_ALL = True
-
-#############################################################################################
-
-# ACCOUNT_AUTHENTICATION_METHOD = "username"
-# # ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
-# ACCOUNT_SESSION_REMEMBER = None
-# ACCOUNT_USERNAME_REQUIRED = True
-# ACCOUNT_EMAIL_REQUIRED = False
-# ACCOUNT_EMAIL_VERIFICATION = "optional"
-# LOGIN_URL = '/accounts/login/'
-LOGIN_URL='/admin/login/'
-
-# LOGIN_REDIRECT_URL = '/'
-# LOGOUT_URL = "/accounts/logout/"
-# SOCIALACCOUNT_AUTO_SIGNUP=True
-# SOCIALACCOUNT_EMAIL_REQUIRED = True
-# SOCIALACCOUNT_EMAIL_VERIFICATION = "optional"
-# SOCIALACCOUNT_QUERY_EMAIL = True
-# SOCIALACCOUNT_STORE_TOKENS=True
-
-# SOCIALACCOUNT_PROVIDERS = {
-#     'google': {
-#         'APP': {
-#             'client_id': '336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com',
-#             'secret': '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',
-#             'key': '',
-#         },
-#         "SCOPE": [
-#             "profile",
-#             "email",
-#         ],
-#         "AUTH_PARAMS": {
-#             "access_type": "offline",
-#             # "prompt": "consent",
-#         },
-#         # 'OAUTH_PKCE_ENABLED': True,
-#     },
-#     "apple": {
-#         "APP": {
-#             "client_id": "your.service.id",
-#             "secret": "KEYID",
-#             "key": "MEMAPPIDPREFIX",
-#             "certificate_key": """-----BEGIN PRIVATE KEY-----
-#             s3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr
-#             3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3
-#             c3ts3cr3t
-#             -----END PRIVATE KEY-----
-#             """
-#         }
-#     }
-# }
-
-#############################################################################################
-
-# SOCIAL_AUTH_USER_MODEL = "auth.User"
-
-# # Google configuration
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = "336000871218-3ra1gpbi765an9vhqo1uom9haj9bdlto.apps.googleusercontent.com"
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = "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"
-
-# # Define SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE to get extra permissions from Google.
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
-#     'https://www.googleapis.com/auth/userinfo.email',
-#     'https://www.googleapis.com/auth/userinfo.profile',
-# ]
-
-# SOCIAL_AUTH_PIPELINE = (
-#     'social_core.pipeline.social_auth.social_details',
-#     'social_core.pipeline.social_auth.social_uid',
-#     'social_core.pipeline.social_auth.social_user',
-#     'social_core.pipeline.user.get_username',
-#     'social_core.pipeline.social_auth.associate_by_email',
-#     'social_core.pipeline.user.create_user',
-#     'social_core.pipeline.social_auth.associate_user',
-#     'social_core.pipeline.social_auth.load_extra_data',
-#     'social_core.pipeline.user.user_details',
-# )
-
-# SOCIAL_AUTH_JSONFIELD_ENABLED = True  # After
-
-OAUTH2_PROVIDER = {
-    'SCOPES': {
-        'read': 'Read scope',
-        'write': 'Write scope',
-        'groups': 'Access to your groups'
-    }
-}
-
-# DRFSO2_PROPRIETARY_BACKEND_NAME = "Lingomouse"
-
-#############################################################################################
 
 
 # REST_AUTH = {

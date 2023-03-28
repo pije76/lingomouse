@@ -18,13 +18,13 @@ from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 
-# from allauth.socialaccount.providers.apple.client import AppleOAuth2Client
-# from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
-# from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
-# from allauth.socialaccount.providers.oauth2.client import OAuth2Client
+from allauth.socialaccount.providers.apple.client import AppleOAuth2Client
+from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
-# from dj_rest_auth.registration.views import SocialConnectView
-# from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.registration.views import SocialConnectView
+from dj_rest_auth.registration.views import SocialLoginView
 
 # from .googleviews import GoogleOAuth2AdapterIdToken
 
@@ -55,19 +55,19 @@ class LevelViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
-# class GoogleLogin(SocialLoginView):
-#     adapter_class = GoogleOAuth2Adapter
-#     # adapter_class = GoogleOAuth2AdapterIdToken
-#     client_class = OAuth2Client
-#     # # callback_url = "http://127.0.0.1:8000/auth/google/callback/"
-#     callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
-#     # callback_url = getattr(settings, 'SOCIAL_LOGIN_GOOGLE_CALLBACK_URL', '127.0.0.1:8000')
-#     # authentication_classes = ([])
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    # adapter_class = GoogleOAuth2AdapterIdToken
+    client_class = OAuth2Client
+    # # callback_url = "http://127.0.0.1:8000/auth/google/callback/"
+    callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
+    # callback_url = getattr(settings, 'SOCIAL_LOGIN_GOOGLE_CALLBACK_URL', '127.0.0.1:8000')
+    # authentication_classes = ([])
 
 
-# class AppleLogin(SocialLoginView):
-#     adapter_class = AppleOAuth2Adapter
-#     client_class = AppleOAuth2Client
-#     # callback_url = "http://127.0.0.1:8000/auth/apple/callback/"
-#     callback_url = 'http://127.0.0.1:8000/accounts/apple/login/callback/'
-#     # callback_url = f"{settings.BACKEND_URL}api/v1/user/auth/apple/callback/"
+class AppleLogin(SocialLoginView):
+    adapter_class = AppleOAuth2Adapter
+    client_class = AppleOAuth2Client
+    # callback_url = "http://127.0.0.1:8000/auth/apple/callback/"
+    callback_url = 'http://127.0.0.1:8000/accounts/apple/login/callback/'
+    # callback_url = f"{settings.BACKEND_URL}api/v1/user/auth/apple/callback/"
