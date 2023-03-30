@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    # 'rest_framework_simplejwt',
+    'rest_framework_simplejwt',
 
     'frontend',
     'config',
@@ -207,34 +207,34 @@ SOCIALACCOUNT_PROVIDERS = {
         },
         # 'OAUTH_PKCE_ENABLED': True,
     },
-    "apple": {
-        "APP": {
-            "client_id": "your.service.id",
-            "secret": "KEYID",
-            "key": "MEMAPPIDPREFIX",
-            "certificate_key": """-----BEGIN PRIVATE KEY-----
-            s3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr
-            3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3
-            c3ts3cr3t
-            -----END PRIVATE KEY-----
-            """
-        }
-    }
+    # "apple": {
+    #     "APP": {
+    #         "client_id": "your.service.id",
+    #         "secret": "KEYID",
+    #         "key": "MEMAPPIDPREFIX",
+    #         "certificate_key": """-----BEGIN PRIVATE KEY-----
+    #         s3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr
+    #         3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3cr3ts3
+    #         c3ts3cr3t
+    #         -----END PRIVATE KEY-----
+    #         """
+    #     }
+    # }
 }
 
 
 #############################################################################################
 
 REST_FRAMEWORK = {
-	'DEFAULT_PERMISSION_CLASSES': [
-		'rest_framework.permissions.IsAuthenticated',
-	],
+	# 'DEFAULT_PERMISSION_CLASSES': [
+	# 	'rest_framework.permissions.IsAuthenticated',
+	# ],
 	'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
 	'PAGE_SIZE': 5,
     'DEFAULT_AUTHENTICATION_CLASSES': (
         # 'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
         # 'rest_framework_simplejwt.authentication.JWTAuthentication',
         # 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
@@ -242,43 +242,14 @@ REST_FRAMEWORK = {
 
 
 # REST_AUTH = {
-#     'LOGIN_SERIALIZER': 'dj_rest_auth.serializers.LoginSerializer',
-#     'TOKEN_SERIALIZER': 'dj_rest_auth.serializers.TokenSerializer',
-#     'JWT_SERIALIZER': 'dj_rest_auth.serializers.JWTSerializer',
-#     'JWT_SERIALIZER_WITH_EXPIRATION': 'dj_rest_auth.serializers.JWTSerializerWithExpiration',
-#     'JWT_TOKEN_CLAIMS_SERIALIZER': 'rest_framework_simplejwt.serializers.TokenObtainPairSerializer',
-#     'USER_DETAILS_SERIALIZER': 'dj_rest_auth.serializers.UserDetailsSerializer',
-#     'PASSWORD_RESET_SERIALIZER': 'dj_rest_auth.serializers.PasswordResetSerializer',
-#     'PASSWORD_RESET_CONFIRM_SERIALIZER': 'dj_rest_auth.serializers.PasswordResetConfirmSerializer',
-#     'PASSWORD_CHANGE_SERIALIZER': 'dj_rest_auth.serializers.PasswordChangeSerializer',
-
-#     'REGISTER_SERIALIZER': 'dj_rest_auth.registration.serializers.RegisterSerializer',
-
-#     'REGISTER_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
-
-#     'TOKEN_MODEL': 'rest_framework.authtoken.models.Token',
-#     'TOKEN_CREATOR': 'dj_rest_auth.utils.default_create_token',
-
-#     'PASSWORD_RESET_USE_SITES_DOMAIN': False,
-#     'OLD_PASSWORD_FIELD_ENABLED': False,
-#     'LOGOUT_ON_PASSWORD_CHANGE': False,
-#     'SESSION_LOGIN': True,
 #     'USE_JWT': True,
-
-#     'JWT_AUTH_COOKIE': None,
-#     'JWT_AUTH_REFRESH_COOKIE': None,
-#     'JWT_AUTH_REFRESH_COOKIE_PATH': '/',
-#     'JWT_AUTH_SECURE': False,
-#     'JWT_AUTH_HTTPONLY': True,
-#     'JWT_AUTH_SAMESITE': 'Lax',
-#     'JWT_AUTH_RETURN_EXPIRATION': False,
-#     'JWT_AUTH_COOKIE_USE_CSRF': False,
-#     'JWT_AUTH_COOKIE_ENFORCE_CSRF_ON_UNAUTHENTICATED': False,
+#     'JWT_AUTH_COOKIE': 'my-app-auth',
+#     'JWT_AUTH_REFRESH_COOKIE': 'my-refresh-token',
 # }
 
 # SIMPLE_JWT = {
 #     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(minutes=60),
 # }
 
 

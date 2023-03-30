@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db import transaction
 from django.forms.models import model_to_dict
@@ -17,17 +18,20 @@ from rest_framework.reverse import reverse
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.authentication import TokenAuthentication
 
 from allauth.socialaccount.providers.apple.client import AppleOAuth2Client
 from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
-from dj_rest_auth.registration.views import SocialConnectView
+# from dj_rest_auth.registration.views import SocialConnectView
 from dj_rest_auth.registration.views import SocialLoginView
 
 # from .googleviews import GoogleOAuth2AdapterIdToken
 
+# from oauth2_provider.views.generic import ProtectedResourceView
+# from oauth2_provider.decorators import protected_resource
 
 
 from course.models import *
@@ -36,11 +40,27 @@ from course.serializers import *
 from .paginations import *
 
 
+# class CourseViewSet(ModelViewSet, ProtectedResourceView):
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all().order_by('id')
     serializer_class = CourseSerializer
     pagination_class = CustomPagination
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
+    authentication_classes=[TokenAuthentication]
+
+
+class Api_RootView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        list_course = Course.objects.all().order_by('id')
+        list_level = Level.objects.all().order_by('id')
+
+        return Response({
+            "courses": list_course,
+            "levels": list_level,
+        })
 
 
 class LevelViewSet(ModelViewSet):
@@ -48,6 +68,7 @@ class LevelViewSet(ModelViewSet):
     serializer_class = LevelSerializer
     pagination_class = CustomPagination
     permission_classes = (IsAuthenticated,)
+    authentication_classes=[TokenAuthentication]
 
     def get(self, request, format=None):
         queryset = Level.objects.all()
@@ -55,12 +76,18 @@ class LevelViewSet(ModelViewSet):
         return Response(serializer.data)
 
 
+@login_required()
+def secret_page(request, *args, **kwargs):
+    return HttpResponse('Secret contents!', status=200)
+
+
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     # adapter_class = GoogleOAuth2AdapterIdToken
     client_class = OAuth2Client
-    # # callback_url = "http://127.0.0.1:8000/auth/google/callback/"
-    callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
+    # callback_url = "http://127.0.0.1:8000/auth/google/callback/"
+    # callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
+    callback_url = "http://127.0.0.1:8000/api/"
     # callback_url = getattr(settings, 'SOCIAL_LOGIN_GOOGLE_CALLBACK_URL', '127.0.0.1:8000')
     # authentication_classes = ([])
 
@@ -69,5 +96,6 @@ class AppleLogin(SocialLoginView):
     adapter_class = AppleOAuth2Adapter
     client_class = AppleOAuth2Client
     # callback_url = "http://127.0.0.1:8000/auth/apple/callback/"
-    callback_url = 'http://127.0.0.1:8000/accounts/apple/login/callback/'
+#     callback_url = 'http://127.0.0.1:8000/accounts/apple/login/callback/'
     # callback_url = f"{settings.BACKEND_URL}api/v1/user/auth/apple/callback/"
+    callback_url = "http://127.0.0.1:8000/api/"
