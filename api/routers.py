@@ -14,8 +14,8 @@ router.register('courses', CourseViewSet, basename='course')
 router.register('levels', LevelViewSet, basename='level')
 
 urlpatterns = [
-	# path('', include(router.urls)),
-    path('', Api_RootView.as_view(), name='api_root_view'),
+	path('', include(router.urls)),
+    # path('', Api_RootView.as_view(), name='api_root_view'),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('token/verify/', TokenVerifyView.as_view(), name='token_verify'),

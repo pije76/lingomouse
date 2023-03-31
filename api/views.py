@@ -41,17 +41,9 @@ from .paginations import *
 
 
 # class CourseViewSet(ModelViewSet, ProtectedResourceView):
-class CourseViewSet(ModelViewSet):
-    queryset = Course.objects.all().order_by('id')
-    serializer_class = CourseSerializer
-    pagination_class = CustomPagination
-    # permission_classes = (IsAuthenticated,)
-    authentication_classes=[TokenAuthentication]
-
-
 class Api_RootView(APIView):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         list_course = Course.objects.all().order_by('id')
@@ -61,6 +53,14 @@ class Api_RootView(APIView):
             "courses": list_course,
             "levels": list_level,
         })
+
+
+class CourseViewSet(ModelViewSet):
+    queryset = Course.objects.all().order_by('id')
+    serializer_class = CourseSerializer
+    pagination_class = CustomPagination
+    permission_classes = (IsAuthenticated,)
+    authentication_classes=[TokenAuthentication]
 
 
 class LevelViewSet(ModelViewSet):
