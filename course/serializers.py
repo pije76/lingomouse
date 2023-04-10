@@ -78,7 +78,7 @@ class LevelSerializer(serializers.ModelSerializer):
 
 
 class WordSerializer(serializers.ModelSerializer):
-	pk = serializers.ReadOnlyField(source='id')
+	# pk = serializers.ReadOnlyField(source='id')
 
 	class Meta:
 		model = Word

@@ -8,17 +8,19 @@ from django.utils.encoding import smart_str
 from django.utils.translation import gettext_lazy as _
 from django.views import View
 
-# from rest_framework import generics, permissions, renderers, viewsets, status, mixins, pagination, permissions, renderers, viewsets, status
+# from rest_framework import generics, permissions, renderers, viewsets, status, mixins, pagination
+from rest_framework import status
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.mixins import RetrieveModelMixin
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
-from rest_framework.reverse import reverse
+from rest_framework.reverse import reverse, reverse_lazy
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.pagination import PageNumberPagination
 
 from allauth.socialaccount.providers.apple.client import AppleOAuth2Client
 from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
@@ -38,6 +40,79 @@ from course.models import *
 from course.serializers import *
 
 from .paginations import *
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny,])
+def api_root(request, format=None):
+    return Response({
+        'courses': reverse_lazy('courses_list', request=request, format=format),
+        'levels': reverse_lazy('level_list', request=request, format=format)
+    })
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny,])
+def courses_list(request):
+    list_course = Course.objects.all().order_by('id')
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    result_page = paginator.paginate_queryset(list_course, request)
+    serializer = CourseSerializer(list_course, many=True)
+
+    # progress = serializers.SerializerMethodField(read_only=True)
+    # progress = ProgressField()
+    # get_course = Course.objects.all()
+    # total_progress = serializers.SerializerMethodField()
+    # # get_course = Course.objects.filter(course=obj).count()
+    # # get_progress = get_course.progress()
+    # xxx = [x for x in get_course if x.progress()]
+
+    response = paginator.get_paginated_response(serializer.data)
+    # response.data['Course Progress'] = get_progress
+    response.data['Level List'] = reverse_lazy('level_list', request=request)
+    response.data['Word List'] = reverse_lazy('word_list', request=request)
+
+    # data = serializer.data
+    # data['gender'] = 'male'
+
+    if request.method == 'GET':
+        # return paginator.get_paginated_response(serializer.data)
+        return Response(data=response.data, status=status.HTTP_200_OK)
+        # return Response(data, status=200)
+        # return Response({
+        #     'courses': reverse_lazy('courses_list', request=request),
+        #     'levels': reverse_lazy('level_list', request=request)
+        # })
+    return paginator.get_paginated_response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny,])
+def level_list(request):
+    list_level = Level.objects.all().order_by('id')
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    result_page = paginator.paginate_queryset(list_level, request)
+    serializer = LevelSerializer(list_level, many=True)
+
+    if request.method == 'GET':
+        return paginator.get_paginated_response(serializer.data)    
+    return paginator.get_paginated_response(serializer.data)
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([AllowAny,])
+def word_list(request):
+    list_word = Word.objects.all().order_by('id')
+    paginator = PageNumberPagination()
+    paginator.page_size = 10
+    result_page = paginator.paginate_queryset(list_word, request)
+    serializer = WordSerializer(list_word, many=True)
+
+    if request.method == 'GET':
+        return paginator.get_paginated_response(serializer.data)    
+    return paginator.get_paginated_response(serializer.data)
 
 
 # class CourseViewSet(ModelViewSet, ProtectedResourceView):
