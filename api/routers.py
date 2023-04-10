@@ -15,10 +15,10 @@ router.register('levels', LevelViewSet, basename='level')
 
 urlpatterns = [
 	# path('', include(router.urls)),
-    # path('', Api_RootView.as_view(), name='api_root_view'),
-    path('', api_root, name='api_root'),
+    path('', Api_RootView.as_view(), name='api_root_view'),
+    # path('', api_root, name='api_root'),
 
-    path('user/courses/', courses_list, name='courses_list'),
+    path('user/courses/', course_list, name='course_list'),
     path('user/levels/', level_list, name='level_list'),
     path('user/words/', word_list, name='word_list'),
 

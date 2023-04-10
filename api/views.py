@@ -46,20 +46,19 @@ from .paginations import *
 @permission_classes([AllowAny,])
 def api_root(request, format=None):
     return Response({
-        'courses': reverse_lazy('courses_list', request=request, format=format),
+        'courses': reverse_lazy('course_list', request=request, format=format),
         'levels': reverse_lazy('level_list', request=request, format=format)
     })
 
 
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny,])
-def courses_list(request):
+def course_list(request):
     list_course = Course.objects.all().order_by('id')
     paginator = PageNumberPagination()
     paginator.page_size = 10
     result_page = paginator.paginate_queryset(list_course, request)
-    serializer = CourseSerializer(list_course, many=True)
-
+    
     # progress = serializers.SerializerMethodField(read_only=True)
     # progress = ProgressField()
     # get_course = Course.objects.all()
@@ -68,24 +67,26 @@ def courses_list(request):
     # # get_progress = get_course.progress()
     # xxx = [x for x in get_course if x.progress()]
 
-    response = paginator.get_paginated_response(serializer.data)
-    # response.data['Course Progress'] = get_progress
-    response.data['Level List'] = reverse_lazy('level_list', request=request)
-    response.data['Word List'] = reverse_lazy('word_list', request=request)
-
-    # data = serializer.data
-    # data['gender'] = 'male'
-
     if request.method == 'GET':
-        # return paginator.get_paginated_response(serializer.data)
-        return Response(data=response.data, status=status.HTTP_200_OK)
-        # return Response(data, status=200)
-        # return Response({
-        #     'courses': reverse_lazy('courses_list', request=request),
-        #     'levels': reverse_lazy('level_list', request=request)
-        # })
-    return paginator.get_paginated_response(serializer.data)
+        serializer = CourseSerializer(list_course, many=True)
+        response = paginator.get_paginated_response(serializer.data)
 
+        # response.data['Course Progress'] = get_progress
+        response.data['Level List'] = reverse_lazy('level_list', request=request)
+        response.data['Word List'] = reverse_lazy('word_list', request=request)
+        
+        return Response(response.data, status=200)
+        # return Response(serializers.data)
+
+    elif request.method == 'POST':
+        serializer = CourseSerializer(data=request.data)
+    #     serializer = CourseSerializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+        # return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    return paginator.get_paginated_response(serializer.data)
 
 @api_view(['GET', 'POST'])
 @permission_classes([AllowAny,])
@@ -115,6 +116,24 @@ def word_list(request):
     return paginator.get_paginated_response(serializer.data)
 
 
+class Api_RootView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [AllowAny]    
+
+    def get(self, request, format=None):
+        list_course = Course.objects.all().order_by('id')
+        list_level = Level.objects.all().order_by('id')
+
+        list_course = reverse_lazy('course_list', request=request)
+        list_level = reverse_lazy('level_list', request=request)
+        serializer = CourseSerializer(list_course, many=True)
+
+        return Response({
+            "courses": list_course,
+            "levels": list_level,
+        })
+
+
 # class CourseViewSet(ModelViewSet, ProtectedResourceView):
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all().order_by('id')
@@ -122,20 +141,6 @@ class CourseViewSet(ModelViewSet):
     pagination_class = CustomPagination
     # permission_classes = (IsAuthenticated,)
     authentication_classes=[TokenAuthentication]
-
-
-class Api_RootView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, format=None):
-        list_course = Course.objects.all().order_by('id')
-        list_level = Level.objects.all().order_by('id')
-
-        return Response({
-            "courses": list_course,
-            "levels": list_level,
-        })
 
 
 class LevelViewSet(ModelViewSet):
