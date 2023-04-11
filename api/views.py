@@ -21,6 +21,7 @@ from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.renderers import TemplateHTMLRenderer
 
 from allauth.socialaccount.providers.apple.client import AppleOAuth2Client
 from allauth.socialaccount.providers.apple.views import AppleOAuth2Adapter
@@ -58,6 +59,7 @@ def course_list(request):
     paginator = PageNumberPagination()
     paginator.page_size = 10
     result_page = paginator.paginate_queryset(list_course, request)
+    renderer_classes = [TemplateHTMLRenderer]
     
     # progress = serializers.SerializerMethodField(read_only=True)
     # progress = ProgressField()
@@ -68,6 +70,7 @@ def course_list(request):
     # xxx = [x for x in get_course if x.progress()]
 
     if request.method == 'GET':
+    # if request.method == 'GET' and request.accepted_renderer.format == 'html':
         serializer = CourseSerializer(list_course, many=True, context={'request': request})
         response = paginator.get_paginated_response(serializer.data)
 
@@ -75,8 +78,8 @@ def course_list(request):
         response.data['Level List'] = reverse_lazy('level_list', request=request)
         response.data['Word List'] = reverse_lazy('word_list', request=request)
         
-        return Response(response.data, status=200)
         # return Response(serializers.data)
+        return Response(response.data, status=200)
 
     elif request.method == 'POST':
         serializer = CourseSerializer(data=request.data)
