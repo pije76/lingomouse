@@ -68,7 +68,7 @@ def course_list(request):
     # xxx = [x for x in get_course if x.progress()]
 
     if request.method == 'GET':
-        serializer = CourseSerializer(list_course, many=True)
+        serializer = CourseSerializer(list_course, many=True, context={'request': request})
         response = paginator.get_paginated_response(serializer.data)
 
         # response.data['Course Progress'] = get_progress
